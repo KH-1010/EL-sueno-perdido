@@ -6891,6 +6891,7 @@ body.chat-selection-mode .chat-message-actions .chat-delete-action:hover { trans
 				<a id="top-nav-online" style="cursor: pointer;" onmouseenter="playUiHover()" onclick="playUiToggle(); switchTab('online')">Online</a>
 				<a id="top-nav-library" style="cursor: pointer;" onmouseenter="playUiHover()"  onclick="playUiToggle(); switchTab('library')">Library</a>
 				<a id="top-nav-admin" style="cursor: pointer;" onmouseenter="playUiHover()" onclick="playUiToggle(); openAdminPanel()"><i class="fas fa-shield-alt" style="margin-right: 7px;"></i>Admin</a>
+				<a id="top-nav-arabic" style="cursor: pointer; color: #00e5ff;" onmouseenter="playUiHover()" onclick="playUiToggle(); switchTab('arabic')"><i class="fas fa-diamond" style="margin-right: 7px;"></i>مكتبة الكلاسيكية</a>
 			</div>
 		</div>
 	
@@ -7090,6 +7091,9 @@ body.chat-selection-mode .chat-message-actions .chat-delete-action:hover { trans
 			<div class="sidebar-divider" style="height: 1px; background: rgba(255,255,255,0.05); margin: 10px 15px;"></div>
 			
 			<ul class="sidebar-menu sidebar-footer-menu">
+				<li id="nav-classic" onmouseenter="playUiHover()" onclick="playUiClick(); switchTab('arabic'); toggleSidebar(true)">
+					<i class="fas fa-diamond" style="color: #00e5ff;"></i> <span style="color: #00e5ff; font-weight: 600;">مكتبة الكلاسيكية</span>
+				</li>
 				<li id="nav-guides" onmouseenter="playUiHover()" onclick="playUiClick(); switchView('view-guides'); toggleSidebar(true)">
 					<i class="fas fa-book"></i> Help
 				</li>

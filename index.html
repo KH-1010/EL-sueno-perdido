@@ -8927,7 +8927,58 @@ body.chat-selection-mode .chat-message-actions .chat-delete-action:hover { trans
 					</div>
 				</div>
 				<div class="modal-divider" style="margin: 15px 0 15px 0;"></div>
-					<div class="btn-group" id="modal-links-actions" style="margin-top: 0;"></div>
+				<div class="btn-group" id="modal-links-actions" style="margin-top: 0;"></div>
+		</div>
+	</div>
+	<div id="classic-game-modal" class="sys-modal-overlay" style="z-index: 6500; display: none;">
+		<div class="sys-modal-content" style="max-width: 900px; width: 95%; max-height: 85vh; background: linear-gradient(180deg, #1a2030 0%, #0d1218 100%); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; overflow: hidden;">
+			<div class="sys-modal-header" style="padding: 18px 24px; border-bottom: 1px solid rgba(255,255,255,0.06); display: flex; justify-content: space-between; align-items: center;">
+				<h2 style="display: flex !important; align-items: center !important; gap: 10px; margin: 0 !important; font-size: 18px; font-weight: 500;">
+					<i class="fas fa-gamepad" style="color: #00e5ff;"></i><span>Game Details</span>
+				</h2>
+				<button class="sys-modal-close" onmouseenter="playUiHover()" onclick="playUiClick(); closeClassicModal()">
+					<i class="fas fa-times"></i>
+				</button>
+			</div>
+			<div class="sys-modal-body" style="display: flex; flex-direction: row; gap: 30px; padding: 24px; overflow-y: auto; max-height: calc(85vh - 60px);">
+				<div style="width: 240px; flex-shrink: 0; display: flex; flex-direction: column; gap: 16px;">
+					<div id="classic-cover-wrapper" style="position: relative; border-radius: 12px; overflow: hidden; border: 2px solid rgba(255,255,255,0.1); background: #111;">
+						<div id="classic-platform-banner" style="position: absolute; top: 0; left: 0; right: 0; padding: 6px 10px; font-size: 10px; font-weight: bold; color: #fff; z-index: 3; display: flex; justify-content: space-between; align-items: center;">
+							<span>PlayStation 2</span>
+							<img src="https://raw.githubusercontent.com/PS3-Pro/PSN-Content/master/resources/interface/modern/images/playstation-logo.png" style="height: 14px; opacity: 0.9;">
+						</div>
+						<img id="classic-cover-img" src="" alt="" style="width: 100%; aspect-ratio: 3/4; object-fit: cover; display: block;">
+						<div id="classic-trailer-btn" style="display: none; position: absolute; bottom: 0; left: 0; right: 0; padding: 10px; background: linear-gradient(transparent, rgba(0,0,0,0.8)); text-align: center; cursor: pointer;">
+							<span style="color: #fff; font-size: 12px; font-weight: 600;"><i class="fas fa-play" style="margin-right: 6px;"></i>TRAILER</span>
+						</div>
+					</div>
+					<div style="background: rgba(0,0,0,0.25); border-radius: 10px; border: 1px solid rgba(255,255,255,0.06); padding: 14px; display: flex; flex-direction: column; gap: 10px;">
+						<div style="font-size: 11px; color: #999;">ID: <span id="classic-game-id" style="color: #ffff00; font-weight: bold; float: right;"></span></div>
+						<div style="font-size: 11px; color: #999;">Type: <span id="classic-game-type" style="color: #66ccff; font-weight: bold; float: right;"></span></div>
+						<div style="font-size: 11px; color: #999;">Region: <span id="classic-game-region" style="color: #ff00ff; font-weight: bold; float: right;"></span></div>
+						<div style="font-size: 11px; color: #999;">Size: <span id="classic-game-size" style="color: #fff; font-weight: bold; float: right;"></span></div>
+						<div style="font-size: 11px; color: #999;">Trophies: <span id="classic-game-trophies" style="color: #ff4444; font-weight: bold; float: right;">No</span></div>
+					</div>
+				</div>
+				<div style="flex: 1; display: flex; flex-direction: column; min-width: 0; gap: 14px;">
+					<h2 id="classic-game-title" style="margin: 0; font-size: 26px; font-weight: 600; color: #fff; line-height: 1.2;"></h2>
+					<div id="classic-game-meta" style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center;">
+					</div>
+					<div>
+						<div style="font-size: 10px; color: #999; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;">
+							<i class="fas fa-align-left" style="margin-right: 4px;"></i> SUMMARY
+						</div>
+						<div id="classic-game-summary" style="font-size: 13px; color: #bbb; line-height: 1.6; max-height: 160px; overflow-y: auto; padding-right: 8px;"></div>
+					</div>
+				</div>
+			</div>
+			<div style="padding: 16px 24px; border-top: 1px solid rgba(255,255,255,0.06); display: flex; gap: 12px;">
+				<button id="classic-download-btn" style="flex: 1; padding: 14px; border-radius: 10px; border: none; background: linear-gradient(135deg, #0070cc, #00aaff); color: #fff; font-size: 14px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.2s;" onmouseenter="this.style.transform='scale(1.02)'; this.style.boxShadow='0 4px 20px rgba(0,112,204,0.4)'" onmouseleave="this.style.transform=''; this.style.boxShadow=''">
+					<i class="fas fa-download"></i> Download
+				</button>
+				<button id="classic-copy-link-btn" style="padding: 14px 20px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.15); background: rgba(255,255,255,0.05); color: #fff; font-size: 14px; font-weight: 500; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: all 0.2s;" onmouseenter="this.style.background='rgba(255,255,255,0.1)'" onmouseleave="this.style.background='rgba(255,255,255,0.05)'" onclick="copyClassicLink()">
+					<i class="fas fa-link"></i> Copy Link
+				</button>
 			</div>
 		</div>
 	</div>
@@ -47213,6 +47264,7 @@ function renderArabicCards(container, games) {
                 <div style="font-size:12px;font-weight:600;color:#fff;line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:34px;">${escapeHtmlSafe(title)}</div>
             </div>
         `;
+        card.onclick = () => openClassicModal(game);
 
         fragment.appendChild(card);
     });
@@ -47275,6 +47327,103 @@ function escapeHtmlSafe(str) {
     div.textContent = str;
     return div.innerHTML;
 }
+
+window.__classicCurrentGame = null;
+
+function openClassicModal(game) {
+    window.__classicCurrentGame = game;
+    playUiClick();
+    const modal = document.getElementById('classic-game-modal');
+    const title = game.title || game.name || 'Unknown';
+    const cover = getClassicCover(game);
+    const size = game.fileSize || game.size || '';
+    const platform = game.platform || '';
+    const uri = game.uri || (game.uris && game.uris[0]) || '';
+    const uploadDate = game.uploadDate || '';
+    const isPS2 = platform.toLowerCase().includes('playstation 2') || platform.toLowerCase().includes('ps2');
+    const isPS1 = platform.toLowerCase().includes('playstation 1') || platform.toLowerCase().includes('ps1') || platform.toLowerCase().includes('psx');
+
+    document.getElementById('classic-game-title').textContent = title;
+    document.getElementById('classic-cover-img').src = cover || '';
+    document.getElementById('classic-cover-img').onerror = function() { this.style.display = 'none'; };
+
+    const banner = document.getElementById('classic-platform-banner');
+    if (isPS2) {
+        banner.querySelector('span').textContent = 'PlayStation 2';
+        banner.style.background = 'linear-gradient(135deg, rgba(128,0,128,0.85), rgba(64,0,64,0.95))';
+    } else if (isPS1) {
+        banner.querySelector('span').textContent = 'PlayStation';
+        banner.style.background = 'linear-gradient(135deg, rgba(0,60,120,0.85), rgba(0,30,60,0.95))';
+    } else {
+        banner.querySelector('span').textContent = platform || 'Classic';
+        banner.style.background = 'linear-gradient(135deg, rgba(40,40,40,0.85), rgba(20,20,20,0.95))';
+    }
+
+    document.getElementById('classic-game-id').textContent = title.substring(0, 20);
+    document.getElementById('classic-game-type').textContent = isPS2 ? 'PS2 Game' : isPS1 ? 'PS1 Game' : 'Classic Game';
+    document.getElementById('classic-game-region').textContent = extractRegion(title);
+    document.getElementById('classic-game-size').textContent = size || 'N/A';
+    document.getElementById('classic-game-trophies').textContent = 'No';
+    document.getElementById('classic-game-trophies').style.color = '#ff4444';
+
+    const meta = document.getElementById('classic-game-meta');
+    meta.innerHTML = '';
+    if (uploadDate) {
+        meta.innerHTML += `<span style="font-size:12px; color:#999; display:flex; align-items:center; gap:5px;"><i class="far fa-calendar" style="color:#00e5ff;"></i> ${uploadDate}</span>`;
+    }
+    if (size) {
+        meta.innerHTML += `<span style="font-size:12px; color:#999; display:flex; align-items:center; gap:5px;"><i class="fas fa-hdd" style="color:#00e5ff;"></i> ${size}</span>`;
+    }
+
+    const summary = document.getElementById('classic-game-summary');
+    summary.textContent = `${title} - A classic ${isPS2 ? 'PlayStation 2' : isPS1 ? 'PlayStation' : ''} game available for download.`;
+
+    const downloadBtn = document.getElementById('classic-download-btn');
+    downloadBtn.onclick = () => {
+        if (uri) {
+            window.open(uri, '_blank');
+        }
+    };
+    downloadBtn.style.display = uri ? 'flex' : 'none';
+
+    modal.style.display = 'flex';
+    modal.onclick = (e) => { if (e.target === modal) closeClassicModal(); };
+}
+
+function closeClassicModal() {
+    document.getElementById('classic-game-modal').style.display = 'none';
+    window.__classicCurrentGame = null;
+}
+
+function extractRegion(title) {
+    const m = title.match(/\(([^)]+)\)/);
+    if (m) {
+        const r = m[1].toUpperCase();
+        if (r.includes('USA') || r.includes('NTSC-U')) return 'US';
+        if (r.includes('EUROPE') || r.includes('PAL')) return 'EU';
+        if (r.includes('JAPAN') || r.includes('NTSC-J')) return 'JP';
+        if (r.includes('ASIA')) return 'ASIA';
+        return r.substring(0, 6);
+    }
+    return '—';
+}
+
+function copyClassicLink() {
+    const game = window.__classicCurrentGame;
+    if (!game) return;
+    const uri = game.uri || (game.uris && game.uris[0]) || '';
+    if (uri) {
+        navigator.clipboard.writeText(uri).then(() => {
+            const btn = document.getElementById('classic-copy-link-btn');
+            btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+            setTimeout(() => { btn.innerHTML = '<i class="fas fa-link"></i> Copy Link'; }, 2000);
+        });
+    }
+}
+
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeClassicModal();
+});
 
 function filterArabicGames() {
     window.__ARABIC_PAGE = 1;

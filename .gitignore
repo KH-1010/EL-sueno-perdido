@@ -1,0 +1,8 @@
+.wrangler/
+node_modules/
+worker.js
+*.log
+.scraper-last-run
+PC.json
+wiiu.json
+meta_full.json

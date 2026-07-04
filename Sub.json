@@ -1,0 +1,82 @@
+[
+  {
+    "title": "Zelda Breath Of The Wild",
+    "uris": [
+      "https://archive.org/download/Arabic_Games_Sub_515/Zelda%20Breath%20Of%20The%20Wild.rar"
+    ],
+    "uploadDate": "01-Jul-2026",
+    "fileSize": "18.5G",
+    "platform": "Nintendo Wii/WiiU",
+    "cover_url": "https://zelda.nintendo.com/breath-of-the-wild/assets/media/wallpapers/tablet-1.jpg"
+  },
+  {
+    "title": "Metal Gear Solid",
+    "uris": [
+      "https://archive.org/download/Arabic_Games_Sub_515/MGS%201.rar"
+    ],
+    "uploadDate": "02-Jul-2026",
+    "fileSize": "845.0M",
+    "platform": "PS1",
+    "cover_url": "https://i.pinimg.com/736x/ce/a5/ee/cea5eea75d2183ff254b19afcceceea2.jpg"
+  },
+  {
+    "title": "Metal Gear Solid 4",
+    "uris": [
+      "https://archive.org/download/Arabic_Games_Sub_515/RPCS3%20MGS4%20AR%20no%20install.zip"
+    ],
+    "uploadDate": "02-Jul-2026",
+    "fileSize": "28.8G",
+    "platform": "PS3",
+    "cover_url": "https://i.pinimg.com/1200x/d9/87/18/d98718649977651ca5654dcb14a53e3d.jpg"
+  },
+  {
+    "title": "Resident Evil Code Veronica Arabic",
+    "uris": [
+      "https://archive.org/download/Arabic_Games_Sub_515/Resident%20Evil%20%20Code%20Veronica%20Arabic.ISO"
+    ],
+    "uploadDate": "02-Jul-2026",
+    "fileSize": "3.7G",
+    "platform": "PS2",
+    "cover_url": "https://i.pinimg.com/736x/f2/26/35/f226351a1e4ac39b14afe4ba2f699302.jpg"
+  },
+  {
+    "title": "Silent Hill 3",
+    "uris": [
+      "https://archive.org/download/Arabic_Games_Sub_515/SILENT_HILL_3.ISO"
+    ],
+    "uploadDate": "02-Jul-2026",
+    "fileSize": "3.4G",
+    "platform": "PS2",
+    "cover_url": "https://i.pinimg.com/736x/46/aa/28/46aa28d1214326012c1e6c52a4a5d982.jpg"
+  },
+  {
+    "title": "Devil May Cry 3 Special Edition - Arabic",
+    "uris": [
+      "https://archive.org/download/Arabic_Games_Sub_515/Devil%20May%20Cry%203%20Special%20Edition%20-%20Arabic.iso"
+    ],
+    "uploadDate": "02-Jul-2026",
+    "fileSize": "4.1G",
+    "platform": "PS2",
+    "cover_url": "https://i.pinimg.com/736x/90/e6/61/90e661da0e70faad7e01e80c6dbfc711.jpg"
+  },
+  {
+    "title": "Silent Hill",
+    "uris": [
+      "https://download2264.mediafire.com/b9cp83qmvdyg_YDIto13QO3sP93Xf4XkSx07_2iVVnJ3DcMo7yFPFNtpn-9YiJaLCg_Rud4kfj0w3BZf1gcWgMh23EZwGxhkFgHunvattBo9fBArOFbTr6m0dmXadxfn3r_XoU6U3cpaPDBJPG0Fp1-ffHU-4iPPbP7dHMaeeoox/bmvs59jep7e1tnz/Silent+Hill+%28USA%29.bin"
+    ],
+    "uploadDate": "02-Jul-2026",
+    "fileSize": "587.9M",
+    "platform": "PS1",
+    "cover_url": "https://i.pinimg.com/736x/24/c0/85/24c085e7f5be432a86be054a5fec5281.jpg"
+  },
+  {
+    "title": "Silent Hill 4 The Room",
+    "uris": [
+      "https://archive.org/download/Arabic_Games_Sub_515/Silent%20Hill%204.rar"
+    ],
+    "uploadDate": "02-Jul-2026",
+    "fileSize": "2.1G",
+    "platform": "PC",
+    "cover_url": "https://i.pinimg.com/736x/5a/be/db/5abedb211a94c7c19a56e87a29113734.jpg"
+  }
+]

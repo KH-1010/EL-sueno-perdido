@@ -1,0 +1,8 @@
+name = "ps-games-library"
+main = "worker.js"
+compatibility_date = "2024-09-01"
+
+# KV namespace for game data (production)
+[[kv_namespaces]]
+binding = "GAMES_KV"
+id = "02e1a1dae217436e8b0dfccc6214219b"

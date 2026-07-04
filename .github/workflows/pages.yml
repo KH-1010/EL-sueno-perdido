@@ -12,14 +12,11 @@ permissions:
   id-token: write
 
 concurrency:
-  group: "pages"
+  group: "nps-scrape"
   cancel-in-progress: false
 
 jobs:
-  scrape-and-deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+  scrape:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository

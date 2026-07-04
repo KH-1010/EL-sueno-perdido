@@ -15400,7 +15400,113 @@ P
 			if (typeof setupRevealAnimations === 'function') setupRevealAnimations(containerId);
 		}
 	};
+
+window.showUniversalDownloadModal = function(type, url, safeName, version, sizeBytes, id, category, contentId) {
+    let modal = document.getElementById('universal-download-modal');
+    if (!modal) {
+        modal = document.createElement('div');
+        modal.id = 'universal-download-modal';
+        modal.className = 'sys-modal-overlay';
+        modal.style.cssText = 'position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 100000; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(10px); opacity: 0; transition: opacity 0.3s ease; padding: 20px;';
+        document.body.appendChild(modal);
+    }
+
+    const cleanTitle = (safeName || 'PlayStation Game').replace(/_/g, ' ');
+    const parts = url ? String(url).split('|').filter(Boolean) : [];
+    const firstUrl = parts.length > 0 ? parts[0] : '';
+    const proxyLink = (typeof buildProxyLink === 'function' && firstUrl) ? buildProxyLink(firstUrl, safeName, version) : firstUrl;
+    const rapUrl = (contentId && contentId !== 'MISSING' && contentId !== 'NOT REQUIRED') ? `https://ps3-pro.github.io/License-Files/files/${contentId}.rap` : '';
     
+    let formattedSize = 'حجم غير محدد';
+    if (typeof sizeBytes === 'number' && sizeBytes > 0) {
+        formattedSize = typeof formatBytes === 'function' ? formatBytes(sizeBytes) : ((sizeBytes / (1024*1024*1024)).toFixed(2) + ' GB');
+    } else if (typeof sizeBytes === 'string' && sizeBytes) {
+        formattedSize = sizeBytes;
+    }
+
+    let buttonsHtml = '';
+    
+    if (type === 'rap' && rapUrl) {
+        buttonsHtml = `
+            <div style="display: flex; flex-direction: column; gap: 12px; width: 100%;">
+                <a href="${rapUrl}" target="_blank" class="action-btn" style="background: linear-gradient(135deg, #ffd700, #b8860b); color: #000; font-weight: bold; padding: 14px 20px; border-radius: 10px; display: flex; align-items: center; justify-content: center; gap: 10px; text-decoration: none; font-size: 15px; box-shadow: 0 4px 15px rgba(255,215,0,0.4); transition: all 0.3s;">
+                    <i class="fas fa-download"></i> <span>تحميل ملف الترخيص (RAP Direct Download)</span>
+                </a>
+                <button onclick="navigator.clipboard.writeText('${rapUrl}').then(() => { this.innerHTML='<i class=\\\'fas fa-check\\\'></i> تم النسخ بنجاح!'; setTimeout(() => { this.innerHTML='<i class=\\\'fas fa-copy\\\'></i> نسخ رابط RAP'; }, 2000); });" class="action-btn" style="background: rgba(255,255,255,0.1); color: #fff; border: 1px solid rgba(255,255,255,0.2); padding: 12px 20px; border-radius: 10px; font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                    <i class="fas fa-copy"></i> <span>نسخ رابط RAP</span>
+                </button>
+            </div>
+        `;
+    } else if (parts.length > 1) {
+        const allLinksText = parts.join('\\n');
+        buttonsHtml = `
+            <div style="display: flex; flex-direction: column; gap: 10px; width: 100%; max-height: 220px; overflow-y: auto; padding-right: 5px;">
+                <button onclick="navigator.clipboard.writeText('${allLinksText}').then(() => { this.innerHTML='<i class=\\\'fas fa-check\\\'></i> تم نسخ روابط جميع الأجزاء (${parts.length})!'; this.style.background='rgba(0,255,136,0.2)'; this.style.borderColor='#00ff88'; setTimeout(() => { this.innerHTML='<i class=\\\'fas fa-copy\\\'></i> نسخ روابط جميع الأجزاء (${parts.length}) دفعة واحدة (لـ IDM)'; this.style.background='rgba(0,112,204,0.3)'; this.style.borderColor='#00aaff'; }, 3000); });" style="background: rgba(0,112,204,0.3); color: #fff; border: 1px solid #00aaff; padding: 12px; border-radius: 8px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 14px; transition: all 0.3s; position: sticky; top: 0; z-index: 5;">
+                    <i class="fas fa-copy"></i> <span>نسخ روابط جميع الأجزاء (${parts.length}) دفعة واحدة (لـ IDM)</span>
+                </button>
+                ${parts.map((p, i) => `
+                    <div style="display: flex; gap: 8px; align-items: center; background: rgba(255,255,255,0.05); padding: 8px 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1);">
+                        <span style="font-size: 13px; color: #00e5ff; font-weight: bold; min-width: 60px;">الجزء ${i+1}</span>
+                        <a href="${p}" target="_blank" rel="noopener noreferrer" style="flex: 1; background: #0070cc; color: #fff; text-align: center; padding: 6px 12px; border-radius: 6px; text-decoration: none; font-size: 12px; font-weight: bold;"><i class="fas fa-download"></i> تحميل مباشر</a>
+                        <button onclick="navigator.clipboard.writeText('${p}').then(() => { this.innerHTML='<i class=\\\'fas fa-check\\\'></i>'; setTimeout(() => { this.innerHTML='<i class=\\\'fas fa-copy\\\'></i>'; }, 1500); });" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: #fff; padding: 6px 10px; border-radius: 6px; cursor: pointer; font-size: 12px;" title="نسخ رابط الجزء"><i class="fas fa-copy"></i></button>
+                    </div>
+                `).join('')}
+            </div>
+        `;
+    } else if (firstUrl) {
+        buttonsHtml = `
+            <div style="display: flex; flex-direction: column; gap: 12px; width: 100%;">
+                <a href="${firstUrl}" target="_blank" rel="noopener noreferrer" class="action-btn" style="background: linear-gradient(135deg, #0070cc, #00aaff); color: #fff; font-weight: bold; padding: 14px 20px; border-radius: 10px; display: flex; align-items: center; justify-content: center; gap: 10px; text-decoration: none; font-size: 15px; box-shadow: 0 4px 20px rgba(0,112,204,0.5); transition: all 0.3s;">
+                    <i class="fas fa-bolt"></i> <span>تحميل مباشر سريع (Direct Sony Server CDN)</span>
+                </a>
+                
+                <button onclick="navigator.clipboard.writeText('${firstUrl}').then(() => { this.innerHTML='<i class=\\\'fas fa-check\\\'></i> تم نسخ الرابط بنجاح! يمكنك لصقه في برامج التحميل (مثل IDM)'; this.style.background='rgba(0,255,136,0.2)'; this.style.borderColor='#00ff88'; setTimeout(() => { this.innerHTML='<i class=\\\'fas fa-copy\\\'></i> نسخ رابط التحميل المباشر (لبرامج التحميل مثل IDM)'; this.style.background='rgba(255,255,255,0.08)'; this.style.borderColor='rgba(255,255,255,0.2)'; }, 3000); });" class="action-btn" style="background: rgba(255,255,255,0.08); color: #fff; border: 1px solid rgba(255,255,255,0.2); padding: 12px 20px; border-radius: 10px; font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.3s;">
+                    <i class="fas fa-copy"></i> <span>نسخ رابط التحميل المباشر (لبرامج التحميل مثل IDM)</span>
+                </button>
+                
+                <a href="${proxyLink}" target="_blank" class="action-btn" style="background: rgba(0,0,0,0.5); color: rgba(255,255,255,0.7); border: 1px solid rgba(255,255,255,0.1); padding: 10px 20px; border-radius: 10px; display: flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none; font-size: 13px;">
+                    <i class="fas fa-shield-alt"></i> <span>تحميل عبر خادم الوسيط (SSL Proxy Mirror)</span>
+                </a>
+                ${rapUrl ? `
+                <a href="${rapUrl}" target="_blank" class="action-btn" style="background: rgba(255,215,0,0.15); color: #ffd700; border: 1px solid rgba(255,215,0,0.4); padding: 10px 20px; border-radius: 10px; display: flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none; font-size: 13px; font-weight: bold; margin-top: 4px;">
+                    <i class="fas fa-key"></i> <span>تحميل ملف الترخيص المطلوب (RAP License)</span>
+                </a>` : ''}
+            </div>
+        `;
+    }
+
+    modal.innerHTML = `
+        <div class="sys-modal-content" style="background: linear-gradient(135deg, #171e2a, #0f1521); border: 1px solid #00aaff; border-radius: 16px; width: 100%; max-width: 560px; padding: 25px; box-shadow: 0 15px 50px rgba(0,0,0,0.8), 0 0 30px rgba(0,170,255,0.2); color: #fff; position: relative; font-family: sans-serif; direction: rtl; text-align: right; max-height: 90vh; display: flex; flex-direction: column;">
+            <button onclick="document.getElementById('universal-download-modal').style.opacity='0'; setTimeout(() => document.getElementById('universal-download-modal').style.display='none', 300);" style="position: absolute; top: 15px; left: 15px; background: rgba(255,255,255,0.1); border: none; color: #fff; width: 32px; height: 32px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 16px; transition: background 0.2s;">✕</button>
+            
+            <div style="display: flex; align-items: center; gap: 15px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px; margin-bottom: 20px;">
+                <div style="width: 52px; height: 52px; border-radius: 12px; background: rgba(0,112,204,0.2); border: 1px solid #00aaff; display: flex; align-items: center; justify-content: center; font-size: 24px; color: #00e5ff; flex-shrink: 0;">📥</div>
+                <div style="overflow: hidden;">
+                    <h3 style="margin: 0 0 4px 0; font-size: 18px; font-weight: 600; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${cleanTitle}</h3>
+                    <div style="font-size: 13px; color: #00e5ff; font-weight: bold;">مركز التحميل المباشر <span style="color: rgba(255,255,255,0.5); font-weight: normal;">| ${formattedSize}</span></div>
+                </div>
+            </div>
+
+            <div style="margin-bottom: 20px; flex: 1; overflow-y: auto;">
+                <div style="font-size: 13px; color: rgba(255,255,255,0.8); margin-bottom: 12px; line-height: 1.5;">
+                    اختر طريقة التحميل المناسبة لك. يُنصح باستخدام <b>التحميل المباشر</b> أو نسخ الرابط إلى برنامج <b>IDM</b> لتجنب انقطاع الاتصال للملفات الكبيرة:
+                </div>
+                ${buttonsHtml}
+            </div>
+
+            <div style="background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 12px; font-size: 12px; color: rgba(255,255,255,0.7); line-height: 1.6; flex-shrink: 0;">
+                <div style="color: #ffd700; font-weight: bold; margin-bottom: 4px;"><i class="fas fa-lightbulb"></i> إرشادات التثبيت والتشغيل:</div>
+                • <b>على الكمبيوتر / الهاتف:</b> استخدم محاكي <b>PCSX2</b> (لألعاب PS2) أو <b>RPCS3</b> (لألعاب PS3) وافتح ملف <code>.pkg</code> وثبت ملف الترخيص <code>.rap</code> في المحاكي.<br>
+                • <b>على جهاز PS3 أوريجینال / معدل:</b> انقل الملفات إلى فلاش USB (بصيغة FAT32/NTFS) وثبتها من خلال <code>Package Manager</code>.
+            </div>
+        </div>
+    `;
+
+    modal.style.display = 'flex';
+    requestAnimationFrame(() => { modal.style.opacity = '1'; });
+    modal.onclick = (e) => { if (e.target === modal) { modal.style.opacity='0'; setTimeout(() => modal.style.display='none', 300); } };
+};
+
     window.smartDownload = async function(event, type, url, safeName, version, btnElement, sizeBytes, id, category, contentId) {
 		if (event) {
 			event.preventDefault();
@@ -15487,32 +15593,24 @@ P
 			if (type === 'xml') {
 				handleXmlDownload(url, safeName, version, btnElement, sizeBytes, id, category, contentId);
 			} 
-			else if (type === 'multi') {
-				if (downloadAllParts(url, safeName, version)) {
-					window.addToDownloadManager(safeName, sizeBytes, id, category, contentId);
+			else if (type === 'multi' || type === 'single' || type === 'rap') {
+				window.addToDownloadManager(safeName, sizeBytes, id, category, contentId);
+				if (typeof window.showUniversalDownloadModal === 'function') {
+					window.showUniversalDownloadModal(type, url, safeName, version, sizeBytes, id, category, contentId);
+					return;
+				}
+				if (type === 'multi') {
+					downloadAllParts(url, safeName, version);
+				} else if (type === 'single') {
+					const proxyLink = buildProxyLink(url, safeName, version);
+					const a = document.createElement('a'); a.href = proxyLink; document.body.appendChild(a); a.click(); setTimeout(() => { if (document.body.contains(a)) document.body.removeChild(a); }, 2000);
+				} else if (type === 'rap') {
+					const a = document.createElement('a'); a.href = `https://ps3-pro.github.io/License-Files/files/${contentId}.rap`; a.download = `${contentId}.rap`; document.body.appendChild(a); a.click(); setTimeout(() => { if (document.body.contains(a)) document.body.removeChild(a); }, 2000);
 				}
 			} 
 			else if (type === 'promo') {
 				const a = document.createElement('a');
 				a.href = url;
-				document.body.appendChild(a);
-				a.click();
-				setTimeout(() => { if (document.body.contains(a)) document.body.removeChild(a); }, 2000);
-			}
-			else if (type === 'single') {
-				window.addToDownloadManager(safeName, sizeBytes, id, category, contentId);
-
-				const proxyLink = buildProxyLink(url, safeName, version);
-				const a = document.createElement('a');
-				a.href = proxyLink;
-				document.body.appendChild(a);
-				a.click();
-				setTimeout(() => { if (document.body.contains(a)) document.body.removeChild(a); }, 2000);
-			} 
-			else if (type === 'rap') {
-				const a = document.createElement('a');
-				a.href = `https://ps3-pro.github.io/License-Files/files/${contentId}.rap`;
-				a.download = `${contentId}.rap`;
 				document.body.appendChild(a);
 				a.click();
 				setTimeout(() => { if (document.body.contains(a)) document.body.removeChild(a); }, 2000);
@@ -15601,7 +15699,10 @@ P
 	
 			if (pkgUrls.length === 1) {
 				window.addToDownloadManager(safeName, sizeBytes || 0, titleId, category, contentId);
-				
+				if (typeof window.showUniversalDownloadModal === 'function') {
+					window.showUniversalDownloadModal('single', pkgUrls[0], safeName, version, sizeBytes, titleId, category, contentId);
+					return;
+				}
 				const proxyLink = buildProxyLink(pkgUrls[0], safeName, version);
 				const a = document.createElement('a');
 				a.href = proxyLink;
@@ -15609,6 +15710,10 @@ P
 				a.click();
 				setTimeout(() => { if (document.body.contains(a)) document.body.removeChild(a); }, 2000);
 			} else {
+				if (typeof window.showUniversalDownloadModal === 'function') {
+					window.showUniversalDownloadModal('multi', pkgUrls.join('|'), safeName, version, sizeBytes, titleId, category, contentId);
+					return;
+				}
 				if (downloadAllParts(pkgUrls.join('|'), safeName, version, true)) {
 					window.addToDownloadManager(safeName, sizeBytes || 0, titleId, category, contentId);
 				}

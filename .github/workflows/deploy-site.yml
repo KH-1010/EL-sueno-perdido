@@ -27,10 +27,22 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
+      - name: Prepare deploy folder
+        run: |
+          mkdir -p _deploy
+          cp index.html _deploy/
+          cp *.json _deploy/ 2>/dev/null || true
+          cp *.js _deploy/ 2>/dev/null || true
+          cp *.py _deploy/ 2>/dev/null || true
+          cp -r files _deploy/ 2>/dev/null || true
+          cp -r .github _deploy/ 2>/dev/null || true
+          mkdir -p _deploy/resources/interface
+          cp -r resources/interface/* _deploy/resources/interface/ 2>/dev/null || true
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: '.'
+          path: '_deploy'
 
       - name: Deploy to GitHub Pages
         id: deployment

@@ -1744,7 +1744,7 @@ let _cgRaf=null;document.addEventListener('mousemove',e=>{if(_cgRaf)return;_cgRa
 // 5. UTILS
 // ══════════════════════════════════════════════════════════════
 function colorHash(str){let h=5381;for(let i=0;i<(str||'').length;i++)h=((h<<5)+h)+str.charCodeAt(i);const hue=(h&0x7FFFFFFF)%360;return{c1:`hsl(${hue},55%,42%)`,c2:`hsl(${(hue+42)%360},65%,26%)`};}
-function regionFlag(r){return{USA:'🇺🇸',EUROPE:'🇪🇺',JAPAN:'🇯🇵',OTHER:'🌍'}[r]||'🌐';}
+function regionFlag(r){return{USA:'🇺🇸',EUROPE:'🇪🇺',JAPAN:'🇯🇵',ARABIC:'🇸🇦',MEA:'🇸🇦',OTHER:'🌍'}[r]||'🌐';}
 let _toastT;
 function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(_toastT);_toastT=setTimeout(()=>t.classList.remove('show'),2500);}
 function animCount(id,target,delay=0){const el=document.getElementById(id);if(!el)return;setTimeout(()=>{let n=0;const step=Math.ceil(target/55);const iv=setInterval(()=>{n=Math.min(n+step,target);el.textContent=n.toLocaleString();if(n>=target)clearInterval(iv);},18);},delay);}
@@ -1785,14 +1785,14 @@ window.addEventListener('resize',updatePlatIndicator,{passive:true});
 // ══════════════════════════════════════════════════════════════
 function switchPlatform(p){
   const prevPlat=current;
-  const isPlatSwitch=['ps1','ps2','ps3'].includes(p) && ['ps1','ps2','ps3'].includes(prevPlat) && p!==prevPlat;
+  const isPlatSwitch=['ps1','ps2','ps3','dub','sub'].includes(p) && ['ps1','ps2','ps3','dub','sub'].includes(prevPlat) && p!==prevPlat;
   function doSwitch(){
     current=p;
     document.querySelectorAll('.plat-btn').forEach(b=>b.classList.toggle('active',b.dataset.p===p));
     document.querySelectorAll('.nav-item[data-p]').forEach(b=>b.classList.toggle('active',b.dataset.p===p));
     setTimeout(updatePlatIndicator,10);
     const fz=document.getElementById('featured-zone');
-    if(fz){const show=['ps1','ps2','ps3'].includes(p);fz.style.display=show?'block':'none';if(show)setTimeout(buildFeatured,60);}
+    if(fz){const show=['ps1','ps2','ps3','dub','sub'].includes(p);fz.style.display=show?'block':'none';if(show)setTimeout(buildFeatured,60);}
     document.getElementById('main')?.classList.add('platform-switching');
     render();
     window.scrollTo({top:0,behavior:'smooth'});
@@ -1853,13 +1853,13 @@ function normalizeArabicGames(arr,type){
     const rawTitle=item.title||'';
     const cleanT=rawTitle.replace(/\s*\((dub|sub|مدبلج|مترجم)\)\s*$/i,'').trim()||rawTitle;
     const platform=normalizePlatform(item.platform||'PS2');
-    const uri=(item.uris&&item.uris[0])||'';
+    const uri=(item.uris&&item.uris[0])||item.uri||item.download_url||'';
     const hasDl=!!uri&&!uri.startsWith('REMOVED');
     const sizeStr=item.fileSize||'';
     const sizeBytes=parseSizeToBytes(sizeStr);
     return{cleanTitle:cleanT,platform,coverUrl:item.cover_url||'',hasDownload:hasDl,
-      versions:[{serial:'',region:'',title:rawTitle,uris:item.uris||[],sizeStr,sizeBytes,platform}],
-      regions:[],genre:detectGenre(cleanT),maxSizeBytes:sizeBytes,_type:type};
+      versions:[{serial:'',region:'ARABIC',title:rawTitle,originalTitle:rawTitle,uri:uri,uris:item.uris||[uri],sizeStr,sizeBytes,platform}],
+      regions:['ARABIC'],genre:detectGenre(cleanT),maxSizeBytes:sizeBytes,_type:type};
   }).filter(g=>g.cleanTitle);
 }
 function normalizePlatform(p){
@@ -2586,8 +2586,7 @@ else if(k==='1')switchPlatform('ps1');
 else if(k==='2')switchPlatform('ps2');
 else if(k==='3')switchPlatform('ps3');
 else if(k==='d')switchPlatform('dub');
-else if(k==='t')switchPlatform('translated');
-else if(k==='c')switchPlatform('pc');
+else if(k==='s')switchPlatform('sub');
 else if(k==='f')switchPlatform('favorites');
   else if(k==='z')toggleAzBar();
 });

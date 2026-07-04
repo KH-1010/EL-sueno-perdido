@@ -8847,7 +8847,7 @@ body.chat-selection-mode .chat-message-actions .chat-delete-action:hover { trans
 					<div style="display: flex; flex-direction: row; gap: 25px;">					
 						<div class="modal-left-col" style="width: 180px; flex-shrink: 0; display: flex; flex-direction: column; justify-content: space-between;gap: 15px;">
 						<div class="modal-cover-wrapper" id="modal-cover-trigger" title="Watch Trailer" onmouseenter="playUiHover()" style="margin: 0;">
-						<img src="https://raw.githubusercontent.com/PS3-Pro/PSN-Content/master/resources/database/covers/uncompressed/NOCOVER00.JPG" alt="Cover" class="modal-img" id="modal-img">
+						<img src="resources/database/covers/uncompressed/NOCOVER00.JPG" alt="Cover" class="modal-img" id="modal-img">
 						<div class="play-overlay"><i class="fas fa-play"></i></div>
 						<div class="trailer-label">Trailer</div>
 					</div>
@@ -14187,10 +14187,10 @@ P
 
     const PROXY_URL = "https://proxy.ps3-pro.workers.dev/";
     const LICENSE_PACK_STATS_URL = "https://raw.githubusercontent.com/PS3-Pro/License-Files/main/.github/stats.json";
-    const BASE_OFFICIAL = "https://raw.githubusercontent.com/PS3-Pro/PSN-Content/master/resources/database/content/official";
-    const BASE_UNOFFICIAL = "https://raw.githubusercontent.com/PS3-Pro/PSN-Content/master/resources/database/content/unofficial";
-    const BASE_LATEST = "https://raw.githubusercontent.com/PS3-Pro/PSN-Content/master/resources/database/content/latest";
-    const FALLBACK_IMG = "https://raw.githubusercontent.com/PS3-Pro/PSN-Content/master/resources/database/covers/uncompressed/NOCOVER00.JPG";
+    const BASE_OFFICIAL = "resources/database/content/official";
+    const BASE_UNOFFICIAL = "resources/database/content/unofficial";
+    const BASE_LATEST = "resources/database/content/latest";
+    const FALLBACK_IMG = "resources/database/covers/uncompressed/NOCOVER00.JPG";
     
     let exploreCache = {
         games: null,
@@ -14205,7 +14205,7 @@ P
         avatars: [`${BASE_OFFICIAL}/avatars.tsv`, `${BASE_OFFICIAL}/pending/avatars.tsv`],
         demos: [`${BASE_OFFICIAL}/games.tsv`, `${BASE_OFFICIAL}/pending/games.tsv`, `${BASE_OFFICIAL}/demos.tsv`, `${BASE_OFFICIAL}/pending/demos.tsv`],
         dlcs: [`${BASE_OFFICIAL}/dlcs.tsv`, `${BASE_OFFICIAL}/pending/dlcs.tsv`],
-        games: [`${BASE_OFFICIAL}/games.tsv`, `${BASE_OFFICIAL}/pending/games.tsv`, `https://raw.githubusercontent.com/PS3-Pro/PSN-Content/master/resources/database/content/external/nostalgia_vault.tsv`],
+        games: [`${BASE_OFFICIAL}/games.tsv`, `${BASE_OFFICIAL}/pending/games.tsv`, `resources/database/content/external/nostalgia_vault.tsv`],
         updates: [`${BASE_OFFICIAL}/game_updates.tsv`],
         prototypes: [`${BASE_OFFICIAL}/prototypes.tsv`],
         themes: [`${BASE_OFFICIAL}/themes.tsv`],
@@ -14225,6 +14225,38 @@ P
         coversLoaded: false, noCovers: new Set(), covers: new Set(),
         dlcs: new Set(), avatars: new Set(), updates: new Set()
     };
+
+    // Libretro cover system - loads PS1/PS2/PS3 boxart from Libretro thumbnails
+    window.__LIBRETRO_COVERS = {};
+    window.__LIBRETRO_PREFIX_MAP = new Map();
+
+    window.normForCover = function(t) {
+        return String(t || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+    };
+
+    (async function loadLibretroCovers() {
+        try {
+            const [lps1, lps2, lps3] = await Promise.all([
+                fetch('libretro_ps1.json').then(r => r.ok ? r.json() : {}).catch(() => ({})),
+                fetch('libretro_ps2.json').then(r => r.ok ? r.json() : {}).catch(() => ({})),
+                fetch('libretro_ps3.json').then(r => r.ok ? r.json() : {}).catch(() => ({}))
+            ]);
+            const merged = Object.assign({}, lps1, lps2, lps3);
+            window.__LIBRETRO_COVERS = merged;
+            // Build prefix map for fuzzy matching
+            for (const [key, url] of Object.entries(merged)) {
+                if (key.length > 20) {
+                    const prefix = key.substring(0, 20);
+                    if (!window.__LIBRETRO_PREFIX_MAP.has(prefix)) {
+                        window.__LIBRETRO_PREFIX_MAP.set(prefix, url);
+                    }
+                }
+            }
+            console.log(`[Libretro] Loaded ${Object.keys(merged).length} cover entries`);
+        } catch (e) {
+            console.warn('[Libretro] Failed to load covers:', e);
+        }
+    })();
 
     	function formatLicensePackCount(value) {
     		const count = Number(value);
@@ -14738,8 +14770,8 @@ P
             const cacheBust = forceRefresh ? (`?t=${Date.now()}`) : '';
             const fetchOptions = forceRefresh ? { cache: 'no-store' } : undefined;
             const fetchList = [
-                { url: "https://raw.githubusercontent.com/PS3-Pro/PSN-Content/master/resources/database/covers/blacklist.tsv", target: sysData.noCovers },
-                { url: "https://raw.githubusercontent.com/PS3-Pro/PSN-Content/master/resources/database/covers/index.tsv", target: sysData.covers, onComplete: () => sysData.coversLoaded = true }
+                { url: "resources/database/covers/blacklist.tsv", target: sysData.noCovers },
+                { url: "resources/database/covers/index.tsv", target: sysData.covers, onComplete: () => sysData.coversLoaded = true }
             ];
 
             await Promise.all(fetchList.map(async item => {
@@ -14977,7 +15009,7 @@ P
 			}
 	
 			if (gameData) {
-				const imgUrl = getOptimizedCover(gameData.id);
+				const imgUrl = getOptimizedCover(gameData.id, gameData.name || gameData.title || gameData.Name);
 				
 				let rankClass = "";
 				let badgeStyle = `position: absolute; bottom: 8px; left: 8px; z-index: 5; font-weight: 900; font-size: 10px; padding: 2px 8px; border-radius: 4px; display: flex; align-items: center; gap: 4px; backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);`;
@@ -16332,7 +16364,7 @@ P
         return `${PROXY_URL}?url=${encodeURIComponent(firstUrl)}&name=${encodeURIComponent(safeFileName + versionSuffix + '.pkg')}`;
     }
 
-	function getOptimizedCover(id) {
+	function getOptimizedCover(id, gameName, category) {
 		// THE LINE BELOW WAS COMMENTED OUT BECAUSE IT PREVENTED BING FROM WORKING
 		// if (sysData.noCovers.has(id)) return FALLBACK_IMG;
 	
@@ -16341,12 +16373,39 @@ P
 		// and triggers the HTML "onerror" event to call Bing, without polluting F12 with GitHub 404 errors!
 		if (sysData.noCovers.has(id)) return 'data:image/png;base64,BING';
 	
+		// Tier 1: Local cover by Title ID
+		const localCover = `resources/database/covers/uncompressed/${id}.JPG`;
+		if (sysData.coversLoaded && sysData.covers.has(id)) return localCover;
+	
+		// Tier 2: Libretro covers by game name (PS1/PS2/PS3)
+		if (gameName && window.__LIBRETRO_COVERS) {
+			const norm = window.normForCover(gameName);
+			const lrCover = window.__LIBRETRO_COVERS[norm];
+			if (lrCover) return lrCover;
+			// Try stripped version (remove region info in parentheses)
+			const stripped = gameName.replace(/\s*\(.*?\)\s*/g,' ').replace(/\s*\[.*?\]\s*/g,' ');
+			const normStripped = window.normForCover(stripped);
+			if (normStripped && normStripped !== norm) {
+				const lrCoverStripped = window.__LIBRETRO_COVERS[normStripped];
+				if (lrCoverStripped) return lrCoverStripped;
+			}
+			// Try prefix match (first 20 chars)
+			if (norm.length > 20) {
+				const prefix = norm.substring(0, 20);
+				if (window.__LIBRETRO_PREFIX_MAP && window.__LIBRETRO_PREFIX_MAP.has(prefix)) {
+					return window.__LIBRETRO_PREFIX_MAP.get(prefix);
+				}
+			}
+		}
+	
+		// Tier 3: Sony hash ICON0.PNG from remote repo
 		if (sysData.coversLoaded && !sysData.covers.has(id)) {
 			const hash = generateSonyHash(id);
 			if (hash) return `https://raw.githubusercontent.com/PS3-Pro/Recently-Played-Games/master/np/${hash}/ICON0.PNG`;
 		}
 	
-		return `https://raw.githubusercontent.com/PS3-Pro/PSN-Content/master/resources/database/covers/uncompressed/${id}.JPG`;
+		// Tier 4: Local cover file (may or may not exist)
+		return localCover;
 	}
 
 	const AVATAR_COVERS_BASE = "https://raw.githubusercontent.com/PS3-Pro/PSN-Content/master/resources/database/avatars";
@@ -16370,7 +16429,7 @@ P
 		if (cat === "themes") {
 			return getThemeCover(item?.id || item?.titleId, item?.contentId);
 		}
-		return getOptimizedCover(item?.id || item?.titleId || item);
+		return getOptimizedCover(item?.id || item?.titleId || item, item?.name || item?.title || item?.Name, cat);
 	}
 
 	window.__cardCoverSrcCache = window.__cardCoverSrcCache || {};
@@ -19674,7 +19733,7 @@ P
 		const savedCover = String(itemCoverData.cover || item.cover || '').trim();
 
 		if (!smartCoverLists.includes(normalizedList)) {
-			return (typeof getOptimizedCover === 'function' && itemCoverId && isNaN(itemCoverId)) ? getOptimizedCover(itemCoverId) : (savedCover || FALLBACK_IMG);
+			return (typeof getOptimizedCover === 'function' && itemCoverId && isNaN(itemCoverId)) ? getOptimizedCover(itemCoverId, itemCoverData?.cleanName || itemCoverData?.name || itemCoverData?.title) : (savedCover || FALLBACK_IMG);
 		}
 
 		if (typeof getItemCover === 'function' && itemCoverId && isNaN(itemCoverId)) {
@@ -25780,7 +25839,7 @@ P
 			const id = item.id;
 			const isMissing = !item.isInStore;
 			const consoleTag = item.gameData?.cTag || "ps3";
-			const imgUrl = getOptimizedCover(id);
+			const imgUrl = getOptimizedCover(id, item.displayName || item.gameData?.name || item.gameData?.title);
 			const safeDisplayName = escapeHtml(item.displayName);
 	
 			html += `
@@ -27519,7 +27578,7 @@ P
 				const localCover = String(game.cover || '').trim();
 				const hasUsableLocalCover = !!localCover && localCover !== FALLBACK_IMG && !/NOCOVER00\.JPG/i.test(localCover);
 				const smartCover = (gameId && isNaN(gameId))
-					? getOptimizedCover(gameId)
+					? getOptimizedCover(gameId, game.name || game.title || game.path?.split('/').pop()?.replace(/\.\w+$/, ''))
 					: (hasUsableLocalCover ? localCover : 'data:image/png;base64,BING');
 				window.libCoverCache[game.path] = {
 					id: gameId,
@@ -28057,7 +28116,7 @@ P
 				const gameId = matchId ? matchId[0] : null;
 				window.libCoverCache[game.path] = {
 					id: gameId,
-					cover: (gameId && isNaN(gameId)) ? getOptimizedCover(gameId) : (game.cover || FALLBACK_IMG)
+					cover: (gameId && isNaN(gameId)) ? getOptimizedCover(gameId, game.name || game.title || game.path?.split('/').pop()?.replace(/\.\w+$/, '')) : (game.cover || FALLBACK_IMG)
 				};
 			}
 			const cachedData = window.libCoverCache[game.path];
@@ -44490,7 +44549,7 @@ function getVisibleChatStackEl(id) {
 					: rawItemConsoleTag;
 				const itemCover = (typeof window.getProfileListSafeCover === 'function')
 					? window.getProfileListSafeCover({ item, listType, itemCoverData, itemFinalCategory, itemCoverId, isMe })
-					: (profileUsesBingCover ? ((typeof getItemCover === 'function' && itemCoverId && isNaN(itemCoverId)) ? getItemCover(itemCoverData, itemFinalCategory) : (item.cover || FALLBACK_IMG)) : ((typeof getOptimizedCover === 'function' && itemCoverId && isNaN(itemCoverId)) ? getOptimizedCover(itemCoverId) : FALLBACK_IMG));
+					: (profileUsesBingCover ? ((typeof getItemCover === 'function' && itemCoverId && isNaN(itemCoverId)) ? getItemCover(itemCoverData, itemFinalCategory) : (item.cover || FALLBACK_IMG)) : ((typeof getOptimizedCover === 'function' && itemCoverId && isNaN(itemCoverId)) ? getOptimizedCover(itemCoverId, itemCoverData?.cleanName || itemCoverData?.name || itemCoverData?.title) : FALLBACK_IMG));
 				const itemCoverName = window.escapePlayerListText(itemCoverData.cleanName || itemName);
 				const itemCoverConsole = window.escapePlayerListText(itemConsoleTag);
 				const itemCoverCategoryRaw = String(itemFinalCategory || itemTypeCategory || 'games');

@@ -1810,14 +1810,37 @@ function switchPlatform(p){
 // ══════════════════════════════════════════════════════════════
 async function loadData(){
   try{
-    const g=window.__GAMES||{ps1:[],ps2:[],ps3:[],dub:[],sub:[]};
-    const cvr=window.__COVERS||{};
-    DB.ps1=normalizeAndGroup(g.ps1||[]);
-    DB.ps2=normalizeAndGroup(g.ps2||[]);
-    DB.ps3=normalizeAndGroup(g.ps3||[]);
+    const loader=document.getElementById('loader');
+    if(loader){
+      loader.style.display='flex';
+      const lt=loader.querySelector('.loader-text')||loader;
+      lt.textContent='⚡ جاري تحميل قواعد البيانات من GitHub Pages...';
+    }
+    const [ps1Res,ps2Res,ps3Res,dubRes,subRes,lps1Res,lps2Res,lps3Res]=await Promise.all([
+      fetch('ps1.json').then(r=>r.ok?r.json():[]).catch(()=>[]),
+      fetch('ps2.json').then(r=>r.ok?r.json():[]).catch(()=>[]),
+      fetch('ps3.json').then(r=>r.ok?r.json():[]).catch(()=>[]),
+      fetch('Dub.json').then(r=>r.ok?r.json():[]).catch(()=>[]),
+      fetch('Sub.json').then(r=>r.ok?r.json():[]).catch(()=>[]),
+      fetch('libretro_ps1.json').then(r=>r.ok?r.json():{}).catch(()=>({})),
+      fetch('libretro_ps2.json').then(r=>r.ok?r.json():{}).catch(()=>({})),
+      fetch('libretro_ps3.json').then(r=>r.ok?r.json():{}).catch(()=>({}))
+    ]);
+    const cvr=Object.assign({},lps1Res,lps2Res,lps3Res);
+    window.__COVERS=cvr;
+    if(loader){
+      const lt=loader.querySelector('.loader-text')||loader;
+      lt.textContent='⚡ جاري تنظيم الألعاب وبناء المكتبة الفورية...';
+    }
+    await new Promise(r=>setTimeout(r,20));
+    DB.ps1=normalizeAndGroup(ps1Res);
+    await new Promise(r=>setTimeout(r,10));
+    DB.ps2=normalizeAndGroup(ps2Res);
+    await new Promise(r=>setTimeout(r,10));
+    DB.ps3=normalizeAndGroup(ps3Res);
     applyCoverMap(DB.ps1,cvr);applyCoverMap(DB.ps2,cvr);applyCoverMap(DB.ps3,cvr);
-    DB.dub=normalizeArabicGames(g.dub||[],'DUB');
-    DB.sub=normalizeArabicGames(g.sub||[],'SUB');
+    DB.dub=normalizeArabicGames(dubRes,'DUB');
+    DB.sub=normalizeArabicGames(subRes,'SUB');
     allGrouped=[...DB.ps1,...DB.ps2,...DB.ps3,...DB.dub,...DB.sub];
     window.__GMAP={};allGrouped.forEach(g=>{window.__GMAP[g.cleanTitle]=g;});
     const safe=(id,val)=>{const el=document.getElementById(id);if(el)el.textContent=val;};
@@ -1834,18 +1857,19 @@ async function loadData(){
       if(d2){d2.setAttribute('stroke-dasharray',`${pct2*circ} ${circ}`);d2.setAttribute('stroke-dashoffset',`${-pct1*circ}`);}
       if(d3){d3.setAttribute('stroke-dasharray',`${pct3*circ} ${circ}`);d3.setAttribute('stroke-dashoffset',`${-(pct1+pct2)*circ}`);}
     },350);
-    const meta=window.__META||{};
     const factEl=document.getElementById('funFact');
     if(factEl){
-      let txt=`المجموع: ${total.toLocaleString()} • PS1: ${DB.ps1.length} • PS2: ${DB.ps2.length} • PS3: ${DB.ps3.length} • مدبلج: ${DB.dub.length} • مترجم: ${DB.sub.length}`;
-      if(meta.lastRun)txt+=` • آخر تحديث: ${new Date(meta.lastRun).toLocaleDateString('ar-SA')}`;
-      factEl.textContent=txt;
+      factEl.textContent=`المجموع: ${total.toLocaleString()} • PS1: ${DB.ps1.length} • PS2: ${DB.ps2.length} • PS3: ${DB.ps3.length} • مدبلج: ${DB.dub.length} • مترجم: ${DB.sub.length}`;
     }
-    const loader=document.getElementById('loader');if(loader)loader.style.display='none';
+    if(loader)loader.style.display='none';
     setTimeout(buildFeatured,200);render();
     if(typeof buildAchGrid==='function')buildAchGrid();
     if(typeof checkAchievements==='function')checkAchievements();
-  }catch(e){console.error('loadData error:',e);}
+  }catch(e){
+    console.error('loadData error:',e);
+    const loader=document.getElementById('loader');
+    if(loader)loader.innerHTML=`<div style="color:var(--danger);font-size:18px;text-align:center;padding:20px;">⚠️ حدث خطأ أثناء الاتصال بقاعدة البيانات على GitHub.<br><small>${e.message}</small></div>`;
+  }
 }
 function normalizeArabicGames(arr,type){
   if(!Array.isArray(arr))return[];
@@ -1917,6 +1941,7 @@ function applyFilters(list){
   list.sort((a,b)=>{if(currentSort==='az')return a.cleanTitle.localeCompare(b.cleanTitle);if(currentSort==='za')return b.cleanTitle.localeCompare(a.cleanTitle);if(currentSort==='size-desc')return b.maxSizeBytes-a.maxSizeBytes;if(currentSort==='size-asc')return a.maxSizeBytes-b.maxSizeBytes;if(currentSort==='cover-first')return(b.coverUrl?1:0)-(a.coverUrl?1:0);if(currentSort==='fav-first')return(favorites.includes(b.cleanTitle)?1:0)-(favorites.includes(a.cleanTitle)?1:0);return 0;});
   return list;
 }
+let currentMaxSize=1;
 function render(){
   const base=getList();renderList=applyFilters(base);renderPage=0;
   const grid=document.getElementById('grid');const empty=document.getElementById('empty');
@@ -1926,13 +1951,13 @@ function render(){
   const countEl=document.getElementById('resultsCount');if(countEl)countEl.innerHTML=`<strong>${renderList.length.toLocaleString()}</strong> لعبة`;
   if(!renderList.length){empty.style.display='block';return;}
   empty.style.display='none';
-  if(viewMode==='poster'){renderPosterView(renderList,grid);return;}
-  grid.className=viewMode==='grid'?'grid-view':'';
-  if(viewMode==='grid')grid.dataset.cols=gridCols;
+  currentMaxSize=renderList.reduce((m,g)=>Math.max(m,g.maxSizeBytes),1);
+  if(viewMode==='poster'){grid.className='poster-view';}
+  else{grid.className=viewMode==='grid'?'grid-view':'';if(viewMode==='grid')grid.dataset.cols=gridCols;}
   renderBatch();
   const sentinel=document.createElement('div');sentinel.id='sentinel';
   grid.appendChild(sentinel);
-  observer=new IntersectionObserver(entries=>{if(entries[0].isIntersecting)renderBatch();},{rootMargin:'220px'});
+  observer=new IntersectionObserver(entries=>{if(entries[0].isIntersecting)renderBatch();},{rootMargin:'350px'});
   observer.observe(sentinel);
 }
 document.getElementById('grid').addEventListener('click',e=>{
@@ -1946,14 +1971,22 @@ document.getElementById('grid').addEventListener('contextmenu',e=>{
 function renderBatch(){
   const grid=document.getElementById('grid');const sentinel=document.getElementById('sentinel');
   const start=renderPage*PAGE,end=Math.min(start+PAGE,renderList.length);
-  const maxSize=renderList.reduce((m,g)=>Math.max(m,g.maxSizeBytes),1);
   const frag=document.createDocumentFragment();
-  for(let i=start;i<end;i++)frag.appendChild(buildCard(renderList[i],maxSize,i));
+  for(let i=start;i<end;i++){
+    if(viewMode==='poster')frag.appendChild(buildPosterCard(renderList[i],i));
+    else frag.appendChild(buildCard(renderList[i],currentMaxSize,i));
+  }
   if(sentinel)grid.insertBefore(frag,sentinel);else grid.appendChild(frag);
   renderPage++;
   if(renderPage*PAGE>=renderList.length&&observer){observer.disconnect();observer=null;const s=document.getElementById('sentinel');if(s)s.remove();}
 }
-
+function buildPosterCard(g,idx){
+  const card=document.createElement('div');card.className='poster-card';card.style.animationDelay=((idx%PAGE)*.016)+'s';card.title=g.cleanTitle;card.dataset.title=g.cleanTitle;
+  if(g.coverUrl){const img=document.createElement('img');img.src=g.coverUrl;img.alt=g.cleanTitle;img.loading='lazy';img.decoding='async';card.appendChild(img);}
+  else{const fb=document.createElement('div');fb.className='cover-fb';fb.style.cssText='position:absolute;inset:0;';fb.innerHTML=`<span class="cfb-ps">PS</span><span class="cfb-n">${g.platform.replace('PS','')}</span>`;card.appendChild(fb);}
+  const hov=document.createElement('div');hov.className='poster-hover';hov.innerHTML=`<div class="poster-title">${g.cleanTitle}</div>`;card.appendChild(hov);
+  return card;
+}
 function buildCard(g,maxSize,idx){
   const {c1,c2}=colorHash(g.cleanTitle);
   const pct=Math.max((g.maxSizeBytes/maxSize)*100,4);
@@ -1963,15 +1996,12 @@ function buildCard(g,maxSize,idx){
   card.className='card'+(isGrid?' grid-card':'');
   if(!isGrid){let _tiltRaf=null;card.addEventListener('mousemove',e=>{if(_tiltRaf)return;_tiltRaf=requestAnimationFrame(()=>{const r=card.getBoundingClientRect();const x=(e.clientX-r.left)/r.width-0.5,y=(e.clientY-r.top)/r.height-0.5;card.style.transform=`perspective(900px) rotateY(${x*5}deg) rotateX(${-y*3}deg) scale(1.01)`;_tiltRaf=null;});});card.addEventListener('mouseleave',()=>{if(_tiltRaf)cancelAnimationFrame(_tiltRaf);_tiltRaf=null;card.style.transform='';});}
   card.dataset.title=g.cleanTitle;
-  // Multi-version badge
   if(g.versions.length>1&&!isGrid){const dupBadge=document.createElement('span');dupBadge.className='dup-badge best-pick-badge';dupBadge.textContent=`✦ ${g.versions.length} نسخ`;card.appendChild(dupBadge);}
-  // Cover
   const cover=document.createElement('div');cover.className='card-cover';cover.style.background=`linear-gradient(135deg,${c1},${c2})`;
   if(g.coverUrl){const bd=document.createElement('div');bd.className='cover-bd';bd.style.backgroundImage=`url(${g.coverUrl})`;const fb=document.createElement('span');fb.style.cssText='position:relative;z-index:1;color:rgba(255,255,255,.7);font-family:"Orbitron",monospace;font-weight:900;font-size:15px;';fb.textContent=g.cleanTitle.charAt(0).toUpperCase();const img=document.createElement('img');img.src=g.coverUrl;img.alt=g.cleanTitle;img.loading='lazy';img.decoding='async';img.onerror=function(){this.style.display='none';};img.onload=function(){fb.style.display='none';bd.style.opacity='1';};if(isGrid){img.style.cursor='zoom-in';img.addEventListener('click',e=>{e.stopPropagation();openLightbox(g.coverUrl,g.cleanTitle);});}cover.appendChild(bd);cover.appendChild(fb);cover.appendChild(img);}
   else{const platNum={PS1:'1',PS2:'2',PS3:'3'}[g.platform]||'?';const fb=document.createElement('div');fb.className='cover-fb';fb.innerHTML=`<span class="cfb-ps">PS</span><span class="cfb-n">${platNum}</span>`;cover.appendChild(fb);}
   if(isGrid){const gho=document.createElement('div');gho.className='gho';const ghoTop=document.createElement('div');ghoTop.className='gho-top';const ghoPb=document.createElement('span');ghoPb.className='badge-plat';ghoPb.textContent=g.platform;const ghoFav=document.createElement('button');ghoFav.className='gho-icon'+(isFav?' on':'');ghoFav.textContent='★';ghoFav.addEventListener('click',e=>{e.stopPropagation();const on=toggleFav(g.cleanTitle);ghoFav.classList.toggle('on',on);});ghoTop.appendChild(ghoPb);ghoTop.appendChild(ghoFav);const ghoBot=document.createElement('div');ghoBot.className='gho-bottom';const ghoTitle=document.createElement('div');ghoTitle.className='gho-title';ghoTitle.textContent=g.cleanTitle;const ghoDl=document.createElement('button');ghoDl.className='gho-dl';ghoDl.disabled=!g.hasDownload;ghoDl.textContent='⬇ تحميل';ghoDl.addEventListener('click',e=>{e.stopPropagation();openDetail(g);});ghoBot.appendChild(ghoTitle);ghoBot.appendChild(ghoDl);gho.appendChild(ghoTop);gho.appendChild(ghoBot);cover.appendChild(gho);}
   card.appendChild(cover);
-  // Body
   const body=document.createElement('div');body.className='card-body';
   const info=document.createElement('div');info.className='card-info';
   const title=document.createElement('div');title.className='card-title';title.textContent=g.cleanTitle;title.title=g.cleanTitle;
@@ -1990,19 +2020,6 @@ function buildCard(g,maxSize,idx){
   body.appendChild(acts);
   card.appendChild(body);
   return card;
-}
-
-function renderPosterView(list,grid){
-  grid.className='poster-view';grid.innerHTML='';
-  if(!list.length){document.getElementById('empty').style.display='block';return;}
-  document.getElementById('empty').style.display='none';
-  list.forEach((g,i)=>{
-    const card=document.createElement('div');card.className='poster-card';card.style.animationDelay=(i*.016)+'s';card.title=g.cleanTitle;card.dataset.title=g.cleanTitle;
-    if(g.coverUrl){const img=document.createElement('img');img.src=g.coverUrl;img.alt=g.cleanTitle;img.loading='lazy';card.appendChild(img);}
-    else{const fb=document.createElement('div');fb.className='cover-fb';fb.style.cssText='position:absolute;inset:0;';fb.innerHTML=`<span class="cfb-ps">PS</span><span class="cfb-n">${g.platform.replace('PS','')}</span>`;card.appendChild(fb);}
-    const hov=document.createElement('div');hov.className='poster-hover';hov.innerHTML=`<div class="poster-title">${g.cleanTitle}</div>`;card.appendChild(hov);
-    grid.appendChild(card);
-  });
 }
 
 // ══════════════════════════════════════════════════════════════

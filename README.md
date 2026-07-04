@@ -1,55 +1,40 @@
 # 🎮 مكتبة الألعاب العربية — Arabic PlayStation Games Library
 
-موقع لمكتبة ألعاب PlayStation الكلاسيكية مع دعم الألعاب المدبلجة والمترجمة عربياً.
+موقع لمكتبة ألعاب PlayStation الكلاسيكية مع دعم الألعاب المدبلجة والمترجمة عربياً، مبني بهندسة الأداء الفائق وبدون أي تجمد (Zero Lag Architecture)، ويعمل مباشرة على **GitHub Pages** بدون الحاجة لأي خوادم أو Cloudflare!
 
-## ✨ المميزات
+## ✨ المميزات والهندسة البرمجية
 
-- 🎯 **PS1 / PS2 / PS3** — مكتبة شاملة
-- 🎙 **DUB** — ألعاب مدبلجة عربياً
-- 📝 **SUB** — ألعاب مترجمة عربياً
-- 🖼 **12,000+ غلاف** من Libretro
-- 🔄 **تحديث تلقائي** عبر GitHub Actions يومياً
-- 🚀 **Cloudflare Workers** — سرعة فائقة بدون تجمد
+- 🚀 **100% Static & GitHub Pages Ready** — لا يحتاج إلى Cloudflare Workers أو خوادم خلفية؛ يعمل مباشرة من المتصفح بسرعة فائقة.
+- ⚡ **Zero Lag Engine** — معمارية التمرير الافتراضي (Virtual Scrolling & Pagination) المستوحاة من مشروع [PSN-Content](https://github.com/PS3-Pro/PSN-Content)، مع تحميل تدريجي بدون تجمد المتصفح حتى مع وجود أكثر من 60,000 لعبة!
+- 🎙 **DUB** — قسم مخصص للألعاب المدبلجة عربياً.
+- 📝 **SUB** — قسم مخصص للألعاب المترجمة عربياً.
+- 🖼 **12,000+ غلاف** — ربط مباشر مع مكتبة Libretro الكلاسيكية.
+- 🔄 **تحديث تلقائي للمكتبة (Automated Scraper)** — أتمتة كاملة عبر **GitHub Actions** تراقب مواقع الأرشيف وتضيف الألعاب الجديدة تلقائياً وبشكل يومي دون تدخل يدوي.
 
-## 🏗 البنية
+## 🏗 البنية ومحتويات المستودع
 
 ```
-files/
-├── index.html          # الموقع الكامل (SPA)
-├── build.js            # بناء worker.js للنشر
-├── scraper.js          # مراقب archive.org التلقائي
-├── wrangler.toml       # إعدادات Cloudflare Workers
-├── .github/workflows/  # GitHub Actions (مراقبة + نشر)
+EL-sueno-perdido/
+├── index.html          # الموقع الكامل ومحرك العرض الفوري
+├── scraper.js          # مراقب archive.org التلقائي للألعاب العربية
+├── .github/workflows/  # أتمتة GitHub Actions (Scraper + GitHub Pages)
 ├── ps1.json            # بيانات PS1
 ├── ps2.json            # بيانات PS2
 ├── ps3.json            # بيانات PS3
-├── Dub.json            # الألعاب المدبلجة
-├── Sub.json            # الألعاب المترجمة
+├── Dub.json            # قاعدة بيانات الألعاب المدبلجة
+├── Sub.json            # قاعدة بيانات الألعاب المترجمة
 ├── libretro_ps1.json   # غلافات PS1
 ├── libretro_ps2.json   # غلافات PS2
 └── libretro_ps3.json   # غلافات PS3
 ```
 
-## 🚀 النشر
+## 🌐 تفعيل ونشر الموقع عبر GitHub Pages
 
-```bash
-node build.js      # بناء worker.js
-wrangler deploy    # نشر على Cloudflare
-```
+لتشغيل الموقع مباشرة على حسابك:
+1. اذهب إلى إعدادات المستودع (Settings) ⟵ **Pages**.
+2. تحت قسم **Build and deployment**، اختر **GitHub Actions** كمصدر (Source).
+3. سيقوم الـ Workflow التلقائي ببناء ونشر الموقع فوراً على الرابط:
+   **https://kh-1010.github.io/EL-sueno-perdido/**
 
-## 🤖 الأتمتة (GitHub Actions)
-
-الـ workflow يعمل تلقائياً:
-- كل يوم الساعة 3 صباحاً (UTC)
-- عند رفع ملفات JSON جديدة
-- يدوياً من صفحة Actions
-
-### الـ Secrets المطلوبة:
-| Secret | المصدر |
-|---|---|
-| `CF_API_TOKEN` | Cloudflare Dashboard → API Tokens |
-| `CF_ACCOUNT_ID` | Cloudflare Dashboard → Account ID |
-
-## 🌐 الموقع
-
-https://ps-games-library.alshariefk.workers.dev
+---
+*تمت الهندسة والتطوير بأعلى معايير الأداء والسرعة.*

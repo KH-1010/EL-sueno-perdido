@@ -7077,23 +7077,14 @@ body.chat-selection-mode .chat-message-actions .chat-delete-action:hover { trans
 			</ul>
 
 			<ul class="sidebar-menu menu-group-arabic" style="display: none;">
-				<li class="active" id="nav-arabic-explore" onmouseenter="playUiHover()" onclick="playUiClick(); switchView('view-arabic'); toggleSidebar(true)">
-					<i class="fas fa-mosque"></i> الرئيسية
+				<li class="active" id="nav-arabic-explore" onmouseenter="playUiHover()" onclick="playUiClick(); switchView('view-arabic'); loadArabicGames(''); toggleSidebar(true)">
+					<i class="fas fa-diamond"></i> الرئيسية
 				</li>
 				<li id="nav-arabic-ps1" onmouseenter="playUiHover()" onclick="playUiClick(); switchView('view-arabic'); loadArabicGames('ps1'); toggleSidebar(true)">
-					<i class="fas fa-compact-disc"></i> PS1
+					<i class="fas fa-compact-disc"></i> PlayStation 1
 				</li>
 				<li id="nav-arabic-ps2" onmouseenter="playUiHover()" onclick="playUiClick(); switchView('view-arabic'); loadArabicGames('ps2'); toggleSidebar(true)">
-					<i class="fas fa-gamepad"></i> PS2
-				</li>
-				<li id="nav-arabic-ps3" onmouseenter="playUiHover()" onclick="playUiClick(); switchView('view-arabic'); loadArabicGames('ps3'); toggleSidebar(true)">
-					<i class="fas fa-tv"></i> PS3
-				</li>
-				<li id="nav-arabic-dub" onmouseenter="playUiHover()" onclick="playUiClick(); switchView('view-arabic'); loadArabicGames('dub'); toggleSidebar(true)">
-					<i class="fas fa-microphone-alt"></i> مدبلجة (DUB)
-				</li>
-				<li id="nav-arabic-sub" onmouseenter="playUiHover()" onclick="playUiClick(); switchView('view-arabic'); loadArabicGames('sub'); toggleSidebar(true)">
-					<i class="fas fa-closed-captioning"></i> مترجمة (SUB)
+					<i class="fas fa-gamepad"></i> PlayStation 2
 				</li>
 			</ul>
 			<div class="sidebar-divider" style="height: 1px; background: rgba(255,255,255,0.05); margin: 10px 15px;"></div>
@@ -8231,17 +8222,30 @@ body.chat-selection-mode .chat-message-actions .chat-delete-action:hover { trans
 		</div>
 		<div id="view-arabic" class="view-section" style="padding: 20px 40px 40px 40px; display: none;">
 			<h2 style="font-size: 28px; font-weight: 300; margin-top: 0; margin-bottom: 30px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px; display: flex; justify-content: space-between; align-items: baseline;">
-				<span id="arabic-view-title">المكتبة العربية</span>
-				<i class="fas fa-mosque" style="opacity: 0.2;"></i>
+				<span id="arabic-view-title">مكتبة الكلاسيكية</span>
+				<i class="fas fa-diamond" style="opacity: 0.2;"></i>
 			</h2>
 
-			<div id="arabic-hero" style="display: none; margin-bottom: 30px; border-radius: 16px; overflow: hidden; height: 200px; position: relative; background: linear-gradient(135deg, rgba(0,112,204,0.3), rgba(0,0,0,0.8));">
+			<div id="arabic-hero" style="display: none; margin-bottom: 30px; border-radius: 16px; overflow: hidden; height: 220px; position: relative; background: linear-gradient(135deg, rgba(0,112,204,0.3), rgba(0,0,0,0.8));">
 				<div style="position: absolute; inset: 0; display: flex; align-items: center; padding: 40px;">
 					<div style="flex: 1;">
-						<div style="font-size: 12px; color: var(--ps-blue); font-weight: bold; margin-bottom: 8px;">ARABIC GAMES LIBRARY</div>
+						<div style="font-size: 12px; color: var(--ps-blue); font-weight: bold; margin-bottom: 8px;" id="arabic-hero-subtitle">CLASSIC GAMES LIBRARY</div>
 						<h2 id="arabic-hero-title" style="font-size: 32px; font-weight: 300; color: #fff; margin: 0 0 8px 0;"></h2>
 						<p id="arabic-hero-desc" style="font-size: 14px; color: rgba(255,255,255,0.7); margin: 0;"></p>
 					</div>
+				</div>
+			</div>
+
+			<div id="arabic-platform-cards" style="display: none; gap: 15px; margin-bottom: 30px;">
+				<div onclick="loadArabicGames('ps1')" style="cursor:pointer; padding: 20px; border-radius: 12px; background: linear-gradient(135deg, rgba(0,60,120,0.4), rgba(0,30,60,0.6)); border: 1px solid rgba(0,150,255,0.3); transition: all 0.3s;" onmouseenter="this.style.transform='scale(1.02)'; this.style.boxShadow='0 8px 32px rgba(0,100,200,0.3)'" onmouseleave="this.style.transform=''; this.style.boxShadow=''">
+					<div style="font-size: 11px; color: #00aaff; font-weight: bold; margin-bottom: 8px;">PLAYSTATION 1</div>
+					<div style="font-size: 20px; color: #fff; font-weight: 300;">1,929 لعبة</div>
+					<div style="font-size: 12px; color: rgba(255,255,255,0.5); margin-top: 4px;">أيقونات الألعاب الكلاسيكية</div>
+				</div>
+				<div onclick="loadArabicGames('ps2')" style="cursor:pointer; padding: 20px; border-radius: 12px; background: linear-gradient(135deg, rgba(128,0,128,0.3), rgba(64,0,64,0.5)); border: 1px solid rgba(200,0,200,0.3); transition: all 0.3s;" onmouseenter="this.style.transform='scale(1.02)'; this.style.boxShadow='0 8px 32px rgba(150,0,150,0.3)'" onmouseleave="this.style.transform=''; this.style.boxShadow=''">
+					<div style="font-size: 11px; color: #cc66ff; font-weight: bold; margin-bottom: 8px;">PLAYSTATION 2</div>
+					<div style="font-size: 20px; color: #fff; font-weight: 300;">4,214 لعبة</div>
+					<div style="font-size: 12px; color: rgba(255,255,255,0.5); margin-top: 4px;">مكتبة الألعاب الأسطورية</div>
 				</div>
 			</div>
 
@@ -8251,7 +8255,11 @@ body.chat-selection-mode .chat-message-actions .chat-delete-action:hover { trans
 					<option value="">الكل</option>
 					<option value="ps1">PS1</option>
 					<option value="ps2">PS2</option>
-					<option value="ps3">PS3</option>
+				</select>
+				<select id="arabic-sort-filter" onchange="filterArabicGames()" style="padding: 10px 16px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.05); color: #fff; font-size: 14px; outline: none;">
+					<option value="az">أبجدي (أ-ي)</option>
+					<option value="za">أبجدي (ي-أ)</option>
+					<option value="size">الحجم</option>
 				</select>
 			</div>
 
@@ -8259,15 +8267,15 @@ body.chat-selection-mode .chat-message-actions .chat-delete-action:hover { trans
 				<div class="stat-chip" style="padding: 8px 16px; border-radius: 20px; background: rgba(0,112,204,0.15); border: 1px solid rgba(0,112,204,0.3); font-size: 13px; color: #00aaff;">
 					<i class="fas fa-gamepad" style="margin-left: 5px;"></i> <span id="arabic-total-count">0</span> لعبة
 				</div>
-				<div class="stat-chip" style="padding: 8px 16px; border-radius: 20px; background: rgba(255,68,68,0.15); border: 1px solid rgba(255,68,68,0.3); font-size: 13px; color: #ff4444;">
-					<i class="fas fa-microphone-alt" style="margin-left: 5px;"></i> <span id="arabic-dub-count">0</span> مدبلجة
-				</div>
-				<div class="stat-chip" style="padding: 8px 16px; border-radius: 20px; background: rgba(46,204,113,0.15); border: 1px solid rgba(46,204,113,0.3); font-size: 13px; color: #2ecc71;">
-					<i class="fas fa-closed-captioning" style="margin-left: 5px;"></i> <span id="arabic-sub-count">0</span> مترجمة
+				<div class="stat-chip" style="padding: 8px 16px; border-radius: 20px; background: rgba(0,200,100,0.15); border: 1px solid rgba(0,200,100,0.3); font-size: 13px; color: #00c864;">
+					<i class="fas fa-check-circle" style="margin-left: 5px;"></i> <span id="arabic-cover-count">0</span> غلاف
 				</div>
 			</div>
 
-			<div id="arabic-games-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 16px;">
+			<div id="arabic-games-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 20px;">
+			</div>
+
+			<div id="arabic-pagination" style="display: flex; justify-content: center; gap: 10px; margin-top: 30px;">
 			</div>
 
 			<div id="arabic-empty" style="display: none; text-align: center; padding: 80px 20px;">
@@ -46987,47 +46995,62 @@ function getVisibleChatStackEl(id) {
 
 <script>
 // ══════════════════════════════════════════════════════════════
-// ARABIC GAMES LIBRARY
+// CLASSIC GAMES LIBRARY (PS1 & PS2)
 // ══════════════════════════════════════════════════════════════
-window.__ARABIC_DB = { ps1: [], ps2: [], ps3: [], dub: [], sub: [] };
+window.__ARABIC_DB = { ps1: [], ps2: [] };
 window.__ARABIC_LOADED = {};
 window.__ARABIC_CURRENT = '';
 window.__ARABIC_ALL = [];
+window.__ARABIC_PAGE = 1;
+window.__ARABIC_PER_PAGE = 48;
 
 const ARABIC_COVERS = {};
 const ARABIC_PLATFORMS = {
-    ps1: { label: 'PlayStation 1', icon: 'fa-compact-disc', color: '#0070cc', file: 'ps1.json', cover: 'libretro_ps1.json' },
-    ps2: { label: 'PlayStation 2', icon: 'fa-gamepad', color: '#800080', file: 'ps2.json', cover: 'libretro_ps2.json' },
-    ps3: { label: 'PlayStation 3', icon: 'fa-tv', color: '#003087', file: 'ps3.json', cover: 'libretro_ps3.json' },
-    dub: { label: 'الألعاب المدبلجة', icon: 'fa-microphone-alt', color: '#ff4444', file: 'Dub.json', cover: null },
-    sub: { label: 'الألعاب المترجمة', icon: 'fa-closed-captioning', color: '#2ecc71', file: 'Sub.json', cover: null }
+    ps1: { 
+        label: 'PlayStation 1', 
+        icon: 'fa-compact-disc', 
+        color: '#0070cc',
+        gradient: 'linear-gradient(135deg, rgba(0,60,120,0.4), rgba(0,30,60,0.6))',
+        file: 'ps1.json', 
+        cover: 'libretro_ps1.json',
+        count: 1929
+    },
+    ps2: { 
+        label: 'PlayStation 2', 
+        icon: 'fa-gamepad', 
+        color: '#800080',
+        gradient: 'linear-gradient(135deg, rgba(128,0,128,0.3), rgba(64,0,64,0.5))',
+        file: 'ps2.json', 
+        cover: 'libretro_ps2.json',
+        count: 4214
+    }
 };
 
 async function loadArabicCovers() {
     if (window.__ARABIC_COVERS_LOADED) return;
     try {
-        const [lps1, lps2, lps3] = await Promise.all([
+        const [lps1, lps2] = await Promise.all([
             fetch('libretro_ps1.json').then(r => r.ok ? r.json() : {}).catch(() => ({})),
-            fetch('libretro_ps2.json').then(r => r.ok ? r.json() : {}).catch(() => ({})),
-            fetch('libretro_ps3.json').then(r => r.ok ? r.json() : {}).catch(() => ({}))
+            fetch('libretro_ps2.json').then(r => r.ok ? r.json() : {}).catch(() => ({}))
         ]);
-        Object.assign(ARABIC_COVERS, lps1, lps2, lps3);
+        Object.assign(ARABIC_COVERS, lps1, lps2);
         window.__ARABIC_COVERS_LOADED = true;
+        console.log('[Classic] Loaded covers:', Object.keys(ARABIC_COVERS).length);
     } catch (e) {
-        console.warn('[Arabic] Failed to load covers:', e);
+        console.warn('[Classic] Failed to load covers:', e);
     }
 }
 
-function normArabic(t) {
+function normClassic(t) {
     return String(t || '').toLowerCase().replace(/[^a-z0-9]/g, '');
 }
 
-function getArabicCover(game) {
+function getClassicCover(game) {
     const name = game.cleanTitle || game.title || game.name || '';
-    const norm = normArabic(name);
+    const norm = normClassic(name);
     if (ARABIC_COVERS[norm]) return ARABIC_COVERS[norm];
     const stripped = name.replace(/\s*\(.*?\)\s*/g, ' ').replace(/\s*\[.*?\]\s*/g, ' ');
-    const ns = normArabic(stripped);
+    const ns = normClassic(stripped);
     if (ns && ns !== norm && ARABIC_COVERS[ns]) return ARABIC_COVERS[ns];
     if (norm.length > 20) {
         for (const [k, v] of Object.entries(ARABIC_COVERS)) {
@@ -47038,8 +47061,17 @@ function getArabicCover(game) {
 }
 
 async function loadArabicGames(platform) {
+    window.__ARABIC_CURRENT = platform;
+    window.__ARABIC_PAGE = 1;
+    
+    document.getElementById('arabic-platform-cards').style.display = platform ? 'none' : 'flex';
+    
+    if (!platform) {
+        renderArabicGames();
+        return;
+    }
+    
     if (window.__ARABIC_LOADED[platform]) {
-        window.__ARABIC_CURRENT = platform;
         renderArabicGames();
         return;
     }
@@ -47049,31 +47081,20 @@ async function loadArabicGames(platform) {
 
     document.getElementById('arabic-games-grid').innerHTML = '';
     document.getElementById('arabic-empty').style.display = 'block';
+    document.getElementById('arabic-empty').querySelector('h3').textContent = 'جاري تحميل البيانات...';
 
     try {
         const res = await fetch(cfg.file);
         if (!res.ok) throw new Error('Failed to load ' + cfg.file);
         let data = await res.json();
 
-        if (platform === 'dub' || platform === 'sub') {
-            data = data.map(g => ({
-                title: g.title || g.name || g[0] || '',
-                platform: (g.platform || g.console || '').toLowerCase().replace(/\s+/g, ''),
-                size: g.size || '',
-                url: g.url || g.uri || ''
-            }));
-        }
-
         window.__ARABIC_DB[platform] = data;
         window.__ARABIC_LOADED[platform] = true;
-        window.__ARABIC_CURRENT = platform;
-        window.__ARABIC_ALL = Object.values(window.__ARABIC_DB).flat();
+        window.__ARABIC_ALL = [...window.__ARABIC_DB.ps1, ...window.__ARABIC_DB.ps2];
 
         renderArabicGames();
-        loadArabicCovers();
     } catch (e) {
-        console.error('[Arabic] Load error:', e);
-        document.getElementById('arabic-empty').style.display = 'block';
+        console.error('[Classic] Load error:', e);
         document.getElementById('arabic-empty').querySelector('h3').textContent = 'خطأ في تحميل البيانات';
     }
 }
@@ -47087,26 +47108,68 @@ function renderArabicGames() {
     const heroTitle = document.getElementById('arabic-hero-title');
     const heroDesc = document.getElementById('arabic-hero-desc');
     const hero = document.getElementById('arabic-hero');
+    const heroSubtitle = document.getElementById('arabic-hero-subtitle');
+    const platformCards = document.getElementById('arabic-platform-cards');
+    const pagination = document.getElementById('arabic-pagination');
 
     if (!platform) {
-        title.textContent = 'المكتبة العربية';
+        title.textContent = 'مكتبة الكلاسيكية';
         hero.style.display = 'none';
-        const allGames = window.__ARABIC_ALL.length ? window.__ARABIC_ALL : Object.values(window.__ARABIC_DB).flat();
-        renderArabicCards(grid, allGames.slice(0, 60));
+        platformCards.style.display = 'flex';
+        platformCards.style.gridTemplateColumns = 'repeat(auto-fit, minmax(280px, 1fr))';
+        grid.innerHTML = '';
+        pagination.innerHTML = '';
+        empty.style.display = 'none';
         updateArabicStats();
-        empty.style.display = allGames.length ? 'none' : 'block';
         return;
     }
 
     const cfg = ARABIC_PLATFORMS[platform];
     title.textContent = cfg.label;
     hero.style.display = 'block';
+    hero.style.background = cfg.gradient;
+    heroSubtitle.textContent = platform === 'ps1' ? 'PLAYSTATION 1' : 'PLAYSTATION 2';
     heroTitle.textContent = cfg.label;
     heroDesc.textContent = `${games.length} لعبة متاحة`;
 
-    renderArabicCards(grid, games);
-    empty.style.display = games.length ? 'none' : 'block';
+    const filtered = getFilteredGames();
+    const totalPages = Math.ceil(filtered.length / window.__ARABIC_PER_PAGE);
+    const startIdx = (window.__ARABIC_PAGE - 1) * window.__ARABIC_PER_PAGE;
+    const pageGames = filtered.slice(startIdx, startIdx + window.__ARABIC_PER_PAGE);
+
+    renderArabicCards(grid, pageGames);
+    empty.style.display = filtered.length ? 'none' : 'block';
+    renderPagination(pagination, totalPages);
     updateArabicStats();
+}
+
+function getFilteredGames() {
+    const platform = window.__ARABIC_CURRENT;
+    const q = (document.getElementById('arabic-search').value || '').toLowerCase();
+    const sort = document.getElementById('arabic-sort-filter').value;
+    
+    let games = platform ? (window.__ARABIC_DB[platform] || []) : window.__ARABIC_ALL;
+    
+    if (q) {
+        games = games.filter(g => {
+            const title = (g.title || g.name || '').toLowerCase();
+            return title.includes(q);
+        });
+    }
+    
+    if (sort === 'az') {
+        games.sort((a, b) => (a.title || '').localeCompare(b.title || ''));
+    } else if (sort === 'za') {
+        games.sort((a, b) => (b.title || '').localeCompare(a.title || ''));
+    } else if (sort === 'size') {
+        games.sort((a, b) => {
+            const sizeA = parseFloat(a.fileSize || a.size || '0') || 0;
+            const sizeB = parseFloat(b.fileSize || b.size || '0') || 0;
+            return sizeB - sizeA;
+        });
+    }
+    
+    return games;
 }
 
 function renderArabicCards(container, games) {
@@ -47115,8 +47178,9 @@ function renderArabicCards(container, games) {
 
     games.forEach((game, i) => {
         const title = game.title || game.name || game.cleanTitle || 'Unknown';
-        const cover = getArabicCover(game);
-        const platform = game.platform || game.console || '';
+        const cover = getClassicCover(game);
+        const size = game.fileSize || game.size || '';
+        const platform = game.platform || '';
         const platKey = platform.toLowerCase().replace(/\s+/g, '');
 
         const card = document.createElement('div');
@@ -47134,14 +47198,15 @@ function renderArabicCards(container, games) {
                <div style="width:100%;aspect-ratio:3/4;display:none;align-items:center;justify-content:center;background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.2);font-size:32px;"><i class="fas fa-gamepad"></i></div>`
             : `<div style="width:100%;aspect-ratio:3/4;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.2);font-size:32px;"><i class="fas fa-gamepad"></i></div>`;
 
-        const platTag = platform ? `<span style="position:absolute;top:8px;right:8px;font-size:9px;font-weight:bold;padding:2px 6px;border-radius:4px;background:rgba(0,0,0,0.6);color:#fff;z-index:2;">${platform.toUpperCase()}</span>` : '';
+        const platTag = platform ? `<span style="position:absolute;top:8px;right:8px;font-size:9px;font-weight:bold;padding:2px 6px;border-radius:4px;background:rgba(0,0,0,0.6);color:#fff;z-index:2;">${platform}</span>` : '';
+        const sizeTag = size ? `<span style="position:absolute;top:8px;left:8px;font-size:9px;padding:2px 6px;border-radius:4px;background:rgba(0,0,0,0.6);color:rgba(255,255,255,0.8);z-index:2;">${size}</span>` : '';
 
         card.innerHTML = `
             ${platTag}
+            ${sizeTag}
             ${coverHTML}
             <div style="padding:10px;">
                 <div style="font-size:12px;font-weight:600;color:#fff;line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:34px;">${escapeHtmlSafe(title)}</div>
-                ${game.size ? `<div style="font-size:10px;color:rgba(255,255,255,0.4);margin-top:4px;">${game.size}</div>` : ''}
             </div>
         `;
 
@@ -47151,6 +47216,56 @@ function renderArabicCards(container, games) {
     container.appendChild(fragment);
 }
 
+function renderPagination(container, totalPages) {
+    container.innerHTML = '';
+    if (totalPages <= 1) return;
+    
+    const current = window.__ARABIC_PAGE;
+    const maxVisible = 7;
+    let start = Math.max(1, current - Math.floor(maxVisible / 2));
+    let end = Math.min(totalPages, start + maxVisible - 1);
+    if (end - start < maxVisible - 1) start = Math.max(1, end - maxVisible + 1);
+    
+    const createBtn = (text, page, active = false) => {
+        const btn = document.createElement('button');
+        btn.textContent = text;
+        btn.style.cssText = `
+            padding: 8px 14px; border-radius: 8px; border: 1px solid rgba(255,255,255,${active ? '0.3' : '0.1'});
+            background: ${active ? 'rgba(0,112,204,0.3)' : 'rgba(255,255,255,0.05)'};
+            color: ${active ? '#00aaff' : '#fff'}; font-size: 13px; cursor: pointer;
+            transition: all 0.2s; font-weight: ${active ? 'bold' : 'normal'};
+        `;
+        btn.onmouseenter = () => { if (!active) btn.style.background = 'rgba(255,255,255,0.1)'; };
+        btn.onmouseleave = () => { if (!active) btn.style.background = 'rgba(255,255,255,0.05)'; };
+        btn.onclick = () => { window.__ARABIC_PAGE = page; renderArabicGames(); };
+        return btn;
+    };
+    
+    if (start > 1) {
+        container.appendChild(createBtn('1', 1));
+        if (start > 2) {
+            const dots = document.createElement('span');
+            dots.textContent = '...';
+            dots.style.cssText = 'padding: 8px 6px; color: rgba(255,255,255,0.4); font-size: 13px;';
+            container.appendChild(dots);
+        }
+    }
+    
+    for (let i = start; i <= end; i++) {
+        container.appendChild(createBtn(i, i, i === current));
+    }
+    
+    if (end < totalPages) {
+        if (end < totalPages - 1) {
+            const dots = document.createElement('span');
+            dots.textContent = '...';
+            dots.style.cssText = 'padding: 8px 6px; color: rgba(255,255,255,0.4); font-size: 13px;';
+            container.appendChild(dots);
+        }
+        container.appendChild(createBtn(totalPages, totalPages));
+    }
+}
+
 function escapeHtmlSafe(str) {
     const div = document.createElement('div');
     div.textContent = str;
@@ -47158,25 +47273,19 @@ function escapeHtmlSafe(str) {
 }
 
 function filterArabicGames() {
-    const q = (document.getElementById('arabic-search').value || '').toLowerCase();
-    const plat = document.getElementById('arabic-platform-filter').value;
-    const base = window.__ARABIC_CURRENT ? (window.__ARABIC_DB[window.__ARABIC_CURRENT] || []) : window.__ARABIC_ALL;
-    const filtered = base.filter(g => {
-        const title = (g.title || g.name || '').toLowerCase();
-        const matchQ = !q || title.includes(q);
-        const matchPlat = !plat || (g.platform || '').toLowerCase().includes(plat);
-        return matchQ && matchPlat;
-    });
-    renderArabicCards(document.getElementById('arabic-games-grid'), filtered);
-    document.getElementById('arabic-empty').style.display = filtered.length ? 'none' : 'block';
+    window.__ARABIC_PAGE = 1;
+    renderArabicGames();
 }
 
 function updateArabicStats() {
     const db = window.__ARABIC_DB;
-    const totalCount = (db.ps1.length + db.ps2.length + db.ps3.length);
+    const totalCount = db.ps1.length + db.ps2.length;
+    let coverCount = 0;
+    for (const game of [...db.ps1, ...db.ps2]) {
+        if (getClassicCover(game)) coverCount++;
+    }
     document.getElementById('arabic-total-count').textContent = totalCount;
-    document.getElementById('arabic-dub-count').textContent = db.dub.length;
-    document.getElementById('arabic-sub-count').textContent = db.sub.length;
+    document.getElementById('arabic-cover-count').textContent = coverCount;
 }
 
 // Hook into switchTab
@@ -47188,9 +47297,7 @@ if (typeof window.switchTab === 'function' && !window.__arabicSwitchTabHooked) {
             document.querySelectorAll('.sidebar-menu').forEach(m => m.style.display = 'none');
             const arabicMenu = document.querySelector('.menu-group-arabic');
             if (arabicMenu) arabicMenu.style.display = '';
-            if (!window.__ARABIC_LOADED.ps1 && !window.__ARABIC_CURRENT) {
-                loadArabicGames('');
-            }
+            loadArabicGames(window.__ARABIC_CURRENT || '');
         }
         return result;
     };

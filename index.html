@@ -47464,10 +47464,10 @@ function renderArabicCards(container, games) {
     const fragment = document.createDocumentFragment();
 
     games.forEach((game, i) => {
-        const title = game.title || game.name || game.cleanTitle || 'Unknown';
+        const title = String(game.title || game.name || game.cleanTitle || 'Unknown');
         const cover = getClassicCover(game);
-        const size = game.fileSize || game.size || '';
-        const platform = game.platform || (game.__source ? game.__source.toUpperCase() : '');
+        const size = String(game.fileSize || game.size || '');
+        const platform = String(game.platform || (game.__source ? game.__source.toUpperCase() : ''));
 
         const card = document.createElement('div');
         card.className = 'game-card';
@@ -47517,45 +47517,57 @@ function renderArabicCards(container, games) {
             </div>
         `;
 
+        card.onclick = function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            openClassicModal(game);
+        };
+
         fragment.appendChild(card);
     });
 
     container.appendChild(fragment);
-
-    container.querySelectorAll('.game-card').forEach((card, i) => {
-        card.addEventListener('click', function() {
-            openClassicModal(games[i]);
-        });
-    });
 }
 
 function renderPagination(container, totalPages) {
     container.innerHTML = '';
     if (totalPages <= 1) return;
     
-    const current = window.__ARABIC_PAGE;
-    const maxVisible = 7;
-    let start = Math.max(1, current - Math.floor(maxVisible / 2));
-    let end = Math.min(totalPages, start + maxVisible - 1);
-    if (end - start < maxVisible - 1) start = Math.max(1, end - maxVisible + 1);
-    
-    const createBtn = (text, page, active = false) => {
+    const current = window.__ARABIC_PAGE || 1;
+    const maxBtns = 5;
+    let start = Math.max(1, current - Math.floor(maxBtns / 2));
+    let end = Math.min(totalPages, start + maxBtns - 1);
+    if (end - start + 1 < maxBtns) {
+        start = Math.max(1, end - maxBtns + 1);
+    }
+
+    const createBtn = (page, text = page, active = false) => {
         const btn = document.createElement('button');
+        btn.type = 'button';
         btn.textContent = text;
         btn.style.cssText = `
-            padding: 8px 14px; border-radius: 8px; border: 1px solid rgba(255,255,255,${active ? '0.3' : '0.1'});
-            background: ${active ? 'rgba(0,112,204,0.3)' : 'rgba(255,255,255,0.05)'};
-            color: ${active ? '#00aaff' : '#fff'}; font-size: 13px; cursor: pointer;
-            transition: all 0.2s; font-weight: ${active ? 'bold' : 'normal'};
+            padding: 8px 14px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1);
+            background: ${active ? 'var(--ps-blue, #0070cc)' : 'rgba(255,255,255,0.05)'};
+            color: #fff; font-size: 13px; font-weight: ${active ? 'bold' : 'normal'};
+            cursor: pointer; transition: all 0.2s;
         `;
-        btn.onmouseenter = () => { if (!active) btn.style.background = 'rgba(255,255,255,0.1)'; };
-        btn.onmouseleave = () => { if (!active) btn.style.background = 'rgba(255,255,255,0.05)'; };
-        btn.onclick = () => { window.__ARABIC_PAGE = page; renderArabicGames(); };
+        if (!active) {
+            btn.onmouseenter = () => { btn.style.background = 'rgba(255,255,255,0.15)'; };
+            btn.onmouseleave = () => { btn.style.background = 'rgba(255,255,255,0.05)'; };
+        }
+        btn.onclick = () => {
+            if (page !== current) {
+                window.__ARABIC_PAGE = page;
+                renderArabicGames();
+                const section = document.getElementById('arabic-search-bar');
+                if (section) section.scrollIntoView({ behavior: 'smooth' });
+            }
+        };
         return btn;
     };
-    
+
     if (start > 1) {
-        container.appendChild(createBtn('1', 1));
+        container.appendChild(createBtn(1, '1'));
         if (start > 2) {
             const dots = document.createElement('span');
             dots.textContent = '...';
@@ -47563,11 +47575,11 @@ function renderPagination(container, totalPages) {
             container.appendChild(dots);
         }
     }
-    
-    for (let i = start; i <= end; i++) {
-        container.appendChild(createBtn(i, i, i === current));
+
+    for (let p = start; p <= end; p++) {
+        container.appendChild(createBtn(p, p, p === current));
     }
-    
+
     if (end < totalPages) {
         if (end < totalPages - 1) {
             const dots = document.createElement('span');
@@ -47580,6 +47592,7 @@ function renderPagination(container, totalPages) {
 }
 
 function escapeHtmlSafe(str) {
+    if (!str) return '';
     const div = document.createElement('div');
     div.textContent = str;
     return div.innerHTML;
@@ -47589,109 +47602,148 @@ window.__classicCurrentGame = null;
 
 function openClassicModal(game) {
     try {
-    window.__classicCurrentGame = game;
-    try { playUiClick(); } catch(e) {}
-    const modal = document.getElementById('classic-game-modal');
-    if (!modal) { console.error('classic-game-modal not found'); return; }
-    const title = game.title || game.name || 'Unknown';
-    const cover = getClassicCover(game);
-    const size = game.fileSize || game.size || '';
-    const platform = game.platform || (game.__source ? game.__source.toUpperCase() : '');
-    const uri = game.uri || (game.uris && game.uris[0]) || '';
-    const uploadDate = game.uploadDate || '';
-    
-    const isPS3 = platform.toLowerCase().includes('playstation 3') || platform.toLowerCase().includes('ps3') || platform.toLowerCase().includes('wii') || game.__source === 'ps3';
-    const isPS2 = !isPS3 && (platform.toLowerCase().includes('playstation 2') || platform.toLowerCase().includes('ps2') || game.__source === 'ps2');
-    const isPS1 = !isPS3 && !isPS2 && (platform.toLowerCase().includes('playstation 1') || platform.toLowerCase().includes('ps1') || platform.toLowerCase().includes('psx') || game.__source === 'ps1');
-    const isDub = game.__source === 'dub' || title.includes('(Dub)') || title.includes('مدبلج');
-    const isSub = game.__source === 'sub' || title.includes('(Sub)') || title.includes('مترجم');
+        if (!game) {
+            console.error('[Classic] openClassicModal called with null/undefined game');
+            return;
+        }
+        console.log('[Classic] openClassicModal executing for:', game);
+        window.__classicCurrentGame = game;
+        try { playUiClick(); } catch(e) {}
+        const modal = document.getElementById('classic-game-modal');
+        if (!modal) { console.error('classic-game-modal not found'); return; }
+        
+        const title = String(game.title || game.name || game.cleanTitle || 'Unknown');
+        const cover = getClassicCover(game);
+        const size = String(game.fileSize || game.size || '');
+        const platform = String(game.platform || (game.__source ? game.__source.toUpperCase() : ''));
+        const uri = game.uri || (game.uris && game.uris[0]) || '';
+        const uploadDate = String(game.uploadDate || '');
+        
+        const isPS3 = platform.toLowerCase().includes('playstation 3') || platform.toLowerCase().includes('ps3') || platform.toLowerCase().includes('wii') || game.__source === 'ps3';
+        const isPS2 = !isPS3 && (platform.toLowerCase().includes('playstation 2') || platform.toLowerCase().includes('ps2') || game.__source === 'ps2');
+        const isPS1 = !isPS3 && !isPS2 && (platform.toLowerCase().includes('playstation 1') || platform.toLowerCase().includes('ps1') || platform.toLowerCase().includes('psx') || game.__source === 'ps1');
+        const isDub = game.__source === 'dub' || title.includes('(Dub)') || title.includes('مدبلج');
+        const isSub = game.__source === 'sub' || title.includes('(Sub)') || title.includes('مترجم');
 
-    document.getElementById('classic-game-title').textContent = title;
-    document.getElementById('classic-cover-img').src = cover || '';
-    document.getElementById('classic-cover-img').onerror = function() { this.style.display = 'none'; };
+        const titleEl = document.getElementById('classic-game-title');
+        if (titleEl) titleEl.textContent = title;
 
-    const banner = document.getElementById('classic-platform-banner');
-    if (isDub) {
-        banner.querySelector('span').textContent = 'ألعاب مدبلجة عربياً 🎙️';
-        banner.style.background = 'linear-gradient(135deg, rgba(255,215,0,0.85), rgba(80,60,0,0.95))';
-        banner.style.color = '#000';
-    } else if (isSub) {
-        banner.querySelector('span').textContent = 'ألعاب مترجمة عربياً 📝';
-        banner.style.background = 'linear-gradient(135deg, rgba(0,255,136,0.85), rgba(0,80,50,0.95))';
-        banner.style.color = '#000';
-    } else if (isPS3) {
-        banner.querySelector('span').textContent = 'PlayStation 3';
-        banner.style.background = 'linear-gradient(135deg, rgba(220,0,40,0.85), rgba(40,40,40,0.95))';
-        banner.style.color = '#fff';
-    } else if (isPS2) {
-        banner.querySelector('span').textContent = 'PlayStation 2';
-        banner.style.background = 'linear-gradient(135deg, rgba(140,0,180,0.85), rgba(64,0,64,0.95))';
-        banner.style.color = '#fff';
-    } else if (isPS1) {
-        banner.querySelector('span').textContent = 'PlayStation 1';
-        banner.style.background = 'linear-gradient(135deg, rgba(0,90,180,0.85), rgba(0,30,60,0.95))';
-        banner.style.color = '#fff';
-    } else {
-        banner.querySelector('span').textContent = platform || 'Classic Game';
-        banner.style.background = 'linear-gradient(135deg, rgba(40,40,40,0.85), rgba(20,20,20,0.95))';
-        banner.style.color = '#fff';
-    }
+        const coverImg = document.getElementById('classic-cover-img');
+        if (coverImg) {
+            coverImg.style.display = 'block';
+            coverImg.src = cover || '';
+            coverImg.onerror = function() { this.style.display = 'none'; };
+        }
 
-    document.getElementById('classic-game-id').textContent = title.substring(0, 20);
-    document.getElementById('classic-game-type').textContent = isDub ? 'Arabic Dubbed' : isSub ? 'Arabic Subbed' : isPS3 ? 'PS3 Game' : isPS2 ? 'PS2 Game' : isPS1 ? 'PS1 Game' : 'Classic Game';
-    document.getElementById('classic-game-region').textContent = extractRegion(title);
-    document.getElementById('classic-game-size').textContent = size || 'N/A';
-    document.getElementById('classic-game-trophies').textContent = isPS3 ? 'Yes (PSN)' : 'No';
-    document.getElementById('classic-game-trophies').style.color = isPS3 ? '#00e5ff' : '#ff4444';
-
-    const meta = document.getElementById('classic-game-meta');
-    meta.innerHTML = '';
-    if (uploadDate) {
-        meta.innerHTML += `<span style="font-size:12px; color:#999; display:flex; align-items:center; gap:5px;"><i class="far fa-calendar" style="color:#00e5ff;"></i> ${uploadDate}</span>`;
-    }
-    if (size) {
-        meta.innerHTML += `<span style="font-size:12px; color:#999; display:flex; align-items:center; gap:5px;"><i class="fas fa-hdd" style="color:#00e5ff;"></i> ${size}</span>`;
-    }
-
-    const summary = document.getElementById('classic-game-summary');
-    let emuRec = isPS3 ? 'RPCS3 (PlayStation 3 Emulator)' : isPS2 ? 'PCSX2 (PlayStation 2 Emulator)' : isPS1 ? 'DuckStation / Beetle PSX' : 'المحاكي المتوافق';
-    summary.innerHTML = `
-        <div style="font-size:14px;color:#fff;margin-bottom:10px;line-height:1.6;font-weight:500;">${escapeHtmlSafe(title)}</div>
-        ${isDub ? '<div style="color:#ffd700;font-weight:bold;margin-bottom:8px;display:flex;align-items:center;gap:6px;background:rgba(255,215,0,0.1);padding:8px 12px;border-radius:8px;border:1px solid rgba(255,215,0,0.3);"><i class="fas fa-microphone-alt"></i> تتميز هذه النسخة بالدبلجة الصوتية الكاملة باللغة العربية.</div>' : ''}
-        ${isSub ? '<div style="color:#00ff88;font-weight:bold;margin-bottom:8px;display:flex;align-items:center;gap:6px;background:rgba(0,255,136,0.1);padding:8px 12px;border-radius:8px;border:1px solid rgba(0,255,136,0.3);"><i class="fas fa-closed-captioning"></i> تتميز هذه النسخة بالترجمة العربية الكاملة للنصوص والحوارات.</div>' : ''}
-        <div style="margin-top:12px;padding:10px 12px;background:rgba(0,112,204,0.15);border:1px solid rgba(0,112,204,0.35);border-radius:8px;font-size:12px;color:#00e5ff;display:flex;align-items:center;gap:8px;">
-            <i class="fas fa-microchip" style="font-size:16px;"></i> <div><b>أفضل محاكي للتشغيل:</b> ${emuRec}</div>
-        </div>
-    `;
-
-    const downloadBtn = document.getElementById('classic-download-btn');
-    downloadBtn.onclick = () => {
-        if (uri) {
-            if (typeof window.showUniversalDownloadModal === 'function') {
-                window.showUniversalDownloadModal('single', uri, title, '', size, '', platform, '');
+        const banner = document.getElementById('classic-platform-banner');
+        if (banner) {
+            const bannerSpan = banner.querySelector('span');
+            if (isDub) {
+                if (bannerSpan) bannerSpan.textContent = 'ألعاب مدبلجة عربياً 🎙️';
+                banner.style.background = 'linear-gradient(135deg, rgba(255,215,0,0.85), rgba(80,60,0,0.95))';
+                banner.style.color = '#000';
+            } else if (isSub) {
+                if (bannerSpan) bannerSpan.textContent = 'ألعاب مترجمة عربياً 📝';
+                banner.style.background = 'linear-gradient(135deg, rgba(0,255,136,0.85), rgba(0,80,50,0.95))';
+                banner.style.color = '#000';
+            } else if (isPS3) {
+                if (bannerSpan) bannerSpan.textContent = 'PlayStation 3';
+                banner.style.background = 'linear-gradient(135deg, rgba(220,0,40,0.85), rgba(40,40,40,0.95))';
+                banner.style.color = '#fff';
+            } else if (isPS2) {
+                if (bannerSpan) bannerSpan.textContent = 'PlayStation 2';
+                banner.style.background = 'linear-gradient(135deg, rgba(140,0,180,0.85), rgba(64,0,64,0.95))';
+                banner.style.color = '#fff';
+            } else if (isPS1) {
+                if (bannerSpan) bannerSpan.textContent = 'PlayStation 1';
+                banner.style.background = 'linear-gradient(135deg, rgba(0,90,180,0.85), rgba(0,30,60,0.95))';
+                banner.style.color = '#fff';
             } else {
-                window.open(uri, '_blank');
+                if (bannerSpan) bannerSpan.textContent = platform || 'Classic Game';
+                banner.style.background = 'linear-gradient(135deg, rgba(40,40,40,0.85), rgba(20,20,20,0.95))';
+                banner.style.color = '#fff';
             }
         }
-    };
-    downloadBtn.style.display = uri ? 'flex' : 'none';
 
-    modal.style.display = 'flex';
-    requestAnimationFrame(() => modal.classList.add('show'));
-    modal.onclick = (e) => { if (e.target === modal) closeClassicModal(); };
-    } catch(e) { console.error('openClassicModal error:', e); }
+        const idEl = document.getElementById('classic-game-id');
+        if (idEl) idEl.textContent = title.substring(0, 20);
+        const typeEl = document.getElementById('classic-game-type');
+        if (typeEl) typeEl.textContent = isDub ? 'Arabic Dubbed' : isSub ? 'Arabic Subbed' : isPS3 ? 'PS3 Game' : isPS2 ? 'PS2 Game' : isPS1 ? 'PS1 Game' : 'Classic Game';
+        const regionEl = document.getElementById('classic-game-region');
+        if (regionEl) regionEl.textContent = typeof extractRegion === 'function' ? extractRegion(title) : '—';
+        const sizeEl = document.getElementById('classic-game-size');
+        if (sizeEl) sizeEl.textContent = size || 'N/A';
+        const trophiesEl = document.getElementById('classic-game-trophies');
+        if (trophiesEl) {
+            trophiesEl.textContent = isPS3 ? 'Yes (PSN)' : 'No';
+            trophiesEl.style.color = isPS3 ? '#00e5ff' : '#ff4444';
+        }
+
+        const meta = document.getElementById('classic-game-meta');
+        if (meta) {
+            meta.innerHTML = '';
+            if (uploadDate) {
+                meta.innerHTML += `<span style="font-size:12px; color:#999; display:flex; align-items:center; gap:5px;"><i class="far fa-calendar" style="color:#00e5ff;"></i> ${uploadDate}</span>`;
+            }
+            if (size) {
+                meta.innerHTML += `<span style="font-size:12px; color:#999; display:flex; align-items:center; gap:5px;"><i class="fas fa-hdd" style="color:#00e5ff;"></i> ${size}</span>`;
+            }
+        }
+
+        const summary = document.getElementById('classic-game-summary');
+        if (summary) {
+            let emuRec = isPS3 ? 'RPCS3 (PlayStation 3 Emulator)' : isPS2 ? 'PCSX2 (PlayStation 2 Emulator)' : isPS1 ? 'DuckStation / Beetle PSX' : 'المحاكي المتوافق';
+            summary.innerHTML = `
+                <div style="font-size:14px;color:#fff;margin-bottom:10px;line-height:1.6;font-weight:500;">${typeof escapeHtmlSafe === 'function' ? escapeHtmlSafe(title) : title}</div>
+                ${isDub ? '<div style="color:#ffd700;font-weight:bold;margin-bottom:8px;display:flex;align-items:center;gap:6px;background:rgba(255,215,0,0.1);padding:8px 12px;border-radius:8px;border:1px solid rgba(255,215,0,0.3);"><i class="fas fa-microphone-alt"></i> تتميز هذه النسخة بالدبلجة الصوتية الكاملة باللغة العربية.</div>' : ''}
+                ${isSub ? '<div style="color:#00ff88;font-weight:bold;margin-bottom:8px;display:flex;align-items:center;gap:6px;background:rgba(0,255,136,0.1);padding:8px 12px;border-radius:8px;border:1px solid rgba(0,255,136,0.3);"><i class="fas fa-closed-captioning"></i> تتميز هذه النسخة بالترجمة العربية الكاملة للنصوص والحوارات.</div>' : ''}
+                <div style="margin-top:12px;padding:10px 12px;background:rgba(0,112,204,0.15);border:1px solid rgba(0,112,204,0.35);border-radius:8px;font-size:12px;color:#00e5ff;display:flex;align-items:center;gap:8px;">
+                    <i class="fas fa-microchip" style="font-size:16px;"></i> <div><b>أفضل محاكي للتشغيل:</b> ${emuRec}</div>
+                </div>
+            `;
+        }
+
+        const downloadBtn = document.getElementById('classic-download-btn');
+        if (downloadBtn) {
+            downloadBtn.onclick = () => {
+                if (uri) {
+                    if (typeof window.showUniversalDownloadModal === 'function') {
+                        window.showUniversalDownloadModal('single', uri, title, '', size, '', platform, '');
+                    } else {
+                        window.open(uri, '_blank');
+                    }
+                }
+            };
+            downloadBtn.style.display = uri ? 'flex' : 'none';
+        }
+
+        modal.style.display = 'flex';
+        modal.style.opacity = '1';
+        modal.style.visibility = 'visible';
+        modal.style.pointerEvents = 'auto';
+        requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+                modal.classList.add('show');
+            });
+        });
+        modal.onclick = (e) => { if (e.target === modal) closeClassicModal(); };
+    } catch(e) {
+        console.error('[Classic] openClassicModal error:', e);
+    }
 }
 
 function closeClassicModal() {
     const modal = document.getElementById('classic-game-modal');
     if (modal) {
         modal.classList.remove('show');
+        modal.style.opacity = '0';
         setTimeout(() => { modal.style.display = 'none'; }, 300);
     }
     window.__classicCurrentGame = null;
 }
 
 function extractRegion(title) {
+    if (!title || typeof title !== 'string') return '—';
     const m = title.match(/\(([^)]+)\)/);
     if (m) {
         const r = m[1].toUpperCase();
@@ -47712,8 +47764,10 @@ function copyClassicLink() {
     if (uri) {
         navigator.clipboard.writeText(uri).then(() => {
             const btn = document.getElementById('classic-copy-link-btn');
-            btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
-            setTimeout(() => { btn.innerHTML = '<i class="fas fa-link"></i> Copy Link'; }, 2000);
+            if (btn) {
+                btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                setTimeout(() => { btn.innerHTML = '<i class="fas fa-link"></i> Copy Link'; }, 2000);
+            }
         });
     }
 }

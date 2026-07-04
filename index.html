@@ -47707,6 +47707,9 @@ function openClassicModal(game) {
         if (downloadBtn) {
             downloadBtn.onclick = () => {
                 if (uri) {
+                    if (typeof window.addToDownloadManager === 'function') {
+                        window.addToDownloadManager(title, size, title, platform, '');
+                    }
                     if (typeof window.showUniversalDownloadModal === 'function') {
                         window.showUniversalDownloadModal('single', uri, title, '', size, '', platform, '');
                     } else {

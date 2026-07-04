@@ -3,10 +3,10 @@
 <html>
    <head>
 		<title>PlayStation&trade; Network Database</title>	
-			<link rel="icon" type="image/png" sizes="32x32" href="../../../resources/interface/classic/images/favicon/favicon-32x32.png">
-			<link rel="icon" type="image/png" sizes="16x16" href="../../../resources/interface/classic/images/favicon/favicon-16x16.png">
-			<link rel="apple-touch-icon" sizes="180x180" href="../../../resources/interface/classic/images/favicon/apple-touch-icon.png">	
-			<link rel="manifest" href="../../../resources/interface/classi/images/favicon/site.webmanifest">
+			<link rel="icon" type="image/png" sizes="32x32" href="../../resources/interface/classic/images/favicon/favicon-32x32.png">
+			<link rel="icon" type="image/png" sizes="16x16" href="../../resources/interface/classic/images/favicon/favicon-16x16.png">
+			<link rel="apple-touch-icon" sizes="180x180" href="../../resources/interface/classic/images/favicon/apple-touch-icon.png">	
+			<link rel="manifest" href="../../resources/interface/classi/images/favicon/site.webmanifest">
 	  </head>
    <script>
     var isPS3 = /PS3|PlayStation 3|NetFront/i.test(navigator.userAgent) || window.location.search.indexOf("mode=ps3") > -1;
@@ -105,7 +105,7 @@
 		/* =========================================
 		1. GLOBAL & RESET
 		========================================= */
-		html, body { margin: 0; padding: 0; height: 100%; background: rgb(2, 29, 134) url("../../../resources/interface/classic/images/backgrounds/official.jpg") no-repeat center center; background-size: cover; color: #fff; font-family: Arial, sans-serif; text-align: center; overflow: hidden; }
+		html, body { margin: 0; padding: 0; height: 100%; background: rgb(2, 29, 134) url("../../resources/interface/classic/images/backgrounds/official.jpg") no-repeat center center; background-size: cover; color: #fff; font-family: Arial, sans-serif; text-align: center; overflow: hidden; }
 		body.is-ps3 { background-size: 100% 100% !important; }
 		
 		/* =========================================
@@ -680,7 +680,7 @@
 		/* =========================================
 		20. UNOFFICIAL MODE
 		========================================= */
-		body.unofficial-mode { background: rgb(141, 20, 11) url("../../../resources/interface/classic/images/backgrounds/unofficial.jpg") no-repeat center center; background-size: cover; }
+		body.unofficial-mode { background: rgb(141, 20, 11) url("../../resources/interface/classic/images/backgrounds/unofficial.jpg") no-repeat center center; background-size: cover; }
 		body.unofficial-mode header a:hover { color: #ff0000 !important; }
 		body.unofficial-mode header .toggle-btn:hover, body.unofficial-mode #zoom-container:hover, body.unofficial-mode input[type="submit"]:hover, body.unofficial-mode input[type="button"]:hover, body.unofficial-mode button:hover { border-color: #ff0000 !important; }
 		body.unofficial-mode input[type="checkbox"], body.unofficial-mode input[type=range] { accent-color: #ff0000 !important; }
@@ -980,7 +980,7 @@
 	</style>
 	<body>
       <header>
-		<img id="main-logo" src="../../../resources/interface/classic/images/logos/official.png" width="90" height="90" style="display:block; margin: 0px auto; border-radius: 10px;">
+		<img id="main-logo" src="../../resources/interface/classic/images/logos/official.png" width="90" height="90" style="display:block; margin: 0px auto; border-radius: 10px;">
          <span id="header-text" style="font-size: 24px; color: #ffffff;">PlayStation&trade; Network Database</span>
 		 <div id="count" aria-live="polite" role="status">Loading</div>
          <form name="engine" onsubmit="setFilter('search', this.query.value, null); return false;">
@@ -1335,8 +1335,8 @@
 	
 	var f = document.forms.engine;
 	var PROXY_URL = "https://proxy.ps3-pro.workers.dev/";
-	var URL_DB_DLC = "../../../resources/database/content/official/dlcs.tsv";
-	var URL_DB_AVATAR = "../../../resources/database/content/official/avatars.tsv";
+	var URL_DB_DLC = "../../resources/database/content/official/dlcs.tsv";
+	var URL_DB_AVATAR = "../../resources/database/content/official/avatars.tsv";
 	var DB = [];
 
 	var STORAGE_KEY_COVERS = "psn_db_covers_state";
@@ -1349,10 +1349,10 @@
 	
 	var isUnofficialMode = false;
 
-	var defaultCoverOfficial = isPS3 ? "../../../resources/database/covers/compressed/NOCOVER01.JPG" : "../../../resources/database/covers/uncompressed/NOCOVER01.JPG";
+	var defaultCoverOfficial = isPS3 ? "../../resources/database/covers/compressed/NOCOVER01.JPG" : "../../resources/database/covers/uncompressed/NOCOVER01.JPG";
 	var defaultCover = defaultCoverOfficial;
-	var AVATAR_COVERS_BASE = "../../../resources/database/avatars";
-	var THEME_COVERS_BASE = "../../../resources/database/themes";
+	var AVATAR_COVERS_BASE = "../../resources/database/avatars";
+	var THEME_COVERS_BASE = "../../resources/database/themes";
 
 	function cleanContentCoverPathPart(value) {
 		if (value === undefined || value === null) return "";
@@ -2390,7 +2390,7 @@
 		}
 
 		var hash_val = generateSonyHash(title_id) || "MISSING";
-		var primaryUrl = "../../../resources/database/covers/uncompressed/" + title_id + ".JPG";
+		var primaryUrl = "../../resources/database/covers/uncompressed/" + title_id + ".JPG";
 		var hashUrl = "https://raw.githubusercontent.com/PS3-Pro/Recently-Played-Games/master/np/" + hash_val + "/ICON0.PNG";
 
 		var targetUrl = primaryUrl;
@@ -2544,8 +2544,8 @@
 		}
 
 		var hash = generateSonyHash(tid) || "MISSING";
-		var urlJPG = "../../../resources/database/covers/" + (is_ps3 ? "uncompressed/" : "uncompressed/") + tid + ".JPG";
-		//var urlJPG = "../../../resources/database/covers/" + (is_ps3 ? "compressed/" : "uncompressed/") + tid + ".JPG";
+		var urlJPG = "../../resources/database/covers/" + (is_ps3 ? "uncompressed/" : "uncompressed/") + tid + ".JPG";
+		//var urlJPG = "../../resources/database/covers/" + (is_ps3 ? "compressed/" : "uncompressed/") + tid + ".JPG";
 		var urlPNG = "https://raw.githubusercontent.com/PS3-Pro/Recently-Played-Games/master/np/" + hash + "/ICON0.PNG";
 
 		var targetUrl = urlJPG;
@@ -3026,7 +3026,7 @@
 
 		g_classicBaseGameIndexLoading = true;
 
-		var baseUrl = "../../../resources/database/content/official";
+		var baseUrl = "../../resources/database/content/official";
 		var paths = [
 			{ url: baseUrl + "/games.tsv", category: 'games' },
 			{ url: baseUrl + "/pending/games.tsv", category: 'games' },
@@ -3241,9 +3241,9 @@ function classicIsGameToRelatedLoop(titleId, category) {
 	var g_noCoverMap = {}, g_noCoverIndexLoaded = false;
 	var g_coverMap = {}, g_coverIndexLoaded = false;
 
-	var URL_DB_NOCOVER = "../../../resources/database/covers/blacklist.tsv";
-	var URL_DB_COVERS = "../../../resources/database/covers/index.tsv";
-	var URL_DB_UPDATES = "../../../resources/database/content/official/game_updates.tsv";
+	var URL_DB_NOCOVER = "../../resources/database/covers/blacklist.tsv";
+	var URL_DB_COVERS = "../../resources/database/covers/index.tsv";
+	var URL_DB_UPDATES = "../../resources/database/content/official/game_updates.tsv";
 
 	function openGameDLCs(id) { fetchSubDB(URL_DB_DLC, id, 'dlcs', 'ln-dlcs', 'DLCs'); }
 	function openGameAvatars(id) { fetchSubDB(URL_DB_AVATAR, id, 'avatars', 'ln-avatar', 'Avatars'); }
@@ -3384,7 +3384,7 @@ function classicIsGameToRelatedLoop(titleId, category) {
 
 	
 	function classicGetDbPathsForCategory(cat) {
-		var base_url = "../../../resources/database/content";
+		var base_url = "../../resources/database/content";
 		var off_url = base_url + "/official";
 		var unoff_url = base_url + "/unofficial";
 		var paths = [];
@@ -3853,12 +3853,12 @@ function restorePreviousState() {
 				} else {
 					var WORKER_URL = "http://xml-generator.ps3-pro.workers.dev/";
 					var manifestUrl = WORKER_URL + "id/" + tid_h + "/" + cat_h + ".xml";
-					var finalLink_h = "http://localhost/browser.ps3?../../../resources/interface/classic/images/backgrounds/transparent.html;/download.ps3?to=/dev_hdd0/packages&url=" + manifestUrl;
+					var finalLink_h = "http://localhost/browser.ps3?../../resources/interface/classic/images/backgrounds/transparent.html;/download.ps3?to=/dev_hdd0/packages&url=" + manifestUrl;
 					btnsObj.pkg = '<a href="' + finalLink_h + '" class="pkg-multi-btn">PKG (MULTI)</a>';
 				}
 			} else if (is_xml_h) {
 				if (is_ps3_h) {
-					var finalLink_h = "http://localhost/browser.ps3?../../../resources/interface/classic/images/backgrounds/transparent.html;/download.ps3?to=/dev_hdd0/packages&url=" + url_h;
+					var finalLink_h = "http://localhost/browser.ps3?../../resources/interface/classic/images/backgrounds/transparent.html;/download.ps3?to=/dev_hdd0/packages&url=" + url_h;
 					btnsObj.pkg = '<a href="' + finalLink_h + '" class="pkg-multi-btn">PKG (XML)</a>';
 				} else {
 					btnsObj.pkg = '<a href="#" onclick="fetchPKG_XML(\'' + url_h + '\', \'' + safeFileName_h + '\', \'' + versionNum_h + '\'); return false;" class="pkg-multi-btn">PKG (XML)</a>';
@@ -5140,7 +5140,7 @@ function restorePreviousState() {
 			count_el.innerHTML = 'Loading<span class="anim-dots"><span>.</span><span>.</span><span>.</span></span>';
 		}
 
-		var base_url = "../../../resources/database/content";
+		var base_url = "../../resources/database/content";
 		var off_url = base_url + "/official";
 		var unoff_url = base_url + "/unofficial";
 		var paths = [];
@@ -7888,13 +7888,13 @@ function restorePreviousState() {
 			} else {
 				var WORKER_URL = "http://xml-generator.ps3-pro.workers.dev/";
 				var manifestUrl = WORKER_URL + "id/" + id_h + "/" + cat_h + ".xml";
-				var finalLink_h = "http://localhost/browser.ps3?../../../resources/interface/classic/images/backgrounds/transparent.html;/download.ps3?to=/dev_hdd0/packages&url=" + manifestUrl;
+				var finalLink_h = "http://localhost/browser.ps3?../../resources/interface/classic/images/backgrounds/transparent.html;/download.ps3?to=/dev_hdd0/packages&url=" + manifestUrl;
 				
 				btnsObj.pkg = '<a href="' + finalLink_h + '" class="pkg-multi-btn">PKG (MULTI)</a>';
 			}
 		} else if (url_h && is_xml_h) {
 			if (is_ps3_h) {
-				var finalLink_h = "http://localhost/browser.ps3?../../../resources/interface/classic/images/backgrounds/transparent.html;/download.ps3?to=/dev_hdd0/packages&url=" + url_h;
+				var finalLink_h = "http://localhost/browser.ps3?../../resources/interface/classic/images/backgrounds/transparent.html;/download.ps3?to=/dev_hdd0/packages&url=" + url_h;
 				btnsObj.pkg = '<a href="' + finalLink_h + '" class="pkg-multi-btn">PKG (XML)</a>';
 			} else {
 				btnsObj.pkg = '<a href="#" data-urls="' + url_h + '" onclick="fetchPKG_XML(this.getAttribute(\'data-urls\'), \'' + safeFileName_h + '\', \'' + version_h + '\'); return false;" class="pkg-multi-btn">PKG (XML)</a>';
@@ -8023,17 +8023,17 @@ function restorePreviousState() {
             targetUrl_h = "https://raw.githubusercontent.com/PS3-Pro/Recently-Played-Games/master/np/" + hash_val_h + "/ICON0.PNG";
         } else {
             var folder_h = (is_ps3_h && !high_res_h) ? "compressed" : "uncompressed";
-            targetUrl_h = "../../../resources/database/covers/" + folder_h + "/" + id_h + ".JPG";
+            targetUrl_h = "../../resources/database/covers/" + folder_h + "/" + id_h + ".JPG";
         }
         ghost_h.src = targetUrl_h;
     }
 	</script>
 	<script>
 	var headerText_el = document.getElementById('header-text');
-	var logoOfficial = "../../../resources/interface/classic/images/logos/official.png";
-	var logoUnofficial = "../../../resources/interface/classic/images/logos/unofficial.png";
+	var logoOfficial = "../../resources/interface/classic/images/logos/official.png";
+	var logoUnofficial = "../../resources/interface/classic/images/logos/unofficial.png";
 
-	var defaultCoverUnofficial = isPS3 ? "../../../resources/database/covers/compressed/NOCOVER02.JPG" : "../../../resources/database/covers/uncompressed/NOCOVER02.JPG";
+	var defaultCoverUnofficial = isPS3 ? "../../resources/database/covers/compressed/NOCOVER02.JPG" : "../../resources/database/covers/uncompressed/NOCOVER02.JPG";
 
 	function toggleAppMode() {
 		var doc = document;

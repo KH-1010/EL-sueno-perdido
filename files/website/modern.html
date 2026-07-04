@@ -6,10 +6,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NoPayStation™ Network Database</title>
-	<link rel="icon" type="image/png" sizes="32x32" href="../../../resources/interface/modern/images/favicon/favicon-32x32.png">
-	<link rel="icon" type="image/png" sizes="16x16" href="../../../resources/interface/modern/images/favicon/favicon-16x16.png">
-	<link rel="apple-touch-icon" sizes="180x180" href="../../../resources/interface/modern/images/favicon/apple-touch-icon.png">	
-	<link rel="manifest" href="../../../resources/interface/modern/images/favicon/site.webmanifest">
+	<link rel="icon" type="image/png" sizes="32x32" href="../../resources/interface/modern/images/favicon/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="../../resources/interface/modern/images/favicon/favicon-16x16.png">
+	<link rel="apple-touch-icon" sizes="180x180" href="../../resources/interface/modern/images/favicon/apple-touch-icon.png">	
+	<link rel="manifest" href="../../resources/interface/modern/images/favicon/site.webmanifest">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 	<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -9181,7 +9181,7 @@ body.chat-selection-mode .chat-message-actions .chat-delete-action:hover { trans
 					<div style="display: flex; flex-direction: row; gap: 25px;">					
 						<div class="modal-left-col" style="width: 180px; flex-shrink: 0; display: flex; flex-direction: column; justify-content: space-between;gap: 15px;">
 						<div class="modal-cover-wrapper" id="modal-cover-trigger" title="Watch Trailer" onmouseenter="playUiHover()" style="margin: 0;">
-						<img src="../../../resources/database/covers/uncompressed/NOCOVER00.JPG" alt="Cover" class="modal-img" id="modal-img">
+						<img src="../../resources/database/covers/uncompressed/NOCOVER00.JPG" alt="Cover" class="modal-img" id="modal-img">
 						<div class="play-overlay"><i class="fas fa-play"></i></div>
 						<div class="trailer-label">Trailer</div>
 					</div>
@@ -12014,7 +12014,7 @@ P
 
 	function buildLocalUserDataForAuth(username) {
 		const activeUser = localStorage.getItem('psn_username');
-		const DEFAULT_URL = "../../../resources/interface/modern/images/avatars/default.png";
+		const DEFAULT_URL = "../../resources/interface/modern/images/avatars/default.png";
 		const fallbackAvatar = (typeof AVAILABLE_AVATARS !== 'undefined' && AVAILABLE_AVATARS[0]) ? AVAILABLE_AVATARS[0] : DEFAULT_URL;
 		const localAvatar = readLocalUserValueForAuth(username, 'psn_avatar', null) || fallbackAvatar;
 		const trophiesData = readLocalObjectForAuth(username, 'psn_user_trophies', activeUser === username ? window.userTrophies : null);
@@ -12087,7 +12087,7 @@ P
 
 	function buildFastLocalUserDataForAuth(username) {
 		const activeUser = localStorage.getItem('psn_username');
-		const DEFAULT_URL = "../../../resources/interface/modern/images/avatars/default.png";
+		const DEFAULT_URL = "../../resources/interface/modern/images/avatars/default.png";
 		const fallbackAvatar = (typeof AVAILABLE_AVATARS !== 'undefined' && AVAILABLE_AVATARS[0]) ? AVAILABLE_AVATARS[0] : DEFAULT_URL;
 		const localAvatar = readLocalUserValueForAuth(username, 'psn_avatar', null) || fallbackAvatar;
 		const settingsUpdatedAt = (typeof getProfileSettingsUpdatedAtForUser === 'function') ? getProfileSettingsUpdatedAtForUser(username) : 0;
@@ -14521,10 +14521,10 @@ P
 
     const PROXY_URL = "https://proxy.ps3-pro.workers.dev/";
     const LICENSE_PACK_STATS_URL = "https://raw.githubusercontent.com/PS3-Pro/License-Files/main/.github/stats.json";
-    const BASE_OFFICIAL = "../../../resources/database/content/official";
-    const BASE_UNOFFICIAL = "../../../resources/database/content/unofficial";
-    const BASE_LATEST = "../../../resources/database/content/latest";
-    const FALLBACK_IMG = "../../../resources/database/covers/uncompressed/NOCOVER00.JPG";
+    const BASE_OFFICIAL = "../../resources/database/content/official";
+    const BASE_UNOFFICIAL = "../../resources/database/content/unofficial";
+    const BASE_LATEST = "../../resources/database/content/latest";
+    const FALLBACK_IMG = "../../resources/database/covers/uncompressed/NOCOVER00.JPG";
     
     let exploreCache = {
         games: null,
@@ -14539,7 +14539,7 @@ P
         avatars: [`${BASE_OFFICIAL}/avatars.tsv`, `${BASE_OFFICIAL}/pending/avatars.tsv`],
         demos: [`${BASE_OFFICIAL}/games.tsv`, `${BASE_OFFICIAL}/pending/games.tsv`, `${BASE_OFFICIAL}/demos.tsv`, `${BASE_OFFICIAL}/pending/demos.tsv`],
         dlcs: [`${BASE_OFFICIAL}/dlcs.tsv`, `${BASE_OFFICIAL}/pending/dlcs.tsv`],
-        games: [`${BASE_OFFICIAL}/games.tsv`, `${BASE_OFFICIAL}/pending/games.tsv`, `../../../resources/database/content/external/nostalgia_vault.tsv`],
+        games: [`${BASE_OFFICIAL}/games.tsv`, `${BASE_OFFICIAL}/pending/games.tsv`, `../../resources/database/content/external/nostalgia_vault.tsv`],
         updates: [`${BASE_OFFICIAL}/game_updates.tsv`],
         prototypes: [`${BASE_OFFICIAL}/prototypes.tsv`],
         themes: [`${BASE_OFFICIAL}/themes.tsv`],
@@ -15092,8 +15092,8 @@ P
             const cacheBust = forceRefresh ? (`?t=${Date.now()}`) : '';
             const fetchOptions = forceRefresh ? { cache: 'no-store' } : undefined;
             const fetchList = [
-                { url: "../../../resources/database/covers/blacklist.tsv", target: sysData.noCovers },
-                { url: "../../../resources/database/covers/index.tsv", target: sysData.covers, onComplete: () => sysData.coversLoaded = true }
+                { url: "../../resources/database/covers/blacklist.tsv", target: sysData.noCovers },
+                { url: "../../resources/database/covers/index.tsv", target: sysData.covers, onComplete: () => sysData.coversLoaded = true }
             ];
 
             await Promise.all(fetchList.map(async item => {
@@ -15450,19 +15450,19 @@ P
 	
 			if (type === 'xml') {
 				finalUrl = url;
-				webmanCmd = `http://${ip}/browser.ps3?../../../resources/interface/classic/images/backgrounds/transparent.html;/install.ps3?url=${encodeURIComponent(finalUrl)}`;
+				webmanCmd = `http://${ip}/browser.ps3?../../resources/interface/classic/images/backgrounds/transparent.html;/install.ps3?url=${encodeURIComponent(finalUrl)}`;
 			} 
 			else if (type === 'multi') {
 				const WORKER_URL = "http://xml-generator.ps3-pro.workers.dev/";
 				const manifestUrl = `${WORKER_URL}id/${id}/${category}.xml`;
-				webmanCmd = `http://${ip}/browser.ps3?../../../resources/interface/classic/images/backgrounds/transparent.html;/install.ps3?url=${encodeURIComponent(manifestUrl)}`;
+				webmanCmd = `http://${ip}/browser.ps3?../../resources/interface/classic/images/backgrounds/transparent.html;/install.ps3?url=${encodeURIComponent(manifestUrl)}`;
 			} 
 			else if (type === 'rap') {
 				finalUrl = `https://ps3-pro.github.io/License-Files/files/${contentId}.rap`;
 				webmanCmd = `http://${ip}/xmb.ps3/download.ps3?to=/dev_hdd0/exdata/&url=${encodeURIComponent(finalUrl)}`;
 			} 
 			else {
-				webmanCmd = `http://${ip}/browser.ps3?../../../resources/interface/classic/images/backgrounds/transparent.html;/install.ps3?url=${encodeURIComponent(finalUrl)}`;
+				webmanCmd = `http://${ip}/browser.ps3?../../resources/interface/classic/images/backgrounds/transparent.html;/install.ps3?url=${encodeURIComponent(finalUrl)}`;
 			}
 	
 			fetch(webmanCmd, { mode: 'no-cors' });
@@ -16700,11 +16700,11 @@ P
 			if (hash) return `https://raw.githubusercontent.com/PS3-Pro/Recently-Played-Games/master/np/${hash}/ICON0.PNG`;
 		}
 	
-		return `../../../resources/database/covers/uncompressed/${id}.JPG`;
+		return `../../resources/database/covers/uncompressed/${id}.JPG`;
 	}
 
-	const AVATAR_COVERS_BASE = "../../../resources/database/avatars";
-	const THEME_COVERS_BASE = "../../../resources/database/themes";
+	const AVATAR_COVERS_BASE = "../../resources/database/avatars";
+	const THEME_COVERS_BASE = "../../resources/database/themes";
 
 	function getAvatarCover(titleId, contentId) {
 		if (!titleId || !contentId || contentId === "MISSING") return FALLBACK_IMG;
@@ -37978,7 +37978,7 @@ function getVisibleChatStackEl(id) {
 		const canPinThisMsg = typeof window.canModerateChat === 'function' ? window.canModerateChat(userName, senderRoleSource) : isAdmin;
 		const senderRoleBadgeHtml = typeof window.buildPsnRoleBadge === 'function' ? window.buildPsnRoleBadge(userName, senderRoleSource, 'chat') : '';
 		const isPersonalMention = !isAuthor && myName && ((typeof chatTextMentionsUser === 'function' ? chatTextMentionsUser(cleanText, myName) : cleanText.includes(`@${myName}`)) || (replyData && replyData.user === myName));
-		const userAvatar = (typeof msg === 'object' && msg.avatar) ? msg.avatar : (localStorage.getItem(`${userName}_psn_avatar`) || "../../../resources/interface/modern/images/avatars/default.png");
+		const userAvatar = (typeof msg === 'object' && msg.avatar) ? msg.avatar : (localStorage.getItem(`${userName}_psn_avatar`) || "../../resources/interface/modern/images/avatars/default.png");
 		const date = new Date(msgTimeValue);
 		const timeStr = date.getHours().toString().padStart(2, '0') + ':' + date.getMinutes().toString().padStart(2, '0');
 	
@@ -38082,7 +38082,7 @@ function getVisibleChatStackEl(id) {
 		<div id="msg-row-${msgId}" class="msg-anim ${msg.type === 'poll' ? 'msg-row-poll' : ''}" data-user="${encodedUser}" data-can-delete="${canDeleteThisMsg ? 'true' : 'false'}" onclick="if(window.chatSelectionMode && typeof toggleChatMessageSelection === 'function') toggleChatMessageSelection(event, '${msgId}')" style="display: flex; flex-direction: ${flexDir}; align-self: ${alignSelf}; max-width: min(85%, 450px); margin-bottom: 12px; gap: 10px; transition: all 0.3s ease;">
 			<img src="${userAvatar}" class="chat-avatar-clickable chat-avatar-status" 
 				data-user="${userName}" 
-				onerror="this.onerror=null; this.src='../../../resources/interface/modern/images/avatars/default.png';" 
+				onerror="this.onerror=null; this.src='../../resources/interface/modern/images/avatars/default.png';" 
 				onmouseenter="if(typeof playUiHover === 'function') playUiHover()" 
 				onclick="if(typeof playUiClick === 'function') playUiClick(); openProfileModal('${encodedUser}')" 
 				style="display:block; flex:0 0 34px; min-width:34px; max-width:34px; width:34px; height:34px; aspect-ratio:1/1; border-radius:50%; border:2px solid ${avatarBorderColor}; object-fit:cover; margin-top:15px; cursor:pointer; transition:border-color 0.3s ease; background:rgba(255,255,255,0.045); box-sizing:border-box; overflow:hidden;">
@@ -39010,7 +39010,7 @@ function getVisibleChatStackEl(id) {
 			localStorage.setItem('psn_username', name);
 			if (typeof applyCardBlurSetting === 'function') applyCardBlurSetting();
 			saveUserToGlobalList(name); 
-			const defaultAvatarForCompare = "../../../resources/interface/modern/images/avatars/default.png";
+			const defaultAvatarForCompare = "../../resources/interface/modern/images/avatars/default.png";
 			const isDefaultServerAvatar = !userData.avatar || userData.avatar === defaultAvatarForCompare || /\/avatars\/default\.png(?:$|\?)/.test(String(userData.avatar));
 			const existingLocalAvatar = localStorage.getItem(`${name}_psn_avatar`);
 			const shouldKeepLocalAvatar = isDefaultServerAvatar && existingLocalAvatar && !/\/avatars\/default\.png(?:$|\?)/.test(existingLocalAvatar);
@@ -40153,7 +40153,7 @@ function getVisibleChatStackEl(id) {
 			});
 		}
 		const myLevel = Math.floor(totalXp / 100) + 1;
-		const DEFAULT_URL = "../../../resources/interface/modern/images/avatars/default.png";
+		const DEFAULT_URL = "../../resources/interface/modern/images/avatars/default.png";
 		
 		const myAvatar = loadState('psn_avatar') || (typeof AVAILABLE_AVATARS !== 'undefined' ? AVAILABLE_AVATARS[0] : DEFAULT_URL);
 		const myJoined = loadState('joined_date') || "2026";
@@ -47240,11 +47240,11 @@ function getVisibleChatStackEl(id) {
 		try {
 			let url = '';
 			switch(platform) {
-				case 'ps1': url = '../../../ps1.json'; break;
-				case 'ps2': url = '../../../ps2.json'; break;
-				case 'ps3': url = '../../../ps3.json'; break;
-				case 'sub': url = '../../../Sub.json'; break;
-				case 'dub': url = '../../../Dub.json'; break;
+				case 'ps1': url = '../../ps1.json'; break;
+				case 'ps2': url = '../../ps2.json'; break;
+				case 'ps3': url = '../../ps3.json'; break;
+				case 'sub': url = '../../Sub.json'; break;
+				case 'dub': url = '../../Dub.json'; break;
 			}
 			
 			const response = await fetch(url);

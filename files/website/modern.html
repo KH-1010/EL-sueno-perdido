@@ -7488,6 +7488,45 @@ body.chat-selection-mode .chat-message-actions .chat-delete-action:hover { trans
 							<p style="margin:0; font-size: 12px; color: rgba(255,255,255,0.9);">Manage your files, temperatures and system settings with advanced utilities.</p>
 							<div style="font-size: 12px; font-weight: bold; color: #fff;">ACCESS TOOLS <i class="fas fa-arrow-right" style="margin-left: 5px; font-size: 10px;"></i></div>
 						</div>
+						
+						<div class="section-header" style="margin-top: 30px;">
+							<h2>NOPLAYSTATION DATABASE</h2>
+						</div>
+						
+						<div class="promo-card-blue" onmouseenter="playUiHover()" onclick="playUiClick(); setCategoryAndBrowse('nps_ps3_games')">
+							<i class="fas fa-gamepad promo-icon"></i>
+							<h3 style="margin:0; font-size: 14px; color: #fff;">PS3™ Games</h3>
+							<p style="margin:0; font-size: 12px; color: var(--text-muted);">Browse PS3 games from NoPayStation database.</p>
+							<div style="font-size: 12px; font-weight: bold; color: #fff;">VIEW GAMES <i class="fas fa-arrow-right" style="margin-left: 5px; font-size: 10px;"></i></div>
+						</div>
+						
+						<div class="promo-card-red" onmouseenter="playUiHover()" onclick="playUiClick(); setCategoryAndBrowse('nps_psv_games')" style="margin-top: 20px;">
+							<i class="fas fa-gamepad promo-icon"></i> 
+							<h3 style="margin:0; font-size: 14px; color: #fff;">PS Vita Games</h3>
+							<p style="margin:0; font-size: 12px; color: rgba(255,255,255,0.9);">Explore PS Vita games from NoPayStation database.</p>
+							<div style="font-size: 12px; font-weight: bold; color: #fff;">VIEW GAMES <i class="fas fa-arrow-right" style="margin-left: 5px; font-size: 10px;"></i></div>
+						</div>
+						
+						<div class="promo-card-magenta" onmouseenter="playUiHover()" onclick="playUiClick(); setCategoryAndBrowse('nps_psp_games')" style="margin-top: 20px;">
+							<i class="fas fa-gamepad promo-icon"></i> 
+							<h3 style="margin:0; font-size: 14px; color: #fff;">PSP™ Games</h3>
+							<p style="margin:0; font-size: 12px; color: rgba(255,255,255,0.9);">Discover PSP games from NoPayStation database.</p>
+							<div style="font-size: 12px; font-weight: bold; color: #fff;">VIEW GAMES <i class="fas fa-arrow-right" style="margin-left: 5px; font-size: 10px;"></i></div>
+						</div>
+						
+						<div class="promo-card-purple" onmouseenter="playUiHover()" onclick="playUiClick(); setCategoryAndBrowse('nps_psx_games')" style="margin-top: 20px;">
+							<i class="fas fa-history promo-icon"></i> 
+							<h3 style="margin:0; font-size: 14px; color: #fff;">PS1™ Games</h3>
+							<p style="margin:0; font-size: 12px; color: rgba(255,255,255,0.8);">Relive classic PS1 games from NoPayStation database.</p>
+							<div style="font-size: 12px; font-weight: bold; color: #fff;">VIEW GAMES <i class="fas fa-arrow-right" style="margin-left: 5px; font-size: 10px;"></i></div>
+						</div>
+						
+						<div class="promo-card-orange" onmouseenter="playUiHover()" onclick="playUiClick(); setCategoryAndBrowse('nps_psm_games')" style="margin-top: 20px;">
+							<i class="fas fa-mobile-alt promo-icon"></i> 
+							<h3 style="margin:0; font-size: 14px; color: #fff;">PS Mobile Games</h3>
+							<p style="margin:0; font-size: 12px; color: rgba(255,255,255,0.9);">Browse PS Mobile games from NoPayStation database.</p>
+							<div style="font-size: 12px; font-weight: bold; color: #fff;">VIEW GAMES <i class="fas fa-arrow-right" style="margin-left: 5px; font-size: 10px;"></i></div>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -7688,6 +7727,25 @@ body.chat-selection-mode .chat-message-actions .chat-delete-action:hover { trans
 								<option value="no_psn">No-PSN Apps</option>
 								<option value="ports">Ports</option>
 								<option value="tools">Tools</option>
+							</optgroup>
+							<optgroup label="NoPayStation">
+								<option value="nps_ps3_games">PS3 Games</option>
+								<option value="nps_ps3_dlcs">PS3 DLCs</option>
+								<option value="nps_ps3_themes">PS3 Themes</option>
+								<option value="nps_ps3_avatars">PS3 Avatars</option>
+								<option value="nps_ps3_demos">PS3 Demos</option>
+								<option value="nps_psv_games">PS Vita Games</option>
+								<option value="nps_psv_dlcs">PS Vita DLCs</option>
+								<option value="nps_psv_themes">PS Vita Themes</option>
+								<option value="nps_psv_updates">PS Vita Updates</option>
+								<option value="nps_psv_demos">PS Vita Demos</option>
+								<option value="nps_psp_games">PSP Games</option>
+								<option value="nps_psp_dlcs">PSP DLCs</option>
+								<option value="nps_psp_themes">PSP Themes</option>
+								<option value="nps_psp_updates">PSP Updates</option>
+								<option value="nps_psp_demos">PSP Demos</option>
+								<option value="nps_psx_games">PS1 Games</option>
+								<option value="nps_psm_games">PS Mobile Games</option>
 							</optgroup>
 						</select>
 						
@@ -14495,6 +14553,24 @@ P
         no_psn: [`${BASE_UNOFFICIAL}/apps.tsv`],
         ports: [`${BASE_UNOFFICIAL}/ports.tsv`],
         tools: [`${BASE_UNOFFICIAL}/tools.tsv`],
+        
+        nps_ps3_games: [`${BASE_OFFICIAL}/nopaystation/ps3_games.tsv`],
+        nps_ps3_dlcs: [`${BASE_OFFICIAL}/nopaystation/ps3_dlcs.tsv`],
+        nps_ps3_themes: [`${BASE_OFFICIAL}/nopaystation/ps3_themes.tsv`],
+        nps_ps3_avatars: [`${BASE_OFFICIAL}/nopaystation/ps3_avatars.tsv`],
+        nps_ps3_demos: [`${BASE_OFFICIAL}/nopaystation/ps3_demos.tsv`],
+        nps_psv_games: [`${BASE_OFFICIAL}/nopaystation/psv_games.tsv`],
+        nps_psv_dlcs: [`${BASE_OFFICIAL}/nopaystation/psv_dlcs.tsv`],
+        nps_psv_themes: [`${BASE_OFFICIAL}/nopaystation/psv_themes.tsv`],
+        nps_psv_updates: [`${BASE_OFFICIAL}/nopaystation/psv_updates.tsv`],
+        nps_psv_demos: [`${BASE_OFFICIAL}/nopaystation/psv_demos.tsv`],
+        nps_psp_games: [`${BASE_OFFICIAL}/nopaystation/psp_games.tsv`],
+        nps_psp_dlcs: [`${BASE_OFFICIAL}/nopaystation/psp_dlcs.tsv`],
+        nps_psp_themes: [`${BASE_OFFICIAL}/nopaystation/psp_themes.tsv`],
+        nps_psp_updates: [`${BASE_OFFICIAL}/nopaystation/psp_updates.tsv`],
+        nps_psp_demos: [`${BASE_OFFICIAL}/nopaystation/psp_demos.tsv`],
+        nps_psx_games: [`${BASE_OFFICIAL}/nopaystation/psx_games.tsv`],
+        nps_psm_games: [`${BASE_OFFICIAL}/nopaystation/psm_games.tsv`],
     };
 
     const sysData = {
@@ -14609,8 +14685,9 @@ P
         const inRegionsView = !!browseExpandedGroupTitle;
         const consoleFilters = document.getElementById('console-filters');
         const appFilters = document.getElementById('app-filters');
+        const isNpsCategory = category.startsWith('nps_');
 
-        if (consoleFilters) consoleFilters.style.display = (!inRegionsView && category === 'games') ? 'flex' : 'none';
+        if (consoleFilters) consoleFilters.style.display = (!inRegionsView && category === 'games' && !isNpsCategory) ? 'flex' : 'none';
         if (appFilters) appFilters.style.display = (!inRegionsView && category === 'apps') ? 'flex' : 'none';
     }
 
@@ -14618,7 +14695,8 @@ P
         const catEl = document.getElementById('cat-select');
         const category = categoryOverride !== null ? categoryOverride : (catEl ? catEl.value : '');
         const unofficialCats = ['prototypes', 'backup_manager', 'emulators', 'homebrew_games', 'launchers', 'legacy', 'no_psn', 'ports', 'tools'];
-        return !isBrowseMainListScreen() || unofficialCats.includes(category);
+        const isNpsCategory = category.startsWith('nps_');
+        return !isBrowseMainListScreen() || unofficialCats.includes(category) || isNpsCategory;
     }
 
     function syncBrowseRegionSelectState(categoryOverride = null) {

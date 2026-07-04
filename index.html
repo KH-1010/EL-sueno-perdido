@@ -47236,10 +47236,10 @@ function renderArabicCards(container, games) {
         const cover = getClassicCover(game);
         const size = game.fileSize || game.size || '';
         const platform = game.platform || '';
-        const platKey = platform.toLowerCase().replace(/\s+/g, '');
 
         const card = document.createElement('div');
         card.className = 'game-card';
+        card.setAttribute('data-game-idx', i);
         card.style.cssText = `
             border-radius: 12px; overflow: hidden; background: var(--card-surface-bg, #171e2a);
             border: 1px solid rgba(255,255,255,0.06); transition: transform 0.2s, box-shadow 0.2s;
@@ -47264,12 +47264,17 @@ function renderArabicCards(container, games) {
                 <div style="font-size:12px;font-weight:600;color:#fff;line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:34px;">${escapeHtmlSafe(title)}</div>
             </div>
         `;
-        card.onclick = () => openClassicModal(game);
 
         fragment.appendChild(card);
     });
 
     container.appendChild(fragment);
+
+    container.querySelectorAll('.game-card').forEach((card, i) => {
+        card.addEventListener('click', function() {
+            openClassicModal(games[i]);
+        });
+    });
 }
 
 function renderPagination(container, totalPages) {
@@ -47331,9 +47336,11 @@ function escapeHtmlSafe(str) {
 window.__classicCurrentGame = null;
 
 function openClassicModal(game) {
+    try {
     window.__classicCurrentGame = game;
-    playUiClick();
+    try { playUiClick(); } catch(e) {}
     const modal = document.getElementById('classic-game-modal');
+    if (!modal) { console.error('classic-game-modal not found'); return; }
     const title = game.title || game.name || 'Unknown';
     const cover = getClassicCover(game);
     const size = game.fileSize || game.size || '';
@@ -47389,6 +47396,7 @@ function openClassicModal(game) {
     modal.style.display = 'flex';
     requestAnimationFrame(() => modal.classList.add('show'));
     modal.onclick = (e) => { if (e.target === modal) closeClassicModal(); };
+    } catch(e) { console.error('openClassicModal error:', e); }
 }
 
 function closeClassicModal() {

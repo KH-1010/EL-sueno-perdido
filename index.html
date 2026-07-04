@@ -47387,11 +47387,14 @@ function openClassicModal(game) {
     downloadBtn.style.display = uri ? 'flex' : 'none';
 
     modal.style.display = 'flex';
+    requestAnimationFrame(() => modal.classList.add('show'));
     modal.onclick = (e) => { if (e.target === modal) closeClassicModal(); };
 }
 
 function closeClassicModal() {
-    document.getElementById('classic-game-modal').style.display = 'none';
+    const modal = document.getElementById('classic-game-modal');
+    modal.classList.remove('show');
+    setTimeout(() => { modal.style.display = 'none'; }, 300);
     window.__classicCurrentGame = null;
 }
 

@@ -4,8 +4,6 @@ on:
   schedule:
     # Run daily at 03:00 UTC
     - cron: '0 3 * * *'
-  push:
-    branches: [ master, main ]
   workflow_dispatch:
 
 permissions:
@@ -46,15 +44,3 @@ jobs:
           else
             echo "No new games found."
           fi
-
-      - name: Setup Pages
-        uses: actions/configure-pages@v4
-
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: '.'
-
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4

@@ -27,10 +27,38 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
+      - name: Build site
+        run: |
+          mkdir -p _site
+          cp index.html _site/
+          cp *.json _site/
+          cp *.js _site/
+          cp .nojekyll _site/ 2>/dev/null || true
+          
+          mkdir -p _site/files/website
+          cp -r files/website/* _site/files/website/ 2>/dev/null || true
+          
+          mkdir -p _site/resources/interface
+          cp -r resources/interface/* _site/resources/interface/ 2>/dev/null || true
+          
+          mkdir -p _site/resources/database/covers/uncompressed
+          cp resources/database/covers/index.tsv _site/resources/database/covers/
+          cp resources/database/covers/blacklist.tsv _site/resources/database/covers/
+          cp resources/database/covers/uncompressed/NOCOVER00.JPG _site/resources/database/covers/uncompressed/ 2>/dev/null || true
+          
+          mkdir -p _site/resources/database/content/official
+          cp -r resources/database/content/official/* _site/resources/database/content/official/ 2>/dev/null || true
+          mkdir -p _site/resources/database/content/latest
+          cp -r resources/database/content/latest/* _site/resources/database/content/latest/ 2>/dev/null || true
+          mkdir -p _site/resources/database/content/external
+          cp -r resources/database/content/external/* _site/resources/database/content/external/ 2>/dev/null || true
+          mkdir -p _site/resources/database/content/unofficial
+          cp -r resources/database/content/unofficial/* _site/resources/database/content/unofficial/ 2>/dev/null || true
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: '.'
+          path: '_site'
 
       - name: Deploy to GitHub Pages
         id: deployment

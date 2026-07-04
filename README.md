@@ -16,8 +16,7 @@
 
 ```
 EL-sueno-perdido/
-├── index.html              # الموقع الرئيسي — مكتبة الألعاب العربية
-├── psn.html                # واجهة PSN Network Database (60K+ عنصر)
+├── index.html              # الموقع الرئيسي — مكتبة ألعاب عربية + قاعدة بيانات PSN (60K+)
 ├── scraper.js              # مراقب archive.org التلقائي للألعاب العربية
 ├── update-nps.py           # سكربت تحديث قاعدة بيانات NoPayStation
 ├── .github/workflows/      # أتمتة GitHub Actions

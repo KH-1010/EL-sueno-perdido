@@ -6734,6 +6734,180 @@ body.chat-selection-mode .chat-message-actions .chat-delete-action:hover { trans
 	}
 }
 
+/* Custom Games Sections */
+.view-section .games-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(155px, 1fr));
+	gap: 18px;
+	padding-bottom: 40px;
+}
+
+.view-section .game-card {
+	background-color: var(--card-surface-bg);
+	border: 1px solid rgba(255, 255, 255, 0.03);
+	border-radius: 10px;
+	overflow: hidden;
+	cursor: pointer;
+	display: flex;
+	flex-direction: column;
+	transform: translateY(0) translateZ(0);
+	backface-visibility: hidden;
+	transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+}
+
+.view-section .game-card:hover {
+	transform: scale(1.03);
+	box-shadow: 0 10px 5px rgba(0, 0, 0, 0.4);
+	border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.view-section .game-img-container {
+	width: 100%;
+	height: 178px;
+	background-color: #050a14;
+	overflow: hidden;
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.view-section .game-img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.view-section .game-info {
+	padding: 12px;
+	flex-grow: 1;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	gap: 10px;
+}
+
+.view-section .game-title {
+	font-size: 13px;
+	font-weight: 600;
+	margin: 0;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	color: #fff;
+	line-height: 1.4;
+}
+
+.view-section .game-meta-info {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 8px;
+	min-width: 0;
+	margin-top: 4px;
+}
+
+.view-section .action-btn {
+	background: rgba(0, 112, 204, 0.2);
+	border: 1px solid var(--ps-blue);
+	color: white;
+	padding: 8px 16px;
+	border-radius: 6px;
+	cursor: pointer;
+	font-weight: bold;
+	transition: 0.2s;
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	text-decoration: none;
+	font-size: 12px;
+}
+
+.view-section .action-btn:hover {
+	background: var(--ps-blue);
+	box-shadow: 0 0 10px var(--ps-neon);
+	transform: translateY(-2px);
+}
+
+.view-section .letter-filter {
+	display: flex;
+	gap: 6px;
+	overflow-x: auto;
+	padding: 10px 40px;
+	margin-bottom: 10px;
+	scrollbar-width: none;
+}
+
+.view-section .letter-filter::-webkit-scrollbar {
+	display: none;
+}
+
+.view-section .letter-btn {
+	background: rgba(0, 0, 0, 0.4);
+	border: 1px solid rgba(255, 255, 255, 0.1);
+	color: var(--text-muted);
+	padding: 6px 12px;
+	border-radius: 6px;
+	font-size: 12px;
+	font-weight: bold;
+	cursor: pointer;
+	transition: 0.2s;
+	white-space: nowrap;
+}
+
+.view-section .letter-btn:hover {
+	background: rgba(255, 255, 255, 0.1);
+	color: #fff;
+}
+
+.view-section .letter-btn.active {
+	background: var(--ps-blue);
+	border-color: var(--ps-blue);
+	color: #fff;
+	box-shadow: 0 0 10px var(--ps-neon);
+}
+
+.view-section .search-input {
+	background-color: rgba(0, 0, 0, 0.4);
+	color: white;
+	border: 1px solid rgba(255, 255, 255, 0.1);
+	padding: 8px 12px;
+	border-radius: 6px;
+	font-size: 13px;
+	outline: none;
+	width: 250px;
+}
+
+.view-section .search-input:focus {
+	border-color: var(--ps-blue);
+	box-shadow: 0 0 10px var(--ps-neon);
+}
+
+.view-section .browse-toolbar {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 10px 40px;
+	background: transparent;
+	border-bottom: 1px solid transparent;
+	flex-wrap: wrap;
+	gap: 15px;
+}
+
+.view-section select {
+	background-color: rgba(0, 0, 0, 0.4);
+	color: white;
+	border: 1px solid rgba(255, 255, 255, 0.1);
+	padding: 8px 12px;
+	border-radius: 6px;
+	font-size: 13px;
+	outline: none;
+}
+
+.view-section select option {
+	background-color: var(--bg-dark);
+}
+
 </style>
 </head>
 <body>
@@ -7009,6 +7183,21 @@ body.chat-selection-mode .chat-message-actions .chat-delete-action:hover { trans
 				</li>
 				<li id="nav-trending" onmouseenter="playUiHover()" onclick="openTrendingTab()">
 					<i class="fas fa-fire"></i> Trending
+				</li>
+				<li id="nav-ps1" onmouseenter="playUiHover()" onclick="playUiClick(); switchView('view-ps1'); loadCustomGames('ps1'); toggleSidebar(true)">
+					<i class="fas fa-gamepad"></i> PS1 Games
+				</li>
+				<li id="nav-ps2" onmouseenter="playUiHover()" onclick="playUiClick(); switchView('view-ps2'); loadCustomGames('ps2'); toggleSidebar(true)">
+					<i class="fas fa-gamepad"></i> PS2 Games
+				</li>
+				<li id="nav-ps3" onmouseenter="playUiHover()" onclick="playUiClick(); switchView('view-ps3'); loadCustomGames('ps3'); toggleSidebar(true)">
+					<i class="fas fa-gamepad"></i> PS3 Games
+				</li>
+				<li id="nav-sub" onmouseenter="playUiHover()" onclick="playUiClick(); switchView('view-sub'); loadCustomGames('sub'); toggleSidebar(true)">
+					<i class="fas fa-closed-captioning"></i> Arabic Sub
+				</li>
+				<li id="nav-dub" onmouseenter="playUiHover()" onclick="playUiClick(); switchView('view-dub'); loadCustomGames('dub'); toggleSidebar(true)">
+					<i class="fas fa-microphone"></i> Arabic Dub
 				</li>
 			</ul>
 	
@@ -7348,6 +7537,121 @@ body.chat-selection-mode .chat-message-actions .chat-delete-action:hover { trans
 					</div>
 				</div>
 			</div>
+			<div id="view-ps1" class="view-section" style="display: none;">
+				<h2 style="font-size: 28px; font-weight: 300; margin-top: 20px; margin-left: 40px; margin-right: 40px; margin-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px;">
+					<i class="fas fa-gamepad" style="color: var(--ps-blue); margin-right: 10px;"></i> PS1 Games
+					<span id="ps1-count" style="color: var(--text-muted); font-size: 14px; font-weight: normal;"></span>
+				</h2>
+				<div class="browse-toolbar">
+					<div class="toolbar-group">
+						<input type="text" id="ps1-search" class="search-input" placeholder="Search PS1 games..." oninput="filterCustomGames('ps1')">
+					</div>
+					<div class="toolbar-group">
+						<select id="ps1-sort" onchange="filterCustomGames('ps1')">
+							<option value="az">A-Z</option>
+							<option value="za">Z-A</option>
+							<option value="size">File Size</option>
+						</select>
+					</div>
+				</div>
+				<div class="letter-filter" id="ps1-letter-filter"></div>
+				<div class="content-area">
+					<div class="games-grid" id="ps1-games-grid"></div>
+				</div>
+			</div>
+
+			<div id="view-ps2" class="view-section" style="display: none;">
+				<h2 style="font-size: 28px; font-weight: 300; margin-top: 20px; margin-left: 40px; margin-right: 40px; margin-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px;">
+					<i class="fas fa-gamepad" style="color: #00c6ff; margin-right: 10px;"></i> PS2 Games
+					<span id="ps2-count" style="color: var(--text-muted); font-size: 14px; font-weight: normal;"></span>
+				</h2>
+				<div class="browse-toolbar">
+					<div class="toolbar-group">
+						<input type="text" id="ps2-search" class="search-input" placeholder="Search PS2 games..." oninput="filterCustomGames('ps2')">
+					</div>
+					<div class="toolbar-group">
+						<select id="ps2-sort" onchange="filterCustomGames('ps2')">
+							<option value="az">A-Z</option>
+							<option value="za">Z-A</option>
+							<option value="size">File Size</option>
+						</select>
+					</div>
+				</div>
+				<div class="letter-filter" id="ps2-letter-filter"></div>
+				<div class="content-area">
+					<div class="games-grid" id="ps2-games-grid"></div>
+				</div>
+			</div>
+
+			<div id="view-ps3" class="view-section" style="display: none;">
+				<h2 style="font-size: 28px; font-weight: 300; margin-top: 20px; margin-left: 40px; margin-right: 40px; margin-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px;">
+					<i class="fas fa-gamepad" style="color: #333; margin-right: 10px;"></i> PS3 Games
+					<span id="ps3-count" style="color: var(--text-muted); font-size: 14px; font-weight: normal;"></span>
+				</h2>
+				<div class="browse-toolbar">
+					<div class="toolbar-group">
+						<input type="text" id="ps3-search" class="search-input" placeholder="Search PS3 games..." oninput="filterCustomGames('ps3')">
+					</div>
+					<div class="toolbar-group">
+						<select id="ps3-sort" onchange="filterCustomGames('ps3')">
+							<option value="az">A-Z</option>
+							<option value="za">Z-A</option>
+							<option value="size">File Size</option>
+						</select>
+					</div>
+				</div>
+				<div class="letter-filter" id="ps3-letter-filter"></div>
+				<div class="content-area">
+					<div class="games-grid" id="ps3-games-grid"></div>
+				</div>
+			</div>
+
+			<div id="view-sub" class="view-section" style="display: none;">
+				<h2 style="font-size: 28px; font-weight: 300; margin-top: 20px; margin-left: 40px; margin-right: 40px; margin-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px;">
+					<i class="fas fa-closed-captioning" style="color: #ffcc00; margin-right: 10px;"></i> Arabic Subtitled Games
+					<span id="sub-count" style="color: var(--text-muted); font-size: 14px; font-weight: normal;"></span>
+				</h2>
+				<div class="browse-toolbar">
+					<div class="toolbar-group">
+						<input type="text" id="sub-search" class="search-input" placeholder="Search Arabic Sub games..." oninput="filterCustomGames('sub')">
+					</div>
+					<div class="toolbar-group">
+						<select id="sub-sort" onchange="filterCustomGames('sub')">
+							<option value="az">A-Z</option>
+							<option value="za">Z-A</option>
+							<option value="size">File Size</option>
+						</select>
+					</div>
+				</div>
+				<div class="letter-filter" id="sub-letter-filter"></div>
+				<div class="content-area">
+					<div class="games-grid" id="sub-games-grid"></div>
+				</div>
+			</div>
+
+			<div id="view-dub" class="view-section" style="display: none;">
+				<h2 style="font-size: 28px; font-weight: 300; margin-top: 20px; margin-left: 40px; margin-right: 40px; margin-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px;">
+					<i class="fas fa-microphone" style="color: #e74c3c; margin-right: 10px;"></i> Arabic Dubbed Games
+					<span id="dub-count" style="color: var(--text-muted); font-size: 14px; font-weight: normal;"></span>
+				</h2>
+				<div class="browse-toolbar">
+					<div class="toolbar-group">
+						<input type="text" id="dub-search" class="search-input" placeholder="Search Arabic Dub games..." oninput="filterCustomGames('dub')">
+					</div>
+					<div class="toolbar-group">
+						<select id="dub-sort" onchange="filterCustomGames('dub')">
+							<option value="az">A-Z</option>
+							<option value="za">Z-A</option>
+							<option value="size">File Size</option>
+						</select>
+					</div>
+				</div>
+				<div class="letter-filter" id="dub-letter-filter"></div>
+				<div class="content-area">
+					<div class="games-grid" id="dub-games-grid"></div>
+				</div>
+			</div>
+
 			<div id="view-browse" class="view-section">
 				<h2 class="browse-title-row" style="font-size: 28px; font-weight: 300; margin-top: 20px; margin-left: 40px; margin-right: 40px; margin-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px; display: flex; justify-content: space-between; align-items: baseline;">
 					<div class="browse-title-main">
@@ -46845,6 +47149,157 @@ function getVisibleChatStackEl(id) {
 			window.__npsLiquidSwitchTabWrapped = true;
 		}
 	});
+	// Custom Games Data Management
+	const customGamesData = {};
+	const customGamesCache = {};
+
+	async function loadCustomGames(platform) {
+		if (customGamesData[platform]) {
+			renderCustomGames(platform);
+			return;
+		}
+
+		try {
+			let url = '';
+			switch(platform) {
+				case 'ps1': url = '../../../ps1.json'; break;
+				case 'ps2': url = '../../../ps2.json'; break;
+				case 'ps3': url = '../../../ps3.json'; break;
+				case 'sub': url = '../../../Sub.json'; break;
+				case 'dub': url = '../../../Dub.json'; break;
+			}
+			
+			const response = await fetch(url);
+			if (!response.ok) throw new Error(`Failed to load ${platform} games`);
+			const data = await response.json();
+			customGamesData[platform] = data;
+			renderCustomGames(platform);
+		} catch (error) {
+			console.error(`Error loading ${platform} games:`, error);
+			const grid = document.getElementById(`${platform}-games-grid`);
+			if (grid) grid.innerHTML = '<p style="color: var(--text-muted); padding: 40px; text-align: center;">Failed to load games data.</p>';
+		}
+	}
+
+	function renderCustomGames(platform) {
+		const games = customGamesData[platform];
+		if (!games) return;
+
+		const grid = document.getElementById(`${platform}-games-grid`);
+		const countEl = document.getElementById(`${platform}-count`);
+		const letterFilter = document.getElementById(`${platform}-letter-filter`);
+		
+		if (!grid) return;
+
+		// Update count
+		if (countEl) countEl.textContent = `(${games.length} games)`;
+
+		// Generate letter filter
+		if (letterFilter) {
+			const letters = [...new Set(games.map(g => g.title.charAt(0).toUpperCase()))].sort();
+			letterFilter.innerHTML = letters.map(letter => 
+				`<button class="letter-btn" onclick="filterByLetter('${platform}', '${letter}')">${letter}</button>`
+			).join('');
+		}
+
+		// Store games for filtering
+		customGamesCache[platform] = games;
+		
+		// Render all games
+		filterCustomGames(platform);
+	}
+
+	function filterCustomGames(platform) {
+		const games = customGamesData[platform];
+		if (!games) return;
+
+		const searchInput = document.getElementById(`${platform}-search`);
+		const sortSelect = document.getElementById(`${platform}-sort`);
+		const grid = document.getElementById(`${platform}-games-grid`);
+		
+		if (!grid) return;
+
+		let filtered = [...games];
+
+		// Search filter
+		if (searchInput && searchInput.value) {
+			const query = searchInput.value.toLowerCase();
+			filtered = filtered.filter(g => g.title.toLowerCase().includes(query));
+		}
+
+		// Sort
+		if (sortSelect) {
+			switch(sortSelect.value) {
+				case 'az': filtered.sort((a, b) => a.title.localeCompare(b.title)); break;
+				case 'za': filtered.sort((a, b) => b.title.localeCompare(a.title)); break;
+				case 'size': filtered.sort((a, b) => parseFileSize(b.fileSize) - parseFileSize(a.fileSize)); break;
+			}
+		}
+
+		// Render
+		grid.innerHTML = filtered.map((game, idx) => createCustomGameCard(game, platform, idx)).join('');
+	}
+
+	function filterByLetter(platform, letter) {
+		const games = customGamesData[platform];
+		if (!games) return;
+
+		const filtered = games.filter(g => g.title.charAt(0).toUpperCase() === letter);
+		const grid = document.getElementById(`${platform}-games-grid`);
+		if (grid) grid.innerHTML = filtered.map((game, idx) => createCustomGameCard(game, platform, idx)).join('');
+
+		// Update letter buttons
+		const letterFilter = document.getElementById(`${platform}-letter-filter`);
+		if (letterFilter) {
+			letterFilter.querySelectorAll('.letter-btn').forEach(btn => {
+				btn.classList.toggle('active', btn.textContent === letter);
+			});
+		}
+	}
+
+	function createCustomGameCard(game, platform, idx) {
+		const coverUrl = game.cover_url || '';
+		const downloadUrl = game.uris ? game.uris[0] : game.uri;
+		const platformTag = getPlatformTag(platform);
+		
+		return `
+			<div class="game-card" style="animation-delay: ${idx * 0.03}s">
+				<div class="game-img-container">
+					${coverUrl ? `<img class="game-img" src="${coverUrl}" alt="${game.title}" loading="lazy" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 1 1%22><rect fill=%22%231a1a2e%22 width=%221%22 height=%221%22/><text x=%220.5%22 y=%220.5%22 text-anchor=%22middle%22 fill=%22%23666%22 font-size=%220.1%22>🎮</text></svg>'">` : `<div style="width:100%;height:100%;background:linear-gradient(135deg,#1a1a2e,#16213e);display:flex;align-items:center;justify-content:center;font-size:40px;">🎮</div>`}
+					<span class="console-tag ${platformTag.class}">${platformTag.label}</span>
+					${game.fileSize ? `<span class="region-tag" style="left: 8px; right: auto;">${game.fileSize}</span>` : ''}
+				</div>
+				<div class="game-info">
+					<div class="game-title" title="${game.title}">${game.title}</div>
+					<div class="game-meta-info">
+						${downloadUrl ? `<a href="${downloadUrl}" target="_blank" class="action-btn" style="font-size: 10px; padding: 5px 10px; margin: 0;" onclick="event.stopPropagation();"><i class="fas fa-download"></i> Download</a>` : ''}
+					</div>
+				</div>
+			</div>
+		`;
+	}
+
+	function getPlatformTag(platform) {
+		const tags = {
+			ps1: { class: 'tag-psx', label: 'PS1' },
+			ps2: { class: 'tag-ps2', label: 'PS2' },
+			ps3: { class: 'tag-ps3', label: 'PS3' },
+			sub: { class: 'tag-default', label: 'SUB' },
+			dub: { class: 'tag-default', label: 'DUB' }
+		};
+		return tags[platform] || { class: 'tag-default', label: platform.toUpperCase() };
+	}
+
+	function parseFileSize(sizeStr) {
+		if (!sizeStr) return 0;
+		const num = parseFloat(sizeStr);
+		if (isNaN(num)) return 0;
+		if (sizeStr.toLowerCase().includes('gb')) return num * 1024;
+		if (sizeStr.toLowerCase().includes('mb')) return num;
+		if (sizeStr.toLowerCase().includes('tb')) return num * 1024 * 1024;
+		return num;
+	}
+
 })();
 </script>
 

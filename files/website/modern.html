@@ -47462,13 +47462,25 @@ function getVisibleChatStackEl(id) {
 		}
 	}
 
+	window.__openModernCustomGameModal = function(idx, platform) {
+		const games = customGamesData[platform];
+		if (!games || !games[idx]) return;
+		const game = games[idx];
+		const downloadUrl = game.uris ? game.uris[0] : game.uri;
+		if (downloadUrl && typeof window.showUniversalDownloadModal === 'function') {
+			window.showUniversalDownloadModal('single', downloadUrl, game.title || 'Game', '', game.fileSize || '', '', platform, '');
+		} else if (downloadUrl) {
+			window.open(downloadUrl, '_blank');
+		}
+	};
+
 	function createCustomGameCard(game, platform, idx) {
 		const coverUrl = game.cover_url || '';
 		const downloadUrl = game.uris ? game.uris[0] : game.uri;
 		const platformTag = getPlatformTag(platform);
 		
 		return `
-			<div class="game-card" style="animation-delay: ${idx * 0.03}s">
+			<div class="game-card" style="animation-delay: ${idx * 0.03}s; cursor: pointer;" onclick="window.__openModernCustomGameModal(${idx}, '${platform}')">
 				<div class="game-img-container">
 					${coverUrl ? `<img class="game-img" src="${coverUrl}" alt="${game.title}" loading="lazy" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 1 1%22><rect fill=%22%231a1a2e%22 width=%221%22 height=%221%22/><text x=%220.5%22 y=%220.5%22 text-anchor=%22middle%22 fill=%22%23666%22 font-size=%220.1%22>🎮</text></svg>'">` : `<div style="width:100%;height:100%;background:linear-gradient(135deg,#1a1a2e,#16213e);display:flex;align-items:center;justify-content:center;font-size:40px;">🎮</div>`}
 					<span class="console-tag ${platformTag.class}">${platformTag.label}</span>
@@ -47477,7 +47489,7 @@ function getVisibleChatStackEl(id) {
 				<div class="game-info">
 					<div class="game-title" title="${game.title}">${game.title}</div>
 					<div class="game-meta-info">
-						${downloadUrl ? `<a href="${downloadUrl}" target="_blank" class="action-btn" style="font-size: 10px; padding: 5px 10px; margin: 0;" onclick="event.stopPropagation();"><i class="fas fa-download"></i> Download</a>` : ''}
+						${downloadUrl ? `<button type="button" class="action-btn" style="font-size: 10px; padding: 5px 10px; margin: 0; width: 100%; justify-content: center; background: linear-gradient(135deg, #0070cc, #00aaff); color: #fff; border: none; border-radius: 6px; cursor: pointer;" onclick="event.stopPropagation(); window.__openModernCustomGameModal(${idx}, '${platform}')"><i class="fas fa-download"></i> تحميل مباشر (CDN)</button>` : ''}
 					</div>
 				</div>
 			</div>

@@ -7081,11 +7081,20 @@ body.chat-selection-mode .chat-message-actions .chat-delete-action:hover { trans
 				<li class="active" id="nav-arabic-explore" onmouseenter="playUiHover()" onclick="playUiClick(); switchView('view-arabic'); loadArabicGames(''); toggleSidebar(true)">
 					<i class="fas fa-diamond"></i> الرئيسية
 				</li>
+				<li id="nav-arabic-dub" onmouseenter="playUiHover()" onclick="playUiClick(); switchView('view-arabic'); loadArabicGames('dub'); toggleSidebar(true)">
+					<i class="fas fa-microphone-alt" style="color: #ffd700;"></i> ألعاب مدبلجة 🎙️
+				</li>
+				<li id="nav-arabic-sub" onmouseenter="playUiHover()" onclick="playUiClick(); switchView('view-arabic'); loadArabicGames('sub'); toggleSidebar(true)">
+					<i class="fas fa-closed-captioning" style="color: #00ff88;"></i> ألعاب مترجمة 📝
+				</li>
 				<li id="nav-arabic-ps1" onmouseenter="playUiHover()" onclick="playUiClick(); switchView('view-arabic'); loadArabicGames('ps1'); toggleSidebar(true)">
-					<i class="fas fa-compact-disc"></i> PlayStation 1
+					<i class="fas fa-compact-disc" style="color: #00aaff;"></i> PlayStation 1
 				</li>
 				<li id="nav-arabic-ps2" onmouseenter="playUiHover()" onclick="playUiClick(); switchView('view-arabic'); loadArabicGames('ps2'); toggleSidebar(true)">
-					<i class="fas fa-gamepad"></i> PlayStation 2
+					<i class="fas fa-gamepad" style="color: #cc66ff;"></i> PlayStation 2
+				</li>
+				<li id="nav-arabic-ps3" onmouseenter="playUiHover()" onclick="playUiClick(); switchView('view-arabic'); loadArabicGames('ps3'); toggleSidebar(true)">
+					<i class="fas fa-tv" style="color: #ff3366;"></i> PlayStation 3
 				</li>
 			</ul>
 			<div class="sidebar-divider" style="height: 1px; background: rgba(255,255,255,0.05); margin: 10px 15px;"></div>
@@ -8230,35 +8239,56 @@ body.chat-selection-mode .chat-message-actions .chat-delete-action:hover { trans
 				<i class="fas fa-diamond" style="opacity: 0.2;"></i>
 			</h2>
 
-			<div id="arabic-hero" style="display: none; margin-bottom: 30px; border-radius: 16px; overflow: hidden; height: 220px; position: relative; background: linear-gradient(135deg, rgba(0,112,204,0.3), rgba(0,0,0,0.8));">
-				<div style="position: absolute; inset: 0; display: flex; align-items: center; padding: 40px;">
+			<div id="arabic-hero" style="display: none; margin-bottom: 30px; border-radius: 16px; overflow: hidden; height: 220px; position: relative; background: linear-gradient(135deg, rgba(0,112,204,0.3), rgba(0,0,0,0.8)); border: 1px solid rgba(255,255,255,0.12); box-shadow: 0 12px 36px rgba(0,0,0,0.5);">
+				<div style="position: absolute; right: 40px; top: 50%; transform: translateY(-50%); font-size: 80px; letter-spacing: 15px; font-family: monospace; opacity: 0.15; user-select: none; pointer-events: none; text-shadow: 0 0 25px rgba(255,255,255,0.6); font-weight: bold;">
+					<span style="color: #00e5ff;">△</span><span style="color: #ff3366;">◯</span><span style="color: #00aaff;">✕</span><span style="color: #cc66ff;">▢</span>
+				</div>
+				<div style="position: absolute; inset: 0; display: flex; align-items: center; padding: 40px; z-index: 1;">
 					<div style="flex: 1;">
-						<div style="font-size: 12px; color: var(--ps-blue); font-weight: bold; margin-bottom: 8px;" id="arabic-hero-subtitle">CLASSIC GAMES LIBRARY</div>
-						<h2 id="arabic-hero-title" style="font-size: 32px; font-weight: 300; color: #fff; margin: 0 0 8px 0;"></h2>
-						<p id="arabic-hero-desc" style="font-size: 14px; color: rgba(255,255,255,0.7); margin: 0;"></p>
+						<div style="font-size: 12px; color: #00e5ff; font-weight: bold; margin-bottom: 8px; letter-spacing: 2px;" id="arabic-hero-subtitle">CLASSIC GAMES LIBRARY</div>
+						<h2 id="arabic-hero-title" style="font-size: 36px; font-weight: 300; color: #fff; margin: 0 0 8px 0; text-shadow: 0 2px 10px rgba(0,0,0,0.5);"></h2>
+						<p id="arabic-hero-desc" style="font-size: 15px; color: rgba(255,255,255,0.8); margin: 0;"></p>
 					</div>
 				</div>
 			</div>
 
 			<div id="arabic-platform-cards" style="display: none; gap: 15px; margin-bottom: 30px;">
+				<div onclick="loadArabicGames('dub')" style="cursor:pointer; padding: 20px; border-radius: 12px; background: linear-gradient(135deg, rgba(255,215,0,0.25), rgba(80,60,0,0.6)); border: 1px solid rgba(255,215,0,0.4); transition: all 0.3s;" onmouseenter="this.style.transform='scale(1.02)'; this.style.boxShadow='0 8px 32px rgba(255,215,0,0.3)'" onmouseleave="this.style.transform=''; this.style.boxShadow=''">
+					<div style="font-size: 11px; color: #ffd700; font-weight: bold; margin-bottom: 8px;">DUBBED IN ARABIC 🎙️</div>
+					<div style="font-size: 20px; color: #fff; font-weight: 300;">ألعاب مدبلجة</div>
+					<div style="font-size: 12px; color: rgba(255,255,255,0.6); margin-top: 4px;">تعريب وسرد صوتي كامل باللغة العربية</div>
+				</div>
+				<div onclick="loadArabicGames('sub')" style="cursor:pointer; padding: 20px; border-radius: 12px; background: linear-gradient(135deg, rgba(0,255,136,0.25), rgba(0,80,50,0.6)); border: 1px solid rgba(0,255,136,0.4); transition: all 0.3s;" onmouseenter="this.style.transform='scale(1.02)'; this.style.boxShadow='0 8px 32px rgba(0,255,136,0.3)'" onmouseleave="this.style.transform=''; this.style.boxShadow=''">
+					<div style="font-size: 11px; color: #00ff88; font-weight: bold; margin-bottom: 8px;">SUBTITLED IN ARABIC 📝</div>
+					<div style="font-size: 20px; color: #fff; font-weight: 300;">ألعاب مترجمة</div>
+					<div style="font-size: 12px; color: rgba(255,255,255,0.6); margin-top: 4px;">نصوص وحوارات وقوائم عربية بالكامل</div>
+				</div>
 				<div onclick="loadArabicGames('ps1')" style="cursor:pointer; padding: 20px; border-radius: 12px; background: linear-gradient(135deg, rgba(0,60,120,0.4), rgba(0,30,60,0.6)); border: 1px solid rgba(0,150,255,0.3); transition: all 0.3s;" onmouseenter="this.style.transform='scale(1.02)'; this.style.boxShadow='0 8px 32px rgba(0,100,200,0.3)'" onmouseleave="this.style.transform=''; this.style.boxShadow=''">
 					<div style="font-size: 11px; color: #00aaff; font-weight: bold; margin-bottom: 8px;">PLAYSTATION 1</div>
 					<div style="font-size: 20px; color: #fff; font-weight: 300;">1,929 لعبة</div>
-					<div style="font-size: 12px; color: rgba(255,255,255,0.5); margin-top: 4px;">أيقونات الألعاب الكلاسيكية</div>
+					<div style="font-size: 12px; color: rgba(255,255,255,0.5); margin-top: 4px;">أيقونات الألعاب الكلاسيكية الخالدة</div>
 				</div>
 				<div onclick="loadArabicGames('ps2')" style="cursor:pointer; padding: 20px; border-radius: 12px; background: linear-gradient(135deg, rgba(128,0,128,0.3), rgba(64,0,64,0.5)); border: 1px solid rgba(200,0,200,0.3); transition: all 0.3s;" onmouseenter="this.style.transform='scale(1.02)'; this.style.boxShadow='0 8px 32px rgba(150,0,150,0.3)'" onmouseleave="this.style.transform=''; this.style.boxShadow=''">
 					<div style="font-size: 11px; color: #cc66ff; font-weight: bold; margin-bottom: 8px;">PLAYSTATION 2</div>
 					<div style="font-size: 20px; color: #fff; font-weight: 300;">4,214 لعبة</div>
-					<div style="font-size: 12px; color: rgba(255,255,255,0.5); margin-top: 4px;">مكتبة الألعاب الأسطورية</div>
+					<div style="font-size: 12px; color: rgba(255,255,255,0.5); margin-top: 4px;">مكتبة الألعاب الأسطورية الأضخم</div>
+				</div>
+				<div onclick="loadArabicGames('ps3')" style="cursor:pointer; padding: 20px; border-radius: 12px; background: linear-gradient(135deg, rgba(220,0,40,0.25), rgba(40,40,40,0.7)); border: 1px solid rgba(255,50,100,0.4); transition: all 0.3s;" onmouseenter="this.style.transform='scale(1.02)'; this.style.boxShadow='0 8px 32px rgba(255,50,100,0.3)'" onmouseleave="this.style.transform=''; this.style.boxShadow=''">
+					<div style="font-size: 11px; color: #ff3366; font-weight: bold; margin-bottom: 8px;">PLAYSTATION 3</div>
+					<div style="font-size: 20px; color: #fff; font-weight: 300;">1,073 لعبة</div>
+					<div style="font-size: 12px; color: rgba(255,255,255,0.5); margin-top: 4px;">الجيل المتقدم وألعاب البلايستيشن 3</div>
 				</div>
 			</div>
 
 			<div id="arabic-search-bar" style="display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap;">
-				<input type="text" id="arabic-search" placeholder="بحث في المكتبة..." style="flex: 1; min-width: 200px; padding: 10px 16px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.05); color: #fff; font-size: 14px; outline: none;" oninput="filterArabicGames()">
+				<input type="text" id="arabic-search" placeholder="بحث ذكي بالعربي أو الإنجليزي (مثل: رزيدنت إيفل، كراش، God of War)..." style="flex: 1; min-width: 200px; padding: 10px 16px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.05); color: #fff; font-size: 14px; outline: none;" oninput="filterArabicGames()">
 				<select id="arabic-platform-filter" onchange="filterArabicGames()" style="padding: 10px 16px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.05); color: #fff; font-size: 14px; outline: none;">
-					<option value="">الكل</option>
+					<option value="">كل المكتبة</option>
+					<option value="dub">🎙️ ألعاب مدبلجة</option>
+					<option value="sub">📝 ألعاب مترجمة</option>
 					<option value="ps1">PS1</option>
 					<option value="ps2">PS2</option>
+					<option value="ps3">PS3</option>
 				</select>
 				<select id="arabic-sort-filter" onchange="filterArabicGames()" style="padding: 10px 16px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.05); color: #fff; font-size: 14px; outline: none;">
 					<option value="az">أبجدي (أ-ي)</option>
@@ -47052,7 +47082,7 @@ function getVisibleChatStackEl(id) {
 // ══════════════════════════════════════════════════════════════
 // CLASSIC GAMES LIBRARY (PS1 & PS2)
 // ══════════════════════════════════════════════════════════════
-window.__ARABIC_DB = { ps1: [], ps2: [] };
+window.__ARABIC_DB = { ps1: [], ps2: [], ps3: [], dub: [], sub: [] };
 window.__ARABIC_LOADED = {};
 window.__ARABIC_CURRENT = '';
 window.__ARABIC_ALL = [];
@@ -47061,34 +47091,80 @@ window.__ARABIC_PER_PAGE = 48;
 
 const ARABIC_COVERS = {};
 const ARABIC_PLATFORMS = {
+    dub: { 
+        label: 'ألعاب مدبلجة عربياً', 
+        icon: 'fa-microphone-alt', 
+        color: '#ffd700',
+        gradient: 'linear-gradient(135deg, rgba(255,215,0,0.35), rgba(80,60,0,0.85))',
+        file: 'Dub.json', 
+        cover: '',
+        count: 70,
+        subtitle: '🎙️ DUBBED IN ARABIC'
+    },
+    sub: { 
+        label: 'ألعاب مترجمة عربياً', 
+        icon: 'fa-closed-captioning', 
+        color: '#00ff88',
+        gradient: 'linear-gradient(135deg, rgba(0,255,136,0.35), rgba(0,80,50,0.85))',
+        file: 'Sub.json', 
+        cover: '',
+        count: 83,
+        subtitle: '📝 SUBTITLED IN ARABIC'
+    },
     ps1: { 
         label: 'PlayStation 1', 
         icon: 'fa-compact-disc', 
         color: '#0070cc',
-        gradient: 'linear-gradient(135deg, rgba(0,60,120,0.4), rgba(0,30,60,0.6))',
+        gradient: 'linear-gradient(135deg, rgba(0,90,180,0.5), rgba(0,30,60,0.85))',
         file: 'ps1.json', 
         cover: 'libretro_ps1.json',
-        count: 1929
+        count: 1929,
+        subtitle: 'PLAYSTATION 1'
     },
     ps2: { 
         label: 'PlayStation 2', 
         icon: 'fa-gamepad', 
         color: '#800080',
-        gradient: 'linear-gradient(135deg, rgba(128,0,128,0.3), rgba(64,0,64,0.5))',
+        gradient: 'linear-gradient(135deg, rgba(140,0,180,0.5), rgba(64,0,64,0.85))',
         file: 'ps2.json', 
         cover: 'libretro_ps2.json',
-        count: 4214
+        count: 4214,
+        subtitle: 'PLAYSTATION 2'
+    },
+    ps3: { 
+        label: 'PlayStation 3', 
+        icon: 'fa-tv', 
+        color: '#ff3366',
+        gradient: 'linear-gradient(135deg, rgba(220,0,40,0.4), rgba(40,40,40,0.85))',
+        file: 'ps3.json', 
+        cover: 'libretro_ps3.json',
+        count: 1073,
+        subtitle: 'PLAYSTATION 3'
     }
+};
+
+const ARABIC_PHONETIC_MAP = {
+    'رزيدنت': 'resident', 'ايفل': 'evil', 'جود': 'god', 'اوف': 'of', 'وور': 'war',
+    'كراش': 'crash', 'باندي': 'bandi', 'تيكن': 'tekken', 'سايلنت': 'silent', 'هيل': 'hill',
+    'ميتال': 'metal', 'جير': 'gear', 'سوليد': 'solid', 'سنايبر': 'sniper', 'جاتا': 'gta',
+    'جراند': 'grand', 'ثفت': 'theft', 'اوتو': 'auto', 'نيد': 'need', 'فور': 'for',
+    'سبيد': 'speed', 'فيفا': 'fifa', 'بيس': 'pes', 'المصارعة': 'wwe', 'سمك داون': 'smackdown',
+    'كول': 'call', 'ديوتي': 'duty', 'بلاك': 'black', 'اوبس': 'ops', 'سيلنت': 'silent',
+    'ديفل': 'devil', 'ماي': 'may', 'كراي': 'cry', 'تومب': 'tomb', 'رايدر': 'raider',
+    'سوبر': 'super', 'ماريو': 'mario', 'زيلدا': 'zelda', 'سونيك': 'sonic', 'دراغون': 'dragon',
+    'بول': 'ball', 'ناروتو': 'naruto', 'ون': 'one', 'بيس': 'piece', 'باتمان': 'batman',
+    'سبايدرمان': 'spider', 'مان': 'man'
 };
 
 async function loadArabicCovers() {
     if (window.__ARABIC_COVERS_LOADED) return;
     try {
-        const [lps1, lps2] = await Promise.all([
+        const [lps1, lps2, lps3] = await Promise.all([
             fetch('libretro_ps1.json').then(r => r.ok ? r.json() : {}).catch(() => ({})),
-            fetch('libretro_ps2.json').then(r => r.ok ? r.json() : {}).catch(() => ({}))
+            fetch('libretro_ps2.json').then(r => r.ok ? r.json() : {}).catch(() => ({})),
+            fetch('libretro_ps3.json').then(r => r.ok ? r.json() : {}).catch(() => ({}))
         ]);
-        Object.assign(ARABIC_COVERS, lps1, lps2);
+        Object.assign(ARABIC_COVERS, lps1, lps2, lps3);
         window.__ARABIC_COVERS_LOADED = true;
         console.log('[Classic] Loaded covers:', Object.keys(ARABIC_COVERS).length);
     } catch (e) {
@@ -47101,6 +47177,8 @@ function normClassic(t) {
 }
 
 function getClassicCover(game) {
+    if (game.cover_url) return game.cover_url;
+    if (game.cover) return game.cover;
     const name = game.cleanTitle || game.title || game.name || '';
     const norm = normClassic(name);
     if (ARABIC_COVERS[norm]) return ARABIC_COVERS[norm];
@@ -47115,13 +47193,50 @@ function getClassicCover(game) {
     return '';
 }
 
+async function loadAllArabicDatabases() {
+    const platforms = ['dub', 'sub', 'ps1', 'ps2', 'ps3'];
+    await Promise.all(platforms.map(async (plat) => {
+        if (!window.__ARABIC_LOADED[plat]) {
+            try {
+                const res = await fetch(ARABIC_PLATFORMS[plat].file);
+                if (res.ok) {
+                    let data = await res.json();
+                    data.forEach(g => { g.__source = plat; });
+                    window.__ARABIC_DB[plat] = data;
+                    window.__ARABIC_LOADED[plat] = true;
+                }
+            } catch(e) {}
+        }
+    }));
+    window.__ARABIC_ALL = [
+        ...(window.__ARABIC_DB.dub || []),
+        ...(window.__ARABIC_DB.sub || []),
+        ...(window.__ARABIC_DB.ps1 || []),
+        ...(window.__ARABIC_DB.ps2 || []),
+        ...(window.__ARABIC_DB.ps3 || [])
+    ];
+}
+
 async function loadArabicGames(platform) {
     window.__ARABIC_CURRENT = platform;
     window.__ARABIC_PAGE = 1;
     
     document.getElementById('arabic-platform-cards').style.display = platform ? 'none' : 'flex';
     
+    const filterSelect = document.getElementById('arabic-platform-filter');
+    if (filterSelect) filterSelect.value = platform || '';
+    
     if (!platform) {
+        if (!window.__ARABIC_ALL_LOADED) {
+            const emptyEl = document.getElementById('arabic-empty');
+            if (emptyEl) {
+                emptyEl.style.display = 'block';
+                const h3 = emptyEl.querySelector('h3');
+                if (h3) h3.textContent = 'جاري تحميل مكتبة الألعاب العربية والكلاسيكية (5000+ لعبة)...';
+            }
+            await loadAllArabicDatabases();
+            window.__ARABIC_ALL_LOADED = true;
+        }
         renderArabicGames();
         return;
     }
@@ -47142,10 +47257,17 @@ async function loadArabicGames(platform) {
         const res = await fetch(cfg.file);
         if (!res.ok) throw new Error('Failed to load ' + cfg.file);
         let data = await res.json();
+        data.forEach(g => { g.__source = platform; });
 
         window.__ARABIC_DB[platform] = data;
         window.__ARABIC_LOADED[platform] = true;
-        window.__ARABIC_ALL = [...window.__ARABIC_DB.ps1, ...window.__ARABIC_DB.ps2];
+        window.__ARABIC_ALL = [
+            ...(window.__ARABIC_DB.dub || []),
+            ...(window.__ARABIC_DB.sub || []),
+            ...(window.__ARABIC_DB.ps1 || []),
+            ...(window.__ARABIC_DB.ps2 || []),
+            ...(window.__ARABIC_DB.ps3 || [])
+        ];
 
         renderArabicGames();
     } catch (e) {
@@ -47156,7 +47278,6 @@ async function loadArabicGames(platform) {
 
 function renderArabicGames() {
     const platform = window.__ARABIC_CURRENT;
-    const games = platform ? (window.__ARABIC_DB[platform] || []) : window.__ARABIC_ALL;
     const grid = document.getElementById('arabic-games-grid');
     const empty = document.getElementById('arabic-empty');
     const title = document.getElementById('arabic-view-title');
@@ -47168,24 +47289,21 @@ function renderArabicGames() {
     const pagination = document.getElementById('arabic-pagination');
 
     if (!platform) {
-        title.textContent = 'مكتبة الكلاسيكية';
+        title.textContent = 'المكتبة الشاملة للألعاب العربية والكلاسيكية';
         hero.style.display = 'none';
         platformCards.style.display = 'flex';
-        platformCards.style.gridTemplateColumns = 'repeat(auto-fit, minmax(280px, 1fr))';
-        grid.innerHTML = '';
-        pagination.innerHTML = '';
-        empty.style.display = 'none';
-        updateArabicStats();
-        return;
+        platformCards.style.gridTemplateColumns = 'repeat(auto-fit, minmax(240px, 1fr))';
+    } else {
+        const cfg = ARABIC_PLATFORMS[platform];
+        title.textContent = cfg ? cfg.label : 'المكتبة';
+        if (cfg) {
+            hero.style.display = 'block';
+            hero.style.background = cfg.gradient;
+            heroSubtitle.textContent = cfg.subtitle || 'PLAYSTATION LIBRARY';
+            heroTitle.textContent = cfg.label;
+            heroDesc.textContent = `${(window.__ARABIC_DB[platform] || []).length} لعبة وتعديل متاح للتحميل المباشر`;
+        }
     }
-
-    const cfg = ARABIC_PLATFORMS[platform];
-    title.textContent = cfg.label;
-    hero.style.display = 'block';
-    hero.style.background = cfg.gradient;
-    heroSubtitle.textContent = platform === 'ps1' ? 'PLAYSTATION 1' : 'PLAYSTATION 2';
-    heroTitle.textContent = cfg.label;
-    heroDesc.textContent = `${games.length} لعبة متاحة`;
 
     const filtered = getFilteredGames();
     const totalPages = Math.ceil(filtered.length / window.__ARABIC_PER_PAGE);
@@ -47193,7 +47311,7 @@ function renderArabicGames() {
     const pageGames = filtered.slice(startIdx, startIdx + window.__ARABIC_PER_PAGE);
 
     renderArabicCards(grid, pageGames);
-    empty.style.display = filtered.length ? 'none' : 'block';
+    if (empty) empty.style.display = filtered.length ? 'none' : 'block';
     renderPagination(pagination, totalPages);
     updateArabicStats();
 }
@@ -47202,13 +47320,22 @@ function getFilteredGames() {
     const platform = window.__ARABIC_CURRENT;
     const q = (document.getElementById('arabic-search').value || '').toLowerCase();
     const sort = document.getElementById('arabic-sort-filter').value;
+    const filterPlat = document.getElementById('arabic-platform-filter') ? document.getElementById('arabic-platform-filter').value : '';
     
     let games = platform ? (window.__ARABIC_DB[platform] || []) : window.__ARABIC_ALL;
+    if (!platform && filterPlat) {
+        games = window.__ARABIC_DB[filterPlat] || games.filter(g => g.__source === filterPlat);
+    }
     
     if (q) {
+        let normalizedQ = q;
+        for (const [ar, en] of Object.entries(ARABIC_PHONETIC_MAP)) {
+            if (q.includes(ar)) normalizedQ += ' ' + en;
+        }
+        const queryTerms = normalizedQ.toLowerCase().split(/\s+/).filter(Boolean);
         games = games.filter(g => {
-            const title = (g.title || g.name || '').toLowerCase();
-            return title.includes(q);
+            const title = (g.title || g.name || g.cleanTitle || '').toLowerCase();
+            return queryTerms.some(term => title.includes(term));
         });
     }
     
@@ -47235,32 +47362,52 @@ function renderArabicCards(container, games) {
         const title = game.title || game.name || game.cleanTitle || 'Unknown';
         const cover = getClassicCover(game);
         const size = game.fileSize || game.size || '';
-        const platform = game.platform || '';
+        const platform = game.platform || (game.__source ? game.__source.toUpperCase() : '');
 
         const card = document.createElement('div');
         card.className = 'game-card';
         card.setAttribute('data-game-idx', i);
         card.style.cssText = `
             border-radius: 12px; overflow: hidden; background: var(--card-surface-bg, #171e2a);
-            border: 1px solid rgba(255,255,255,0.06); transition: transform 0.2s, box-shadow 0.2s;
+            border: 1px solid rgba(255,255,255,0.08); transition: transform 0.25s cubic-bezier(0.2,0.8,0.2,1), box-shadow 0.25s;
             cursor: pointer; position: relative;
         `;
-        card.onmouseenter = () => { card.style.transform = 'scale(1.03)'; card.style.boxShadow = '0 8px 24px rgba(0,0,0,0.4)'; };
-        card.onmouseleave = () => { card.style.transform = ''; card.style.boxShadow = ''; };
+        
+        let hoverGlow = '0 8px 24px rgba(0,112,204,0.35)';
+        if (game.__source === 'dub') hoverGlow = '0 8px 24px rgba(255,215,0,0.4)';
+        else if (game.__source === 'sub') hoverGlow = '0 8px 24px rgba(0,255,136,0.4)';
+        else if (game.__source === 'ps3' || platform.includes('3')) hoverGlow = '0 8px 24px rgba(255,50,100,0.4)';
+        else if (game.__source === 'ps2' || platform.includes('2')) hoverGlow = '0 8px 24px rgba(180,0,220,0.4)';
+
+        card.onmouseenter = () => { card.style.transform = 'scale(1.04) translateY(-3px)'; card.style.boxShadow = hoverGlow; card.style.borderColor = 'rgba(255,255,255,0.25)'; };
+        card.onmouseleave = () => { card.style.transform = ''; card.style.boxShadow = ''; card.style.borderColor = 'rgba(255,255,255,0.08)'; };
 
         const coverHTML = cover
             ? `<img src="${cover}" alt="" style="width:100%;aspect-ratio:3/4;object-fit:cover;display:block;" onerror="this.onerror=null;this.style.display='none';this.nextElementSibling.style.display='flex';">
                <div style="width:100%;aspect-ratio:3/4;display:none;align-items:center;justify-content:center;background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.2);font-size:32px;"><i class="fas fa-gamepad"></i></div>`
             : `<div style="width:100%;aspect-ratio:3/4;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.2);font-size:32px;"><i class="fas fa-gamepad"></i></div>`;
 
-        const platTag = platform ? `<span style="position:absolute;top:8px;right:8px;font-size:9px;font-weight:bold;padding:2px 6px;border-radius:4px;background:rgba(0,0,0,0.6);color:#fff;z-index:2;">${platform}</span>` : '';
-        const sizeTag = size ? `<span style="position:absolute;top:8px;left:8px;font-size:9px;padding:2px 6px;border-radius:4px;background:rgba(0,0,0,0.6);color:rgba(255,255,255,0.8);z-index:2;">${size}</span>` : '';
+        let platColor = 'rgba(0,0,0,0.65)';
+        if (game.__source === 'ps3' || platform.includes('3')) platColor = 'rgba(220,0,40,0.8)';
+        else if (game.__source === 'ps2' || platform.includes('2')) platColor = 'rgba(128,0,128,0.8)';
+        else if (game.__source === 'ps1' || platform.includes('1') || platform.includes('PSX')) platColor = 'rgba(0,90,180,0.8)';
+
+        const platTag = platform ? `<span style="position:absolute;top:8px;right:8px;font-size:9px;font-weight:bold;padding:3px 7px;border-radius:6px;background:${platColor};color:#fff;z-index:2;box-shadow:0 2px 4px rgba(0,0,0,0.5);">${platform}</span>` : '';
+        const sizeTag = size ? `<span style="position:absolute;top:8px;left:8px;font-size:9px;padding:3px 7px;border-radius:6px;background:rgba(0,0,0,0.7);color:rgba(255,255,255,0.9);z-index:2;font-weight:600;">${size}</span>` : '';
+
+        let badgeTag = '';
+        if (game.__source === 'dub' || (game.title && (game.title.includes('(Dub)') || game.title.includes('مدبلج')))) {
+            badgeTag = `<span style="position:absolute;bottom:54px;right:8px;font-size:10px;font-weight:bold;padding:3px 8px;border-radius:6px;background:linear-gradient(135deg,#ffd700,#b8860b);color:#000;box-shadow:0 2px 8px rgba(255,215,0,0.4);z-index:2;display:flex;align-items:center;gap:4px;"><i class="fas fa-microphone-alt"></i> مدبلج</span>`;
+        } else if (game.__source === 'sub' || (game.title && (game.title.includes('(Sub)') || game.title.includes('مترجم')))) {
+            badgeTag = `<span style="position:absolute;bottom:54px;right:8px;font-size:10px;font-weight:bold;padding:3px 8px;border-radius:6px;background:linear-gradient(135deg,#00ff88,#008050);color:#000;box-shadow:0 2px 8px rgba(0,255,136,0.4);z-index:2;display:flex;align-items:center;gap:4px;"><i class="fas fa-closed-captioning"></i> مترجم</span>`;
+        }
 
         card.innerHTML = `
             ${platTag}
             ${sizeTag}
+            ${badgeTag}
             ${coverHTML}
-            <div style="padding:10px;">
+            <div style="padding:10px;background:linear-gradient(180deg,rgba(23,30,42,0.9),rgba(15,21,33,1));">
                 <div style="font-size:12px;font-weight:600;color:#fff;line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:34px;">${escapeHtmlSafe(title)}</div>
             </div>
         `;
@@ -47344,34 +47491,53 @@ function openClassicModal(game) {
     const title = game.title || game.name || 'Unknown';
     const cover = getClassicCover(game);
     const size = game.fileSize || game.size || '';
-    const platform = game.platform || '';
+    const platform = game.platform || (game.__source ? game.__source.toUpperCase() : '');
     const uri = game.uri || (game.uris && game.uris[0]) || '';
     const uploadDate = game.uploadDate || '';
-    const isPS2 = platform.toLowerCase().includes('playstation 2') || platform.toLowerCase().includes('ps2');
-    const isPS1 = platform.toLowerCase().includes('playstation 1') || platform.toLowerCase().includes('ps1') || platform.toLowerCase().includes('psx');
+    
+    const isPS3 = platform.toLowerCase().includes('playstation 3') || platform.toLowerCase().includes('ps3') || platform.toLowerCase().includes('wii') || game.__source === 'ps3';
+    const isPS2 = !isPS3 && (platform.toLowerCase().includes('playstation 2') || platform.toLowerCase().includes('ps2') || game.__source === 'ps2');
+    const isPS1 = !isPS3 && !isPS2 && (platform.toLowerCase().includes('playstation 1') || platform.toLowerCase().includes('ps1') || platform.toLowerCase().includes('psx') || game.__source === 'ps1');
+    const isDub = game.__source === 'dub' || title.includes('(Dub)') || title.includes('مدبلج');
+    const isSub = game.__source === 'sub' || title.includes('(Sub)') || title.includes('مترجم');
 
     document.getElementById('classic-game-title').textContent = title;
     document.getElementById('classic-cover-img').src = cover || '';
     document.getElementById('classic-cover-img').onerror = function() { this.style.display = 'none'; };
 
     const banner = document.getElementById('classic-platform-banner');
-    if (isPS2) {
+    if (isDub) {
+        banner.querySelector('span').textContent = 'ألعاب مدبلجة عربياً 🎙️';
+        banner.style.background = 'linear-gradient(135deg, rgba(255,215,0,0.85), rgba(80,60,0,0.95))';
+        banner.style.color = '#000';
+    } else if (isSub) {
+        banner.querySelector('span').textContent = 'ألعاب مترجمة عربياً 📝';
+        banner.style.background = 'linear-gradient(135deg, rgba(0,255,136,0.85), rgba(0,80,50,0.95))';
+        banner.style.color = '#000';
+    } else if (isPS3) {
+        banner.querySelector('span').textContent = 'PlayStation 3';
+        banner.style.background = 'linear-gradient(135deg, rgba(220,0,40,0.85), rgba(40,40,40,0.95))';
+        banner.style.color = '#fff';
+    } else if (isPS2) {
         banner.querySelector('span').textContent = 'PlayStation 2';
-        banner.style.background = 'linear-gradient(135deg, rgba(128,0,128,0.85), rgba(64,0,64,0.95))';
+        banner.style.background = 'linear-gradient(135deg, rgba(140,0,180,0.85), rgba(64,0,64,0.95))';
+        banner.style.color = '#fff';
     } else if (isPS1) {
-        banner.querySelector('span').textContent = 'PlayStation';
-        banner.style.background = 'linear-gradient(135deg, rgba(0,60,120,0.85), rgba(0,30,60,0.95))';
+        banner.querySelector('span').textContent = 'PlayStation 1';
+        banner.style.background = 'linear-gradient(135deg, rgba(0,90,180,0.85), rgba(0,30,60,0.95))';
+        banner.style.color = '#fff';
     } else {
-        banner.querySelector('span').textContent = platform || 'Classic';
+        banner.querySelector('span').textContent = platform || 'Classic Game';
         banner.style.background = 'linear-gradient(135deg, rgba(40,40,40,0.85), rgba(20,20,20,0.95))';
+        banner.style.color = '#fff';
     }
 
     document.getElementById('classic-game-id').textContent = title.substring(0, 20);
-    document.getElementById('classic-game-type').textContent = isPS2 ? 'PS2 Game' : isPS1 ? 'PS1 Game' : 'Classic Game';
+    document.getElementById('classic-game-type').textContent = isDub ? 'Arabic Dubbed' : isSub ? 'Arabic Subbed' : isPS3 ? 'PS3 Game' : isPS2 ? 'PS2 Game' : isPS1 ? 'PS1 Game' : 'Classic Game';
     document.getElementById('classic-game-region').textContent = extractRegion(title);
     document.getElementById('classic-game-size').textContent = size || 'N/A';
-    document.getElementById('classic-game-trophies').textContent = 'No';
-    document.getElementById('classic-game-trophies').style.color = '#ff4444';
+    document.getElementById('classic-game-trophies').textContent = isPS3 ? 'Yes (PSN)' : 'No';
+    document.getElementById('classic-game-trophies').style.color = isPS3 ? '#00e5ff' : '#ff4444';
 
     const meta = document.getElementById('classic-game-meta');
     meta.innerHTML = '';
@@ -47383,7 +47549,15 @@ function openClassicModal(game) {
     }
 
     const summary = document.getElementById('classic-game-summary');
-    summary.textContent = `${title} - A classic ${isPS2 ? 'PlayStation 2' : isPS1 ? 'PlayStation' : ''} game available for download.`;
+    let emuRec = isPS3 ? 'RPCS3 (PlayStation 3 Emulator)' : isPS2 ? 'PCSX2 (PlayStation 2 Emulator)' : isPS1 ? 'DuckStation / Beetle PSX' : 'المحاكي المتوافق';
+    summary.innerHTML = `
+        <div style="font-size:14px;color:#fff;margin-bottom:10px;line-height:1.6;font-weight:500;">${escapeHtmlSafe(title)}</div>
+        ${isDub ? '<div style="color:#ffd700;font-weight:bold;margin-bottom:8px;display:flex;align-items:center;gap:6px;background:rgba(255,215,0,0.1);padding:8px 12px;border-radius:8px;border:1px solid rgba(255,215,0,0.3);"><i class="fas fa-microphone-alt"></i> تتميز هذه النسخة بالدبلجة الصوتية الكاملة باللغة العربية.</div>' : ''}
+        ${isSub ? '<div style="color:#00ff88;font-weight:bold;margin-bottom:8px;display:flex;align-items:center;gap:6px;background:rgba(0,255,136,0.1);padding:8px 12px;border-radius:8px;border:1px solid rgba(0,255,136,0.3);"><i class="fas fa-closed-captioning"></i> تتميز هذه النسخة بالترجمة العربية الكاملة للنصوص والحوارات.</div>' : ''}
+        <div style="margin-top:12px;padding:10px 12px;background:rgba(0,112,204,0.15);border:1px solid rgba(0,112,204,0.35);border-radius:8px;font-size:12px;color:#00e5ff;display:flex;align-items:center;gap:8px;">
+            <i class="fas fa-microchip" style="font-size:16px;"></i> <div><b>أفضل محاكي للتشغيل:</b> ${emuRec}</div>
+        </div>
+    `;
 
     const downloadBtn = document.getElementById('classic-download-btn');
     downloadBtn.onclick = () => {
@@ -47401,8 +47575,10 @@ function openClassicModal(game) {
 
 function closeClassicModal() {
     const modal = document.getElementById('classic-game-modal');
-    modal.classList.remove('show');
-    setTimeout(() => { modal.style.display = 'none'; }, 300);
+    if (modal) {
+        modal.classList.remove('show');
+        setTimeout(() => { modal.style.display = 'none'; }, 300);
+    }
     window.__classicCurrentGame = null;
 }
 
@@ -47414,6 +47590,7 @@ function extractRegion(title) {
         if (r.includes('EUROPE') || r.includes('PAL')) return 'EU';
         if (r.includes('JAPAN') || r.includes('NTSC-J')) return 'JP';
         if (r.includes('ASIA')) return 'ASIA';
+        if (r.includes('ARABIC') || r.includes('DUB') || r.includes('SUB') || r.includes('عربي')) return 'AR';
         return r.substring(0, 6);
     }
     return '—';
@@ -47443,13 +47620,15 @@ function filterArabicGames() {
 
 function updateArabicStats() {
     const db = window.__ARABIC_DB;
-    const totalCount = db.ps1.length + db.ps2.length;
+    const totalCount = (db.ps1||[]).length + (db.ps2||[]).length + (db.ps3||[]).length + (db.dub||[]).length + (db.sub||[]).length;
     let coverCount = 0;
-    for (const game of [...db.ps1, ...db.ps2]) {
-        if (getClassicCover(game)) coverCount++;
+    for (const game of window.__ARABIC_ALL) {
+        if (game.cover_url || game.cover || getClassicCover(game)) coverCount++;
     }
-    document.getElementById('arabic-total-count').textContent = totalCount;
-    document.getElementById('arabic-cover-count').textContent = coverCount;
+    const totalEl = document.getElementById('arabic-total-count');
+    const coverEl = document.getElementById('arabic-cover-count');
+    if (totalEl) totalEl.textContent = totalCount;
+    if (coverEl) coverEl.textContent = coverCount;
 }
 
 // Hook into switchTab

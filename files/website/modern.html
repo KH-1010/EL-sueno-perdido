@@ -385,6 +385,8 @@ select option { background-color: var(--bg-dark); }
 .tag-minis { background: linear-gradient(135deg, #d80073, #8a0047); color: #ffffff; border: 1px solid #ff4dc4; box-shadow: 0 0 8px rgba(216, 0, 115, 0.4); }
 .tag-pce { background: linear-gradient(135deg, #e3a21a, #e51400); color: #ffffff; border: 1px solid #fa6800; }
 .tag-neogeo { background: linear-gradient(135deg, #000, #333); color: #ed1c24; border: 1px solid #ff0000; box-shadow: 0 0 8px rgba(237, 28, 36, 0.4); }
+.tag-dub { background: linear-gradient(135deg, #ffd700, #b8860b); color: #000000; border: 1px solid #ffffff; box-shadow: 0 0 8px rgba(255, 215, 0, 0.5); font-weight: bold; }
+.tag-sub { background: linear-gradient(135deg, #00ff88, #008050); color: #000000; border: 1px solid #ffffff; box-shadow: 0 0 8px rgba(0, 255, 136, 0.5); font-weight: bold; }
 .tag-default { background: rgba(0, 0, 0, 0.8); color: #fff; border: 1px solid rgba(255, 255, 255, 0.2); }
 .game-info { padding: 12px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; gap: 10px; }
 .game-title { font-size: 13px; font-weight: 600; margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #fff; line-height: 1.4; }
@@ -47302,7 +47304,27 @@ function getVisibleChatStackEl(id) {
 		// Search filter
 		if (searchInput && searchInput.value) {
 			const query = searchInput.value.toLowerCase();
-			filtered = filtered.filter(g => g.title.toLowerCase().includes(query));
+			let normalizedQ = query;
+			const phoneticMap = {
+				'رزيدنت': 'resident', 'ايفل': 'evil', 'جود': 'god', 'اوف': 'of', 'وور': 'war',
+				'كراش': 'crash', 'باندي': 'bandi', 'تيكن': 'tekken', 'سايلنت': 'silent', 'هيل': 'hill',
+				'ميتال': 'metal', 'جير': 'gear', 'سوليد': 'solid', 'سنايبر': 'sniper', 'جاتا': 'gta',
+				'جراند': 'grand', 'ثفت': 'theft', 'اوتو': 'auto', 'نيد': 'need', 'فور': 'for',
+				'سبيد': 'speed', 'فيفا': 'fifa', 'بيس': 'pes', 'المصارعة': 'wwe', 'سمك داون': 'smackdown',
+				'كول': 'call', 'ديوتي': 'duty', 'بلاك': 'black', 'اوبس': 'ops', 'سيلنت': 'silent',
+				'ديفل': 'devil', 'ماي': 'may', 'كراي': 'cry', 'تومب': 'tomb', 'رايدر': 'raider',
+				'سوبر': 'super', 'ماريو': 'mario', 'زيلدا': 'zelda', 'سونيك': 'sonic', 'دراغون': 'dragon',
+				'بول': 'ball', 'ناروتو': 'naruto', 'ون': 'one', 'بيس': 'piece', 'باتمان': 'batman',
+				'سبايدرمان': 'spider', 'مان': 'man'
+			};
+			for (const [ar, en] of Object.entries(phoneticMap)) {
+				if (query.includes(ar)) normalizedQ += ' ' + en;
+			}
+			const queryTerms = normalizedQ.split(/\s+/).filter(Boolean);
+			filtered = filtered.filter(g => {
+				const title = (g.title || '').toLowerCase();
+				return queryTerms.some(term => title.includes(term));
+			});
 		}
 
 		// Sort
@@ -47362,8 +47384,8 @@ function getVisibleChatStackEl(id) {
 			ps1: { class: 'tag-psx', label: 'PS1' },
 			ps2: { class: 'tag-ps2', label: 'PS2' },
 			ps3: { class: 'tag-ps3', label: 'PS3' },
-			sub: { class: 'tag-default', label: 'SUB' },
-			dub: { class: 'tag-default', label: 'DUB' }
+			sub: { class: 'tag-sub', label: '📝 مترجم' },
+			dub: { class: 'tag-dub', label: '🎙️ مدبلج' }
 		};
 		return tags[platform] || { class: 'tag-default', label: platform.toUpperCase() };
 	}

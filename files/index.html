@@ -1,0 +1,22 @@
+<!-- Coded for PS3™ Pro by Luan Teles -->
+<!-- Adapted for El Sueño Perdido -->
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>PlayStation™ Network Database</title>
+    </head>
+
+    <body>
+        <script>
+            const isPS3 =
+                /PS3|PlayStation 3|NetFront/i.test(navigator.userAgent) ||
+                navigator.platform === "PlayStation 3";
+
+            if (isPS3) {
+                window.location.href = "./website/classic.html";
+            } else {
+                window.location.href = "./website/modern.html";
+            }
+        </script>
+    </body>
+</html>

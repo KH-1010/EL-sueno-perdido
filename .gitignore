@@ -6,3 +6,4 @@ worker.js
 *.sqlite
 .DS_Store
 Thumbs.db
+temp_psn_content/

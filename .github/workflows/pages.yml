@@ -30,17 +30,25 @@ jobs:
         with:
           node-version: '20'
 
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Update NoPayStation Database
+        run: python update-nps.py
+
       - name: Run Scraper (Archive.org -> Dub.json / Sub.json)
         run: node scraper.js
 
-      - name: Commit scraped data if changed
+      - name: Commit all updates if changed
         run: |
           git config --global user.name "GitHub Actions Bot"
           git config --global user.email "actions@github.com"
-          git add Dub.json Sub.json .scraper-last-run
+          git add resources/database/ Dub.json Sub.json .scraper-last-run
           if ! git diff --staged --quiet; then
-            git commit -m "🤖 Auto-update: Arabic Dubbed & Subbed games library [skip ci]"
+            git commit -m "🤖 Auto-update: NPS database + Arabic Dubbed & Subbed games [skip ci]"
             git push origin HEAD:${{ github.ref }}
           else
-            echo "No new games found."
+            echo "No new data found."
           fi

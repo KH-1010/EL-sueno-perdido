@@ -15709,11 +15709,14 @@ window.showUniversalDownloadModal = function(type, url, safeName, version, sizeB
 				document.body.appendChild(a);
 				a.click();
 				setTimeout(() => { if (document.body.contains(a)) document.body.removeChild(a); }, 2000);
-			} else {
-				if (typeof window.showUniversalDownloadModal === 'function') {
-					window.showUniversalDownloadModal('multi', pkgUrls.join('|'), safeName, version, sizeBytes, titleId, category, contentId);
-					return;
-				}
+		} else {
+			if (typeof window.addToDownloadManager === 'function') {
+				window.addToDownloadManager(safeName, sizeBytes || 0, titleId, category, contentId);
+			}
+			if (typeof window.showUniversalDownloadModal === 'function') {
+				window.showUniversalDownloadModal('multi', pkgUrls.join('|'), safeName, version, sizeBytes, titleId, category, contentId);
+				return;
+			}
 				if (downloadAllParts(pkgUrls.join('|'), safeName, version, true)) {
 					window.addToDownloadManager(safeName, sizeBytes || 0, titleId, category, contentId);
 				}
@@ -47467,10 +47470,15 @@ function getVisibleChatStackEl(id) {
 		if (!games || !games[idx]) return;
 		const game = games[idx];
 		const downloadUrl = game.uris ? game.uris[0] : game.uri;
-		if (downloadUrl && typeof window.showUniversalDownloadModal === 'function') {
-			window.showUniversalDownloadModal('single', downloadUrl, game.title || 'Game', '', game.fileSize || '', '', platform, '');
-		} else if (downloadUrl) {
-			window.open(downloadUrl, '_blank');
+		if (downloadUrl) {
+			if (typeof window.addToDownloadManager === 'function') {
+				window.addToDownloadManager(game.title || 'Game', game.fileSize || '', game.title || 'Game', platform, '');
+			}
+			if (typeof window.showUniversalDownloadModal === 'function') {
+				window.showUniversalDownloadModal('single', downloadUrl, game.title || 'Game', '', game.fileSize || '', '', platform, '');
+			} else {
+				window.open(downloadUrl, '_blank');
+			}
 		}
 	};
 

@@ -793,6 +793,9 @@ transition:background 0.8s;}
     <button class="plat-btn" data-p="favorites" onclick="switchPlatform('favorites')">
       ★ <span class="plat-count" id="c-fav">0</span>
     </button>
+    <a class="plat-btn glowing" href="./psn.html" title="مكتبة PSN العالمية (NoPayStation)" style="text-decoration:none;color:#00e5ff;font-weight:bold;display:flex;align-items:center;gap:6px;">
+      🌐 <span class="plat-ps">PSN</span><span class="plat-count" style="background:rgba(0,229,255,0.2);color:#00e5ff;">46K+</span>
+    </a>
   </div>
   <div class="search-zone">
     <div class="search-pill" onclick="openSearch()" id="heroSearch" role="button" tabindex="0">
@@ -916,6 +919,9 @@ transition:background 0.8s;}
   <button class="nav-item" onclick="openModal('emuModal')">
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="8" width="20" height="12" rx="3"/><path d="M8 8V6a2 2 0 014 0v2"/><path d="M12 8v4m-2-2h4"/><circle cx="17" cy="14" r="1" fill="currentColor"/><circle cx="19" cy="16" r="1" fill="currentColor"/></svg>محاكيات
   </button>
+  <a class="nav-item" href="./psn.html" style="text-decoration:none;color:#00e5ff;font-weight:bold;">
+    🌐 PSN
+  </a>
   <button class="nav-item" onclick="openSearch()">
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>بحث
   </button>
@@ -2749,6 +2755,15 @@ const savedCols=localStorage.getItem('ps-gcols')||'md';
 gridCols=savedCols;
 ['xs','sm','md','lg','xl'].forEach(k=>{const el=document.getElementById('gs-'+k);if(el)el.classList.toggle('active',k===savedCols);});
 setView(savedView);
+const urlParams = new URLSearchParams(window.location.search);
+const initialPlat = (urlParams.get('p') || window.location.hash.replace('#','')).toLowerCase();
+if(['ps1','ps2','ps3','dub','sub','favorites'].includes(initialPlat)){
+  current = initialPlat;
+  document.querySelectorAll('.plat-btn').forEach(b=>b.classList.toggle('active',b.dataset.p===initialPlat));
+  document.querySelectorAll('.nav-item[data-p]').forEach(b=>b.classList.toggle('active',b.dataset.p===initialPlat));
+  const fz=document.getElementById('featured-zone');
+  if(fz) fz.style.display=['ps1','ps2','ps3','dub','sub'].includes(initialPlat)?'block':'none';
+}
 setTimeout(updatePlatIndicator,60);
 
 // Boot nostalgic features

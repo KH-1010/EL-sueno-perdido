@@ -1,0 +1,20 @@
+# إعدادات التخزين المؤقت والحماية لشبكة Cloudflare Pages & GitHub Pages
+/*
+  Access-Control-Allow-Origin: *
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+
+# تخزين قواعد بيانات الألعاب (JSON) في ذاكرة التخزين المؤقت للمتصفح لمدة ساعة
+/*.json
+  Cache-Control: public, max-age=3600, stale-while-revalidate=86400
+
+# تخزين ملفات الجافاسكريبت والصور لمدة 24 ساعة
+/*.js
+  Cache-Control: public, max-age=86400
+/*.css
+  Cache-Control: public, max-age=86400
+
+# التأكد من تحديث ملف الـ HTML فوراً عند كل زيارة
+/*.html
+  Cache-Control: public, max-age=0, must-revalidate

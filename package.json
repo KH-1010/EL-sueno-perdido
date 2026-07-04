@@ -1,18 +1,6 @@
 {
-  "name": "ps-games-library",
+  "name": "el-sueno-perdido",
   "version": "1.0.0",
-  "private": true,
-  "description": "PlayStation Classic Games Library — Cloudflare Worker",
-  "scripts": {
-    "dev": "wrangler dev",
-    "deploy": "wrangler deploy",
-    "publish": "wrangler publish"
-  },
-  "devDependencies": {
-    "wrangler": "^3.0.0"
-  },
-  "dependencies": {
-    "acorn": "^8.17.0",
-    "jsdom": "^29.1.1"
-  }
+  "description": "مكتبة ألعاب PlayStation - El Sueño Perdido",
+  "private": true
 }

@@ -47605,15 +47605,17 @@ window.__classicCurrentGame = null;
 
 function openClassicModal(game) {
     try {
+        console.log('[Classic] openClassicModal invoked', game && game.title);
         if (!game) {
             console.error('[Classic] openClassicModal called with null/undefined game');
+            alert('[DEBUG] openClassicModal: game is null/undefined');
             return;
         }
         console.log('[Classic] openClassicModal executing for:', game);
         window.__classicCurrentGame = game;
-        try { playUiClick(); } catch(e) {}
+        try { playUiClick(); } catch(e) { console.warn('[Classic] playUiClick error:', e); }
         const modal = document.getElementById('classic-game-modal');
-        if (!modal) { console.error('classic-game-modal not found'); return; }
+        if (!modal) { console.error('classic-game-modal not found'); alert('[DEBUG] classic-game-modal element NOT FOUND in DOM'); return; }
         
         const title = String(game.title || game.name || game.cleanTitle || 'Unknown');
         const cover = getClassicCover(game);
@@ -47727,14 +47729,18 @@ function openClassicModal(game) {
         modal.style.opacity = '1';
         modal.style.visibility = 'visible';
         modal.style.pointerEvents = 'auto';
+        console.log('[Classic] Modal display set to flex, waiting for rAF...');
         requestAnimationFrame(() => {
             requestAnimationFrame(() => {
                 modal.classList.add('show');
+                console.log('[Classic] Modal .show class added. display=' + modal.style.display + ' computed=' + getComputedStyle(modal).display);
             });
         });
         modal.onclick = (e) => { if (e.target === modal) closeClassicModal(); };
+        console.log('[Classic] openClassicModal completed successfully for:', title);
     } catch(e) {
         console.error('[Classic] openClassicModal error:', e);
+        alert('[DEBUG] openClassicModal ERROR: ' + e.message + '\nStack: ' + (e.stack || '').substring(0, 500));
     }
 }
 

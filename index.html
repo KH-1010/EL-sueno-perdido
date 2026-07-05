@@ -601,7 +601,7 @@ select optgroup { background-color: #161d2b; color: var(--ps-blue); font-weight:
 .player-stat-value { font-size: 22px !important; font-weight: bold !important; color: var(--ps-blue) !important; margin-bottom: 5px !important; position: relative; z-index: 2; transition: all 0.3s ease; }
 .player-stat-box:hover .player-stat-value { color: #fff !important; text-shadow: 0 0 10px var(--ps-blue); }
 .player-stat-label { font-size: 11px !important; color: var(--text-muted) !important; text-transform: uppercase !important; position: relative; z-index: 2; }
-.btn-profile-friend { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.2); color: #fff !important; width: 28px; height: 28px; border-radius: 50%; cursor: pointer; display: block; margin-left: 10px; font-size: 11px; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1); vertical-align: middle; backdrop-filter: blur(5px); }
+.btn-profile-friend { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.2); color: #fff !important; width: 28px; height: 28px; border-radius: 50%; cursor: pointer; display: inline-block; margin-left: 10px; font-size: 11px; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1); vertical-align: middle; backdrop-filter: blur(5px); }
 .btn-profile-friend:hover { transform: scale(1.1); border-color: #fff; background: rgba(255, 255, 255, 0.15); }
 .btn-profile-friend.not-friend { border-color: rgba(76, 175, 80, 0.7); }
 .btn-profile-friend.not-friend:hover { box-shadow: 0 0 12px rgba(76, 175, 80, 0.5); }
@@ -1139,7 +1139,7 @@ input:checked + .slider:before { transform: translateX(20px); }
 .chat-messages div { word-wrap: break-word; word-break: break-word; overflow-wrap: break-word; white-space: pre-wrap; }
 .mention-highlight { border: 2px solid #ffcc00 !important; background: rgba(255, 204, 0, 0.15) !important; }
 
-#mention-suggestions.chat-align-toolbar { }
+#mention-suggestions.chat-align-toolbar { display: block; }
 
 #mention-suggestions.chat-side-image { max-width: calc(100% - 132px); }
 @media (max-width: 768px) { #mention-suggestions.chat-side-image { max-width: calc(100% - 104px); } }
@@ -1322,7 +1322,7 @@ body.is-admin #btn-toolbar-cmd, body.is-mod #btn-toolbar-cmd { display: flex !im
 #modal-sys-crop.media-editor-size-locked .sys-modal-content { flex: 0 0 auto !important; }
 #modal-sys-crop.media-editor-size-locked .sys-modal-body { overflow: hidden !important; }
 #editor-canvas-wrapper { max-width: 100% !important; width: auto; height: auto; overflow: hidden !important; display: block; margin: 0 auto 15px auto; position: relative; }
-#editor-preview-stage { width: auto; height: auto; min-height: 0 !important; max-width: 100%; max-height: 300px; background: #000; overflow: hidden; border-radius: 8px; display: block; vertical-align: top; }
+#editor-preview-stage { width: auto; height: auto; min-height: 0 !important; max-width: 100%; max-height: 300px; background: #000; overflow: hidden; border-radius: 8px; display: block; }
 #crop-image-target { max-width: 100% !important; max-height: 300px !important; object-fit: contain; }
 #fabric-canvas-container { width: auto; height: auto; max-width: 100%; max-height: 300px; }
 @media (max-width: 768px) {

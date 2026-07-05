@@ -1303,8 +1303,8 @@ body.is-admin #btn-toolbar-cmd, body.is-mod #btn-toolbar-cmd { display: flex !im
 .poll-translated-note { display: block; align-self: flex-start; margin-left: 22px; padding: 0; border: 0; background: transparent; box-shadow: none; line-height: 1; }
 .poll-translated-note .chat-translated-tag { display: inline !important; margin-left: 0 !important; }
 .poll-option { position: relative; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 6px; margin-bottom: 8px; cursor: pointer; overflow: hidden; transition: 0.2s ease; display: flex; justify-content: space-between; align-items: center; padding: 10px 15px; z-index: 1; min-width: 0; box-sizing: border-box; }
-.poll-option:hover { border-color: ); background: rgba(255, 255, 255, 0.1); }
-.poll-option.voted { border-color: border-color: rgba(255, 255, 255, 1); box-shadow: 0 0 10px rgba(0, 112, 204, 0.3); }
+.poll-option:hover { border-color: rgba(0, 112, 204, 0.5); background: rgba(255, 255, 255, 0.1); }
+.poll-option.voted { border-color: rgba(255, 255, 255, 1); box-shadow: 0 0 10px rgba(0, 112, 204, 0.3); }
 .poll-bar { position: absolute; top: 0; left: 0; height: 100%; background: rgba(0, 112, 204, 0.3); z-index: -1; transition: width 0.5s cubic-bezier(0.2, 0.8, 0.2, 1); }
 .poll-option-text { font-size: 12px; color: #fff; font-weight: 500; pointer-events: none; display: flex; align-items: center; gap: 8px; min-width: 0; flex: 1 1 auto; overflow: hidden; text-overflow: ellipsis; }
 .poll-option-percent { font-size: 11px; color: var(--text-muted); font-weight: bold; pointer-events: none; flex: 0 0 auto; margin-left: 8px; }
@@ -1885,7 +1885,7 @@ input:-webkit-autofill, input:-webkit-autofill:hover, input:-webkit-autofill:foc
 .reward-card.no-anim, .online-user-item.no-anim, .setting-item.no-anim, .promo-card-dark.no-anim, .trophy-card.no-anim { opacity: 1 !important; animation: none !important; transform: none !important; }
 div[id^="msg-row-"] { transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), margin 0.4s ease !important; will-change: transform, opacity; }
 .msg-anim { animation: msg-entry 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; opacity: 0; }
-#subview-online-featured.anim-up, #subview-online-revived.anim-up { transform-origin: center right animation: online-view-enter 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards !important; }
+#subview-online-featured.anim-up, #subview-online-revived.anim-up { transform-origin: center right; animation: online-view-enter 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards !important; }
 
 /* ========================================================================== CUSTOM ROUND CHECKBOXES ========================================================================== */
 .filter-checkboxes { margin-top: -2px; display: flex; flex-wrap: wrap; gap: 6px; }
@@ -11104,7 +11104,7 @@ P
 		const oldController = document.getElementById('ps5-controller-indicator');
 		if (oldController) oldController.remove();
 		if (subtitle) {
-			subtitle.innerText = maintenanceAdminOnly ? (showAdminBootstrapCard ? 'Maintenance mode is active. Use ?bypass or &admin in the URL, then create or log into an admin account.' : 'Maintenance mode is active. Select a local admin profile to continue.') : 'Who\47s using this device?';
+			subtitle.innerText = maintenanceAdminOnly ? (showAdminBootstrapCard ? 'Maintenance mode is active. Use ?bypass or &admin in the URL, then create or log into an admin account.' : 'Maintenance mode is active. Select a local admin profile to continue.') : 'Who\'s using this device?';
 			subtitle.insertAdjacentHTML('afterend', `
 				<div id="ps5-controller-indicator" style="display: flex; flex-direction: column; align-items: center; margin-top: 15px; margin-bottom: 25px; opacity: 0.8;">
 					<i class="fas fa-gamepad" style="font-size: 24px; color: #fff;"></i>

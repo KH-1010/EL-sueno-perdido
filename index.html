@@ -17829,7 +17829,7 @@ window.showUniversalDownloadModal = function(type, url, safeName, version, sizeB
 			let displayVersion = game.version ? game.version.replace(/v/gi, '').trim() : "";
 			let versionTagHtml = displayVersion ? ` <span style="color:#FF1493; font-size:11px; vertical-align: middle;">[v${displayVersion}]</span>` : "";
 		
-			htmlChunks.push(`
+				htmlChunks.push(`
 			<div class="game-card ${animClass} ${wishlistClass}" data-title-id="${game.id || ''}" data-content-id="${game.contentId || ''}" data-store-category="${currentCat}" ${animStyle} onclick="openModal(${sourceIndex})" onmouseenter="const __hoverTarget = document.elementFromPoint(event.clientX, event.clientY); if(!__hoverTarget || !__hoverTarget.closest('.btn-mini,.btn-mini-round,.fav-btn,.wish-btn,.action-btn,button,a')) playUiHover(); this.classList.remove('anim-reveal'); this.classList.add('no-anim');">
 				<div class="game-img-container">
 					<div class="console-tag ${tagClass}">${consoleName}</div>

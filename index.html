@@ -512,7 +512,7 @@ select option { background-color: var(--bg-dark); }
 .modal-info-text span { font-size: 10px !important; font-weight: bold; color: #ffff00; float: none !important; }
 #modal-links-actions { margin-top: auto; width: 100%; }
 #game-modal .btn-mini { padding: 6px 4px !important; font-size: 11px !important; }
-#game-modal .btn-mini:hover { transform: none; filter: none box-shadow: inset 0 0 0 100px rgba(0, 0, 0, 0.25) border-color: rgba(255, 255, 255, 0.4); }
+#game-modal .btn-mini:hover { transform: none; filter: none; box-shadow: inset 0 0 0 100px rgba(0, 0, 0, 0.25); border-color: rgba(255, 255, 255, 0.4); }
 #game-modal .btn-rap:hover { transform: none; box-shadow: inset 0 0 0 100px rgba(0, 0, 0, 0.15); }
 #trailer-modal .modal-content { width: 854px; max-width: 90%; flex-direction: column; padding: 20px; align-items: center; }
 #trailer-title { margin: 0; text-align: left; color: #fff; font-size: 18px; width: auto; }
@@ -12663,6 +12663,7 @@ P
 		if (typeof playUiClick === 'function') playUiClick();
 		
 		const input = document.getElementById(inputId);
+		if (!input) return;
 		
 		if (input.type === 'password') {
 			input.type = 'text';
@@ -13999,7 +14000,7 @@ P
             const sidebar = document.querySelector('.sidebar');
             const overlay = document.querySelector('.sidebar-overlay');
             
-            if (sidebar.classList.contains('active')) {
+            if (sidebar && sidebar.classList.contains('active')) {
                 sidebar.classList.remove('active');
             }
             if (overlay && overlay.classList.contains('active')) {
@@ -15285,7 +15286,7 @@ window.showUniversalDownloadModal = function(type, url, safeName, version, sizeB
 			event.stopPropagation();
 		}
 	
-		const ip = document.getElementById('ps3-ip').value;
+		const ip = document.getElementById('ps3-ip')?.value;
 		const globalIcon = document.getElementById('global-status-icon');
 		const isConnected = globalIcon && globalIcon.classList.contains('status-dot-connected');
 	
@@ -17982,10 +17983,10 @@ window.showUniversalDownloadModal = function(type, url, safeName, version, sizeB
 		if (typeof renderLetterFilter === 'function') renderLetterFilter();
 		if (typeof renderWishLetterFilter === 'function') renderWishLetterFilter();
 		
-		const isSocial = document.getElementById('view-chat').style.display === 'block' || document.getElementById('view-chat').style.display === 'flex';
+		const isSocial = document.getElementById('view-chat')?.style.display === 'block' || document.getElementById('view-chat')?.style.display === 'flex';
 		const isChatActive = document.getElementById('subview-chat')?.style.display === 'flex';
-		const isLibraryActive = document.getElementById('view-library').style.display === 'block';
-		const isWishlistActive = document.getElementById('view-wishlist').style.display === 'block';
+		const isLibraryActive = document.getElementById('view-library')?.style.display === 'block';
+		const isWishlistActive = document.getElementById('view-wishlist')?.style.display === 'block';
 	
 		if (isSocial && isChatActive) {
 			const chatBox = document.getElementById('chat-messages');
@@ -26628,7 +26629,7 @@ window.showUniversalDownloadModal = function(type, url, safeName, version, sizeB
 		if (typeof isUserSessionReadyForConsole === 'function' && !isUserSessionReadyForConsole()) return;
 		ps3PingInFlight = true;
 
-		const ip = document.getElementById('ps3-ip').value;
+		const ip = document.getElementById('ps3-ip')?.value;
 		const globalIcon = document.getElementById('global-status-icon');
 		const btnConnect = document.getElementById('btn-connect-ps3');
 		const btnShutdown = document.getElementById('btn-shutdown-ps3');
@@ -27458,7 +27459,7 @@ window.showUniversalDownloadModal = function(type, url, safeName, version, sizeB
 	};
 	
 	async function refreshPS3Library() {
-		const ip = document.getElementById('ps3-ip').value;
+		const ip = document.getElementById('ps3-ip')?.value;
 		const status = document.getElementById('library-status');
 		const grid = document.getElementById('ps3-local-grid');
 		const globalIcon = document.getElementById('global-status-icon');
@@ -27745,7 +27746,7 @@ window.showUniversalDownloadModal = function(type, url, safeName, version, sizeB
 		}
 	
 		const currentPlaying = window.myCurrentPS3Status || { status: 'idle' };
-		const ip = document.getElementById('ps3-ip').value;
+		const ip = document.getElementById('ps3-ip')?.value;
 	
 		games.forEach((game, i) => {
 			const pathUpper = game.path.toUpperCase();
@@ -28117,7 +28118,7 @@ window.showUniversalDownloadModal = function(type, url, safeName, version, sizeB
 	};
 	
 	window.updateFavoritesLibraryUI = function(isSilent = false) {
-		const ip = document.getElementById('ps3-ip').value;
+		const ip = document.getElementById('ps3-ip')?.value;
 		const grid = document.getElementById('ps3-favs-grid');
 		const countSpan = document.getElementById('fav-count');
 		const globalIcon = document.getElementById('global-status-icon');
@@ -28421,7 +28422,7 @@ window.showUniversalDownloadModal = function(type, url, safeName, version, sizeB
 	};
 	
 	async function scanConsoleAndReload(isAutomatic = false) {
-		const ip = document.getElementById('ps3-ip').value;
+		const ip = document.getElementById('ps3-ip')?.value;
 		const status = document.getElementById('library-status');
 
 		if (!ip) {
@@ -28539,7 +28540,7 @@ window.showUniversalDownloadModal = function(type, url, safeName, version, sizeB
 	}
 
 	function mountGame(commandPath) {
-		const ip = document.getElementById('ps3-ip').value;
+		const ip = document.getElementById('ps3-ip')?.value;
 		const action = getWebmanGameActionInfo(commandPath);
 		const finalPath = buildWebmanGameCommand(commandPath, action.mode);
 
@@ -31352,7 +31353,7 @@ window.showLibrarySection = function(type, noScrollToTop = false) {
 		if (typeof isUserSessionReadyForConsole === 'function' && !isUserSessionReadyForConsole()) return;
 		if (window.ps3ConnectInProgress) return;
 		window.ps3ConnectInProgress = true;
-		const ip = document.getElementById('ps3-ip').value;
+		const ip = document.getElementById('ps3-ip')?.value;
 		if (!ip) {
 			window.ps3ConnectInProgress = false;
 			if (!silent) alert("Please enter the PS3™ IP address first!");
@@ -31621,7 +31622,7 @@ window.showLibrarySection = function(type, noScrollToTop = false) {
 	}
 	
 	function shutdownPS3() {
-		const ip = document.getElementById('ps3-ip').value;
+		const ip = document.getElementById('ps3-ip')?.value;
 		if (!ip) return;
 		
 		if (confirm("Turn off the PS3™?")) {
@@ -31684,6 +31685,7 @@ window.showLibrarySection = function(type, noScrollToTop = false) {
 	function goBack() {
 		try {
 			const pathContainer = document.getElementById('current-path');
+			if (!pathContainer) return;
 			const spans = pathContainer.querySelectorAll('span');
 			if (spans.length <= 1) { explorePath('/'); return; }
 			const prevSpan = spans[spans.length - 2];
@@ -31695,7 +31697,7 @@ window.showLibrarySection = function(type, noScrollToTop = false) {
 	}
 	
 	async function deleteFile(path) {
-		const ip = document.getElementById('ps3-ip').value;
+		const ip = document.getElementById('ps3-ip')?.value;
 		if (!ip) { alert("Please enter the PS3™ IP address first!"); return; }
 	
 		const cleanPath = path.startsWith('/') ? path : `/${path}`;
@@ -31713,7 +31715,7 @@ window.showLibrarySection = function(type, noScrollToTop = false) {
 	}
 	
 	async function explorePath(path) {
-		const ip = document.getElementById('ps3-ip').value;
+		const ip = document.getElementById('ps3-ip')?.value;
 		const status = document.getElementById('files-status');
 		const listContainer = document.getElementById('file-browser-list');
 		const globalIcon = document.getElementById('global-status-icon');
@@ -31885,7 +31887,7 @@ window.showLibrarySection = function(type, noScrollToTop = false) {
 	
 	window.openTextEditor = async function(url, filename, fullPath) {
 		if (typeof playUiClick === 'function') playUiClick();
-		const ip = document.getElementById('ps3-ip').value;
+		const ip = document.getElementById('ps3-ip')?.value;
 	
 		const overlay = document.createElement('div');
 		overlay.id = 'psn-text-modal';
@@ -31977,7 +31979,7 @@ window.showLibrarySection = function(type, noScrollToTop = false) {
 	
 	window.openHtmlModal = function(url, filename, fullPath) {
 		if (typeof playUiClick === 'function') playUiClick();
-		const ip = document.getElementById('ps3-ip').value;
+		const ip = document.getElementById('ps3-ip')?.value;
 		
 		const overlay = document.createElement('div');
 		overlay.id = 'psn-html-modal';
@@ -32174,7 +32176,7 @@ window.showLibrarySection = function(type, noScrollToTop = false) {
 
 	window.installPkgFromBrowser = function(fullPath, deleteAfter) {
 		if (typeof playUiClick === 'function') playUiClick();
-		const ip = document.getElementById('ps3-ip').value;
+		const ip = document.getElementById('ps3-ip')?.value;
 		
 		const webmanCmd = deleteAfter ? '/install.ps3' : '/install_ps3';
 		const url = `http://${ip}${webmanCmd}${fullPath}`;
@@ -32227,7 +32229,7 @@ window.showLibrarySection = function(type, noScrollToTop = false) {
 				const pathParts = oldPath.split('/');
 				pathParts.pop();
 				const newPath = pathParts.join('/') + '/' + newName;
-				const ip = document.getElementById('ps3-ip').value;
+				const ip = document.getElementById('ps3-ip')?.value;
 				try {
 					await fetch(`http://${ip}/rename.ps3${oldPath}|${newPath}`, { mode: 'no-cors' });
 					explorePath(currentPath);
@@ -32261,7 +32263,7 @@ window.showLibrarySection = function(type, noScrollToTop = false) {
 	window.addEventListener('DOMContentLoaded', () => {
 		const savedIp = loadState('ps3_ip');
 		if (savedIp) {
-			document.getElementById('ps3-ip').value = savedIp;
+			document.getElementById('ps3-ip')?.value = savedIp;
 			startConnectionMonitor();
 			if (typeof scheduleSavedPs3Reconnect === 'function') scheduleSavedPs3Reconnect(null, 1200);
 		}
@@ -33933,7 +33935,7 @@ window.showLibrarySection = function(type, noScrollToTop = false) {
 			const fullImg = document.getElementById('full-modal-img');
 			const titleEl = document.getElementById('full-modal-img-title');
 			const url = images[currentFullImageIndex];
-			const ip = document.getElementById('ps3-ip').value;
+			const ip = document.getElementById('ps3-ip')?.value;
 	
 			const isFromFileManager = ip && url.includes(ip);
 	

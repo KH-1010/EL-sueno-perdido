@@ -6888,10 +6888,8 @@ body.chat-selection-mode .chat-message-actions .chat-delete-action:hover { trans
 			<div class="top-nav">
 				<a id="top-nav-home" style="cursor: pointer;" onmouseenter="playUiHover()"  class="active" onclick="playUiToggle(); switchTab('home')">Home</a>
 				<a id="top-nav-store" style="cursor: pointer;" onmouseenter="playUiHover()"  onclick="playUiToggle(); switchTab('store')">Store</a>
-				<a id="top-nav-online" style="cursor: pointer;" onmouseenter="playUiHover()" onclick="playUiToggle(); switchTab('online')">Online</a>
 				<a id="top-nav-library" style="cursor: pointer;" onmouseenter="playUiHover()"  onclick="playUiToggle(); switchTab('library')">Library</a>
 				<a id="top-nav-admin" style="cursor: pointer;" onmouseenter="playUiHover()" onclick="playUiToggle(); openAdminPanel()"><i class="fas fa-shield-alt" style="margin-right: 7px;"></i>Admin</a>
-				<a id="top-nav-arabic" style="cursor: pointer; color: #00e5ff;" onmouseenter="playUiHover()" onclick="playUiToggle(); switchTab('arabic')"><i class="fas fa-diamond" style="margin-right: 7px;"></i>مكتبة الكلاسيكية</a>
 			</div>
 		</div>
 	
@@ -7001,10 +6999,8 @@ body.chat-selection-mode .chat-message-actions .chat-delete-action:hover { trans
 			<div class="mobile-tab-switcher" style="padding: 15px; gap: 10px; border-bottom: 1px solid rgba(255,255,255,0.05);">
 				<button class="action-btn" onmouseenter="playUiHover()" onclick="playUiClick(); switchTab('home'); toggleSidebar(true);" style="flex:1; justify-content:center; margin:0; font-size: 11px;">Home</button>
 				<button class="action-btn" onmouseenter="playUiHover()" onclick="playUiClick(); switchTab('store'); toggleSidebar(true);" style="flex:1; justify-content:center; margin:0; font-size: 11px;">Store</button>
-				<button class="action-btn" onmouseenter="playUiHover()" onclick="playUiClick(); switchTab('online'); toggleSidebar(true);" style="flex:1; justify-content:center; margin:0; font-size: 11px;">Online</button>
 				<button class="action-btn" onmouseenter="playUiHover()" onclick="playUiClick(); switchTab('library'); toggleSidebar(true);" style="flex:1; justify-content:center; margin:0; font-size: 11px;">Library</button>
 				<button id="mobile-admin-btn" class="action-btn" onmouseenter="playUiHover()" onclick="playUiClick(); openAdminPanel(); toggleSidebar(true);" style="flex:1; justify-content:center; margin:0; font-size: 11px; border-color: rgba(255,68,68,0.5);"><i class="fas fa-shield-alt"></i></button>
-				<button class="action-btn" onmouseenter="playUiHover()" onclick="playUiClick(); switchTab('arabic'); toggleSidebar(true);" style="flex:1; justify-content:center; margin:0; font-size: 11px;">مكتبة</button>
 			</div>
 			
 			<ul class="sidebar-menu menu-group-home">
@@ -7013,24 +7009,6 @@ body.chat-selection-mode .chat-message-actions .chat-delete-action:hover { trans
 				</li>
 				<li id="nav-trending" onmouseenter="playUiHover()" onclick="openTrendingTab()">
 					<i class="fas fa-fire"></i> Trending
-				</li>
-				<li style="margin-top:8px; padding:6px 12px; font-size:10px; color:rgba(255,255,255,0.35); font-weight:700; letter-spacing:1px; text-transform:uppercase; pointer-events:none;">
-					<i class="fas fa-diamond" style="color:#00e5ff;"></i> مكتبة الكلاسيكية
-				</li>
-				<li id="nav-home-dub" onmouseenter="playUiHover()" onclick="toggleSidebar(true); requestAnimationFrame(()=>{ switchView('view-arabic'); loadArabicGames('dub'); })">
-					<i class="fas fa-microphone-alt" style="color: #ffd700;"></i> ألعاب مدبلجة
-				</li>
-				<li id="nav-home-sub" onmouseenter="playUiHover()" onclick="toggleSidebar(true); requestAnimationFrame(()=>{ switchView('view-arabic'); loadArabicGames('sub'); })">
-					<i class="fas fa-closed-captioning" style="color: #00ff88;"></i> ألعاب مترجمة
-				</li>
-				<li id="nav-home-ps1" onmouseenter="playUiHover()" onclick="toggleSidebar(true); requestAnimationFrame(()=>{ switchView('view-arabic'); loadArabicGames('ps1'); })">
-					<i class="fas fa-compact-disc" style="color: #00aaff;"></i> PlayStation 1
-				</li>
-				<li id="nav-home-ps2" onmouseenter="playUiHover()" onclick="toggleSidebar(true); requestAnimationFrame(()=>{ switchView('view-arabic'); loadArabicGames('ps2'); })">
-					<i class="fas fa-gamepad" style="color: #cc66ff;"></i> PlayStation 2
-				</li>
-				<li id="nav-home-ps3" onmouseenter="playUiHover()" onclick="toggleSidebar(true); requestAnimationFrame(()=>{ switchView('view-arabic'); loadArabicGames('ps3'); })">
-					<i class="fas fa-tv" style="color: #ff3366;"></i> PlayStation 3
 				</li>
 			</ul>
 	
@@ -7049,12 +7027,6 @@ body.chat-selection-mode .chat-message-actions .chat-delete-action:hover { trans
 			</ul>
 			
 			<ul class="sidebar-menu menu-group-online" style="display: none;">
-				<li class="active" id="nav-online-featured" onmouseenter="playUiHover()" onclick="playUiClick(); showOnlineSection('featured'); toggleSidebar(true)">
-					<i class="fas fa-star"></i> Featured
-				</li>
-				<li id="nav-online-revived" onmouseenter="playUiHover()" onclick="playUiClick(); showOnlineSection('revived'); toggleSidebar(true)">
-					<i class="fas fa-server"></i> Revived Servers
-				</li>
 			</ul>
 	
 			<ul class="sidebar-menu menu-group-library" style="display: none;">
@@ -7096,31 +7068,10 @@ body.chat-selection-mode .chat-message-actions .chat-delete-action:hover { trans
 			</ul>
 
 			<ul class="sidebar-menu menu-group-arabic" style="display: none;">
-				<li class="active" id="nav-arabic-explore" onmouseenter="playUiHover()" onclick="toggleSidebar(true); requestAnimationFrame(()=>{ switchView('view-arabic'); loadArabicGames(''); })">
-					<i class="fas fa-diamond"></i> الرئيسية
-				</li>
-				<li id="nav-arabic-dub" onmouseenter="playUiHover()" onclick="toggleSidebar(true); requestAnimationFrame(()=>{ switchView('view-arabic'); loadArabicGames('dub'); })">
-					<i class="fas fa-microphone-alt" style="color: #ffd700;"></i> ألعاب مدبلجة 🎙️
-				</li>
-				<li id="nav-arabic-sub" onmouseenter="playUiHover()" onclick="toggleSidebar(true); requestAnimationFrame(()=>{ switchView('view-arabic'); loadArabicGames('sub'); })">
-					<i class="fas fa-closed-captioning" style="color: #00ff88;"></i> ألعاب مترجمة 📝
-				</li>
-				<li id="nav-arabic-ps1" onmouseenter="playUiHover()" onclick="toggleSidebar(true); requestAnimationFrame(()=>{ switchView('view-arabic'); loadArabicGames('ps1'); })">
-					<i class="fas fa-compact-disc" style="color: #00aaff;"></i> PlayStation 1
-				</li>
-				<li id="nav-arabic-ps2" onmouseenter="playUiHover()" onclick="toggleSidebar(true); requestAnimationFrame(()=>{ switchView('view-arabic'); loadArabicGames('ps2'); })">
-					<i class="fas fa-gamepad" style="color: #cc66ff;"></i> PlayStation 2
-				</li>
-				<li id="nav-arabic-ps3" onmouseenter="playUiHover()" onclick="toggleSidebar(true); requestAnimationFrame(()=>{ switchView('view-arabic'); loadArabicGames('ps3'); })">
-					<i class="fas fa-tv" style="color: #ff3366;"></i> PlayStation 3
-				</li>
 			</ul>
 			<div class="sidebar-divider" style="height: 1px; background: rgba(255,255,255,0.05); margin: 10px 15px;"></div>
 			
 			<ul class="sidebar-menu sidebar-footer-menu">
-				<li id="nav-classic" onmouseenter="playUiHover()" onclick="playUiClick(); switchTab('arabic'); toggleSidebar(true)">
-					<i class="fas fa-diamond" style="color: #00e5ff;"></i> <span style="color: #00e5ff; font-weight: 600;">مكتبة الكلاسيكية</span>
-				</li>
 				<li id="nav-guides" onmouseenter="playUiHover()" onclick="playUiClick(); switchView('view-guides'); toggleSidebar(true)">
 					<i class="fas fa-book"></i> Help
 				</li>
@@ -15686,7 +15637,7 @@ window.showUniversalDownloadModal = function(type, url, safeName, version, sizeB
 		const topNavStore = document.getElementById('top-nav-store');
 		if (topNavStore) topNavStore.classList.add('active');
 	
-		const menuGroups = ['.menu-group-home', '.menu-group-library', '.menu-group-store', '.menu-group-chat', '.menu-group-trophies', '.menu-group-online'];
+		const menuGroups = ['.menu-group-home', '.menu-group-library', '.menu-group-store', '.menu-group-chat', '.menu-group-trophies'];
 		menuGroups.forEach(selector => {
 			const el = document.querySelector(selector);
 			if (el) el.style.display = 'none';
@@ -15733,12 +15684,6 @@ window.showUniversalDownloadModal = function(type, url, safeName, version, sizeB
 		let isPrimaryView = false;
 		if (tab === 'home' && currentView === 'view-explore') isPrimaryView = true;
 		if (tab === 'store' && currentView === 'view-browse') isPrimaryView = true;
-		if (tab === 'online' && currentView === 'view-online') {
-			const feat = document.getElementById('subview-online-featured');
-			if (feat && (feat.style.display === 'block' || feat.style.display === 'flex' || feat.style.display === '')) {
-				isPrimaryView = true;
-			}
-		}
 		if (tab === 'library' && currentView === 'view-library') {
 			const gamesSection = document.getElementById('subview-games');
 			if (gamesSection && (gamesSection.style.display === 'block' || gamesSection.style.display === 'flex' || gamesSection.style.display === '')) {
@@ -15747,11 +15692,6 @@ window.showUniversalDownloadModal = function(type, url, safeName, version, sizeB
 		}
 
 		if (navItem && navItem.classList.contains('active')) {
-			if (tab === 'online') {
-				document.getElementById('nav-online-revived')?.classList.remove('active');
-				if (typeof showOnlineSection === 'function') showOnlineSection('featured');
-			}
-			
 			if (isPrimaryView) {
 				return;
 			}
@@ -15780,9 +15720,7 @@ window.showUniversalDownloadModal = function(type, url, safeName, version, sizeB
 			store: document.querySelector('.menu-group-store'),
 			chat: document.querySelector('.menu-group-chat'),
 			trophies: document.querySelector('.menu-group-trophies'),
-			online: document.querySelector('.menu-group-online'),
-			admin: document.querySelector('.menu-group-admin'),
-			arabic: document.querySelector('.menu-group-arabic')
+			admin: document.querySelector('.menu-group-admin')
 		};
 		
 		Object.values(groups).forEach(m => { if(m) m.style.display = 'none'; });
@@ -15841,22 +15779,17 @@ window.showUniversalDownloadModal = function(type, url, safeName, version, sizeB
 			}
 		}
 		else if (tab === 'online') {
-			document.getElementById('top-nav-online')?.classList.add('active');
-			if(groups.online) groups.online.style.display = 'block';
-			
-			switchView('view-online', false, true); 
-			
-			if (typeof showOnlineSection === 'function') showOnlineSection('featured', true);
+			if (tab === 'home') return;
+			window.switchTab('home');
+			return;
 		}
 		else if (tab === 'admin') {
 			if (typeof openAdminPanel === 'function') openAdminPanel();
 		}
 		else if (tab === 'arabic') {
-			document.querySelectorAll('.sidebar-menu').forEach(m => m.style.display = 'none');
-			const arabicMenu = document.querySelector('.menu-group-arabic');
-			if (arabicMenu) arabicMenu.style.display = 'block';
-			switchView('view-arabic', false, true);
-			if (!window.__ARABIC_CURRENT) loadArabicGames('');
+			if (tab === 'home') return;
+			window.switchTab('home');
+			return;
 		}
 		else if (tab === 'chat') {
 			if(groups.chat) groups.chat.style.display = 'block';
@@ -16078,7 +16011,7 @@ window.showUniversalDownloadModal = function(type, url, safeName, version, sizeB
 				if (tab) tab.classList.add('active');
 			}
 	
-			const groups = ['.menu-group-home', '.menu-group-library', '.menu-group-store', '.menu-group-chat', '.menu-group-trophies', '.menu-group-online', '.menu-group-admin'];
+			const groups = ['.menu-group-home', '.menu-group-library', '.menu-group-store', '.menu-group-chat', '.menu-group-trophies', '.menu-group-admin'];
 			groups.forEach(selector => {
 				const el = document.querySelector(selector);
 				if (el) el.style.display = 'none';
@@ -16130,9 +16063,6 @@ window.showUniversalDownloadModal = function(type, url, safeName, version, sizeB
 			else if (viewName === 'library' || viewName === 'library_monitor' || viewName === 'library_games' || viewName === 'library_favs' || viewName === 'library_files') {
 				const side = viewName === 'library_files' ? 'nav-lib-explorer' : (viewName === 'library_favs' ? 'nav-lib-favs' : (viewName === 'library_games' ? 'nav-lib-games' : 'nav-lib-monitor'));
 				syncGlobalUI('top-nav-library', '.menu-group-library', side);
-			} else if (viewName === 'online' || viewName === 'online_featured' || viewName === 'online_revived') {
-				const side = viewName === 'online_revived' ? 'nav-online-revived' : 'nav-online-featured';
-				syncGlobalUI('top-nav-online', '.menu-group-online', side);
 			} else if (viewName === 'browse' || viewName === 'wishlist' || viewName === 'downloads') {
 				const side = viewName === 'browse' ? 'nav-browse' : (viewName === 'wishlist' ? 'nav-wishlist' : 'nav-downloads');
 				syncGlobalUI('top-nav-store', '.menu-group-store', side);
@@ -23336,7 +23266,7 @@ window.showUniversalDownloadModal = function(type, url, safeName, version, sizeB
 	});
 
 	window.switchView = function(viewId, forceReset = false, preventAutoLoad = false) {
-		const mainViews = ['view-explore', 'view-browse', 'view-wishlist', 'view-downloads', 'view-library', 'view-trending', 'view-online', 'view-arabic'];
+		const mainViews = ['view-explore', 'view-browse', 'view-wishlist', 'view-downloads', 'view-library', 'view-trending'];
 		const profileUtils = ['view-chat', 'view-trophies', 'view-rewards'];
 		const systemUtils = ['view-settings', 'view-guides'];
 
@@ -23521,16 +23451,14 @@ window.showUniversalDownloadModal = function(type, url, safeName, version, sizeB
 			const mainTabsMap = {
 				'view-explore': 'top-nav-home', 'view-browse': 'top-nav-store',
 				'view-wishlist': 'top-nav-store', 'view-downloads': 'top-nav-store',
-				'view-library': 'top-nav-library', 'view-trending': 'top-nav-home',
-				'view-online': 'top-nav-online', 'view-arabic': 'top-nav-home'
+				'view-library': 'top-nav-library', 'view-trending': 'top-nav-home'
 			};
 			if (mainTabsMap[viewId]) document.getElementById(mainTabsMap[viewId])?.classList.add('active');
 	
 			const groupMap = {
 				'view-explore': '.menu-group-home', 'view-browse': '.menu-group-store',
 				'view-wishlist': '.menu-group-store', 'view-downloads': '.menu-group-store',
-				'view-library': '.menu-group-library', 'view-trending': '.menu-group-home',
-				'view-online': '.menu-group-online', 'view-arabic': '.menu-group-home'
+				'view-library': '.menu-group-library', 'view-trending': '.menu-group-home'
 			};
 			
 			document.querySelectorAll('[class*="menu-group-"]').forEach(g => g.style.display = 'none');
@@ -23573,9 +23501,6 @@ window.showUniversalDownloadModal = function(type, url, safeName, version, sizeB
 		}
 	
 		let directMatch = document.querySelector(`.sidebar-menu li[onclick*="${viewId}"]`);
-		if (!directMatch && viewId === 'view-online') {
-			directMatch = document.querySelector('.menu-group-online li.active') || document.getElementById('nav-online-featured');
-		}
 		if (directMatch) directMatch.classList.add('active');
 		if (viewId === 'view-admin') {
 			document.querySelectorAll('.sidebar-menu li').forEach(el => el.classList.remove('active'));
@@ -47818,46 +47743,8 @@ function updateArabicStats() {
     if (coverEl) coverEl.textContent = coverCount;
 }
 
-// Hook into switchTab
-if (typeof window.switchTab === 'function' && !window.__arabicSwitchTabHooked) {
-    const origSwitchTab = window.switchTab;
-    window.switchTab = function(tab) {
-        const result = origSwitchTab.apply(this, arguments);
-        if (tab === 'arabic') {
-            document.querySelectorAll('.sidebar-menu').forEach(m => m.style.display = 'none');
-            const arabicMenu = document.querySelector('.menu-group-arabic');
-            if (arabicMenu) arabicMenu.style.display = '';
-            loadArabicGames(window.__ARABIC_CURRENT || '');
-        }
-        return result;
-    };
-    window.__arabicSwitchTabHooked = true;
-}
-
 document.addEventListener('DOMContentLoaded', function() {
     loadArabicCovers();
-    setTimeout(function() {
-        var platforms = ['dub', 'sub', 'ps1', 'ps2', 'ps3'];
-        platforms.forEach(function(plat) {
-            if (!window.__ARABIC_LOADED[plat]) {
-                var cfg = ARABIC_PLATFORMS[plat];
-                if (cfg && cfg.file) {
-                    fetch(cfg.file).then(function(r) { return r.ok ? r.json() : []; }).then(function(data) {
-                        data.forEach(function(g) { g.__source = plat; });
-                        window.__ARABIC_DB[plat] = data;
-                        window.__ARABIC_LOADED[plat] = true;
-                        window.__ARABIC_ALL = [].concat(
-                            window.__ARABIC_DB.dub || [],
-                            window.__ARABIC_DB.sub || [],
-                            window.__ARABIC_DB.ps1 || [],
-                            window.__ARABIC_DB.ps2 || [],
-                            window.__ARABIC_DB.ps3 || []
-                        );
-                    }).catch(function() {});
-                }
-            }
-        });
-    }, 2000);
 });
 </script>
 

@@ -7014,6 +7014,24 @@ body.chat-selection-mode .chat-message-actions .chat-delete-action:hover { trans
 				<li id="nav-trending" onmouseenter="playUiHover()" onclick="openTrendingTab()">
 					<i class="fas fa-fire"></i> Trending
 				</li>
+				<li style="margin-top:8px; padding:6px 12px; font-size:10px; color:rgba(255,255,255,0.35); font-weight:700; letter-spacing:1px; text-transform:uppercase; pointer-events:none;">
+					<i class="fas fa-diamond" style="color:#00e5ff;"></i> مكتبة الكلاسيكية
+				</li>
+				<li id="nav-home-dub" onmouseenter="playUiHover()" onclick="playUiClick(); switchView('view-arabic'); loadArabicGames('dub'); toggleSidebar(true)">
+					<i class="fas fa-microphone-alt" style="color: #ffd700;"></i> ألعاب مدبلجة
+				</li>
+				<li id="nav-home-sub" onmouseenter="playUiHover()" onclick="playUiClick(); switchView('view-arabic'); loadArabicGames('sub'); toggleSidebar(true)">
+					<i class="fas fa-closed-captioning" style="color: #00ff88;"></i> ألعاب مترجمة
+				</li>
+				<li id="nav-home-ps1" onmouseenter="playUiHover()" onclick="playUiClick(); switchView('view-arabic'); loadArabicGames('ps1'); toggleSidebar(true)">
+					<i class="fas fa-compact-disc" style="color: #00aaff;"></i> PlayStation 1
+				</li>
+				<li id="nav-home-ps2" onmouseenter="playUiHover()" onclick="playUiClick(); switchView('view-arabic'); loadArabicGames('ps2'); toggleSidebar(true)">
+					<i class="fas fa-gamepad" style="color: #cc66ff;"></i> PlayStation 2
+				</li>
+				<li id="nav-home-ps3" onmouseenter="playUiHover()" onclick="playUiClick(); switchView('view-arabic'); loadArabicGames('ps3'); toggleSidebar(true)">
+					<i class="fas fa-tv" style="color: #ff3366;"></i> PlayStation 3
+				</li>
 			</ul>
 	
 			<ul class="sidebar-menu menu-group-store" style="display: none;">
@@ -23318,7 +23336,7 @@ window.showUniversalDownloadModal = function(type, url, safeName, version, sizeB
 	});
 
 	window.switchView = function(viewId, forceReset = false, preventAutoLoad = false) {
-		const mainViews = ['view-explore', 'view-browse', 'view-wishlist', 'view-downloads', 'view-library', 'view-trending', 'view-online'];
+		const mainViews = ['view-explore', 'view-browse', 'view-wishlist', 'view-downloads', 'view-library', 'view-trending', 'view-online', 'view-arabic'];
 		const profileUtils = ['view-chat', 'view-trophies', 'view-rewards'];
 		const systemUtils = ['view-settings', 'view-guides'];
 
@@ -23504,7 +23522,7 @@ window.showUniversalDownloadModal = function(type, url, safeName, version, sizeB
 				'view-explore': 'top-nav-home', 'view-browse': 'top-nav-store',
 				'view-wishlist': 'top-nav-store', 'view-downloads': 'top-nav-store',
 				'view-library': 'top-nav-library', 'view-trending': 'top-nav-home',
-				'view-online': 'top-nav-online'
+				'view-online': 'top-nav-online', 'view-arabic': 'top-nav-home'
 			};
 			if (mainTabsMap[viewId]) document.getElementById(mainTabsMap[viewId])?.classList.add('active');
 	
@@ -23512,7 +23530,7 @@ window.showUniversalDownloadModal = function(type, url, safeName, version, sizeB
 				'view-explore': '.menu-group-home', 'view-browse': '.menu-group-store',
 				'view-wishlist': '.menu-group-store', 'view-downloads': '.menu-group-store',
 				'view-library': '.menu-group-library', 'view-trending': '.menu-group-home',
-				'view-online': '.menu-group-online'
+				'view-online': '.menu-group-online', 'view-arabic': '.menu-group-home'
 			};
 			
 			document.querySelectorAll('[class*="menu-group-"]').forEach(g => g.style.display = 'none');
@@ -47605,17 +47623,15 @@ window.__classicCurrentGame = null;
 
 function openClassicModal(game) {
     try {
-        console.log('[Classic] openClassicModal invoked', game && game.title);
         if (!game) {
             console.error('[Classic] openClassicModal called with null/undefined game');
-            alert('[DEBUG] openClassicModal: game is null/undefined');
             return;
         }
         console.log('[Classic] openClassicModal executing for:', game);
         window.__classicCurrentGame = game;
-        try { playUiClick(); } catch(e) { console.warn('[Classic] playUiClick error:', e); }
+        try { playUiClick(); } catch(e) {}
         const modal = document.getElementById('classic-game-modal');
-        if (!modal) { console.error('classic-game-modal not found'); alert('[DEBUG] classic-game-modal element NOT FOUND in DOM'); return; }
+        if (!modal) { console.error('classic-game-modal not found'); return; }
         
         const title = String(game.title || game.name || game.cleanTitle || 'Unknown');
         const cover = getClassicCover(game);
@@ -47729,18 +47745,14 @@ function openClassicModal(game) {
         modal.style.opacity = '1';
         modal.style.visibility = 'visible';
         modal.style.pointerEvents = 'auto';
-        console.log('[Classic] Modal display set to flex, waiting for rAF...');
         requestAnimationFrame(() => {
             requestAnimationFrame(() => {
                 modal.classList.add('show');
-                console.log('[Classic] Modal .show class added. display=' + modal.style.display + ' computed=' + getComputedStyle(modal).display);
             });
         });
         modal.onclick = (e) => { if (e.target === modal) closeClassicModal(); };
-        console.log('[Classic] openClassicModal completed successfully for:', title);
     } catch(e) {
         console.error('[Classic] openClassicModal error:', e);
-        alert('[DEBUG] openClassicModal ERROR: ' + e.message + '\nStack: ' + (e.stack || '').substring(0, 500));
     }
 }
 

@@ -360,8 +360,8 @@ select option { background-color: var(--bg-dark); }
 .right-arrow { right: -15px; }
 
 /* ========================================================================== GAME CARDS ========================================================================== */
-.games-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(155px, 1fr)); gap: 18px; padding-bottom: 40px; }
-.game-card { background-color: var(--card-surface-bg); border: 1px solid rgba(255, 255, 255, 0.03); border-radius: 10px; overflow: hidden; cursor: pointer; display: flex; flex-direction: column; transform: translateY(0) translateZ(0); backface-visibility: hidden; transition: transform 0.3s ease-out, box-shadow 0.3s ease-out; backdrop-filter: var(--card-surface-blur); -webkit-backdrop-filter: var(--card-surface-blur); }
+.games-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 20px; padding-bottom: 40px; }
+.game-card { background-color: var(--card-surface-bg); border: 1px solid rgba(255, 255, 255, 0.06); border-radius: 12px; overflow: hidden; cursor: pointer; display: flex; flex-direction: column; transform: translateY(0) translateZ(0); backface-visibility: hidden; transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease, border-color 0.3s ease; backdrop-filter: var(--card-surface-blur); -webkit-backdrop-filter: var(--card-surface-blur); }
 .game-card.anim-reveal { opacity: 0; animation: tileReveal 0.4s ease-out forwards; animation-delay: calc(var(--tile-idx, 0) * 0.04s); }
 .game-card.no-anim { opacity: 1; animation: none; transform: none; }
 .game-card.no-img-fade .game-img { opacity: 1 !important; transition: transform 0.3s ease, filter 0.3s ease !important; }
@@ -386,7 +386,7 @@ select option { background-color: var(--bg-dark); }
 .tag-pce { background: linear-gradient(135deg, #e3a21a, #e51400); color: #ffffff; border: 1px solid #fa6800; }
 .tag-neogeo { background: linear-gradient(135deg, #000, #333); color: #ed1c24; border: 1px solid #ff0000; box-shadow: 0 0 8px rgba(237, 28, 36, 0.4); }
 .tag-default { background: rgba(0, 0, 0, 0.8); color: #fff; border: 1px solid rgba(255, 255, 255, 0.2); }
-.game-info { padding: 12px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; gap: 10px; }
+.game-info { padding: 12px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; gap: 10px; background: linear-gradient(180deg, rgba(255,255,255,0.02) 0%, transparent 100%); }
 .game-title { font-size: 13px; font-weight: 600; margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #fff; line-height: 1.4; }
 .game-meta-info { display: flex; justify-content: space-between; align-items: center; gap: 8px; min-width: 0; margin-top: 4px; }
 .game-id.base-game-link { display: inline-flex; align-items: center; gap: 4px; cursor: pointer; transition: box-shadow .2s ease, transform .2s ease, filter .2s ease; }
@@ -404,7 +404,7 @@ select option { background-color: var(--bg-dark); }
 .title-id-copy-btn:hover { background: rgba(255,255,255,.12); border-color: rgba(255,255,255,.34); color: #fff; transform: translateY(-1px); }
 .title-id-copy-btn i { font-size: 9px; line-height: 1; }
 .btn-group { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 8px; }
-.btn-mini { display: inline-flex; align-items: center; justify-content: center; gap: 4px; padding: 6px 2px; border-radius: 6px; font-size: 9px; font-weight: 700; line-height: 1; text-decoration: none; text-transform: uppercase; letter-spacing: 0.5px; border: 1px solid rgba(255, 255, 255, 0.1); cursor: pointer; backdrop-filter: blur(5px); width: 100%; box-sizing: border-box; }
+.btn-mini { display: inline-flex; align-items: center; justify-content: center; gap: 4px; padding: 6px 2px; border-radius: 8px; font-size: 9px; font-weight: 700; line-height: 1; text-decoration: none; text-transform: uppercase; letter-spacing: 0.5px; border: 1px solid rgba(255, 255, 255, 0.1); cursor: pointer; backdrop-filter: blur(5px); width: 100%; box-sizing: border-box; transition: all 0.2s ease; }
 .btn-mini i { display: inline-flex; align-items: center; justify-content: center; flex: 0 0 auto; width: 1em; height: 1em; line-height: 1; margin: 0; padding: 0; vertical-align: middle; transform: translateY(0.5px); }
 .btn-pkg { order: 1; background: linear-gradient(135deg, #005c99, #0070cc); color: #fff; }
 .btn-multi { order: 1; background: linear-gradient(135deg, #28a745, #28a745); color: #fff; }
@@ -7346,9 +7346,9 @@ body.chat-selection-mode .chat-message-actions .chat-delete-action:hover { trans
 				</div>
 			</div>
 			<div id="view-browse" class="view-section">
-				<h2 class="browse-title-row" style="font-size: 28px; font-weight: 300; margin-top: 20px; margin-left: 40px; margin-right: 40px; margin-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px; display: flex; justify-content: space-between; align-items: baseline;">
-					<div class="browse-title-main">
-						<span class="browse-title-text">Browse Database</span>
+				<h2 class="browse-title-row" style="font-size: 28px; font-weight: 300; margin-top: 20px; margin-left: 40px; margin-right: 40px; margin-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 15px; display: flex; justify-content: space-between; align-items: baseline;">
+					<div class="browse-title-main" style="display: flex; align-items: baseline; gap: 15px;">
+						<span class="browse-title-text" style="background: linear-gradient(135deg, #fff 0%, rgba(255,255,255,0.7) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Browse Database</span>
 						<span id="browse-remote-status" class="browse-remote-status-inline">
 							<span class="browse-remote-status-dot"></span>
 							<span class="browse-remote-label-desktop">Remote Download:</span>
@@ -16937,7 +16937,63 @@ window.showUniversalDownloadModal = function(type, url, safeName, version, sizeB
 					return "";
 				}
 			}));
-			const data = await buildStoreCategoryData(cat, texts, priority);
+			let data = await buildStoreCategoryData(cat, texts, priority);
+
+			if (cat === 'games') {
+				try {
+					const [ps1Raw, ps2Raw] = await Promise.all([
+						fetch('ps1.json').then(r => r.ok ? r.json() : []).catch(() => []),
+						fetch('ps2.json').then(r => r.ok ? r.json() : []).catch(() => [])
+					]);
+					const existingIds = new Set(data.map(g => g.id));
+					let fakeIdx = 0;
+					const parseSize = (s) => {
+						if (!s) return 0;
+						s = String(s).trim().toUpperCase();
+						const m = s.match(/([\d.]+)\s*(MB|GB|KB|TB|M|G|K|T)?/);
+						if (!m) return 0;
+						const n = parseFloat(m[1]);
+						const u = m[2] || '';
+						if (u === 'GB' || u === 'G') return Math.round(n * 1073741824);
+						if (u === 'MB' || u === 'M') return Math.round(n * 1048576);
+						if (u === 'KB' || u === 'K') return Math.round(n * 1024);
+						if (u === 'TB' || u === 'T') return Math.round(n * 1099511627776);
+						return Math.round(n);
+					};
+					const extractRegion = (title) => {
+						if (/\b(USA|NTSC-U|NTSC-U\/C)\b/i.test(title)) return 'US';
+						if (/\b(Europe|PAL|PAL-E)\b/i.test(title)) return 'EU';
+						if (/\b(Japan|NTSC-J)\b/i.test(title)) return 'JP';
+						if (/\b(Asia)\b/i.test(title)) return 'ASIA';
+						return '';
+					};
+					const addJsonGames = (arr, cTag) => {
+						for (const g of arr) {
+							const title = g.title || '';
+							const downloadUrl = (Array.isArray(g.uris) && g.uris.length > 0) ? g.uris[0] : (g.uri || '');
+							if (!title || !downloadUrl) continue;
+							const fakeId = 'JSON_' + cTag.toUpperCase() + '_' + (fakeIdx++);
+							if (existingIds.has(fakeId)) continue;
+							const region = extractRegion(title);
+							const sizeBytes = parseSize(g.fileSize);
+							const cleanName = title.replace(/\s*\(.*?\)\s*/g, ' ').replace(/\s+/g, ' ').trim();
+							data.push({
+								id: fakeId, titleId: fakeId, region, rawName: title, title: title, name: title,
+								cleanName: cleanName || title, category: 'games', cTag, aTag: 'media',
+								url: downloadUrl, rap: 'NOT REQUIRED', contentId: 'MISSING',
+								sizeBytes, version: '', isSplit: false, isJsonGame: true, platform: g.platform || '',
+								size: g.fileSize || ''
+							});
+						}
+					};
+					addJsonGames(ps1Raw, 'psx');
+					addJsonGames(ps2Raw, 'ps2');
+					data.sort((a, b) => a.cleanName.localeCompare(b.cleanName));
+				} catch (e) {
+					console.warn('[Store] Failed to merge JSON games:', e);
+				}
+			}
+
 			psnStoreRenderCache[cat] = data;
 			window.psnStoreCache[cat] = data;
 			return data;
@@ -17703,7 +17759,11 @@ window.showUniversalDownloadModal = function(type, url, safeName, version, sizeB
 			
 			const escapedName = game.cleanName.replace(/'/g, "\\'");
 
-			if (game.url.toLowerCase().endsWith('.xml')) {
+			if (game.isJsonGame) {
+				const ext = game.url.match(/\.(iso|bin|zip|7z|rar|chd|cso|gz)$/i);
+				const extLabel = ext ? ext[1].toUpperCase() : 'ISO';
+				buttonsHtml += `<a style="cursor: pointer;" title="Download ${extLabel}" class="btn-mini btn-pkg" href="${game.url}" target="_blank" onclick="event.stopPropagation(); playUiClick();"><i class="fas fa-download"></i> ${extLabel}</a>`;
+			} else if (game.url.toLowerCase().endsWith('.xml')) {
 				buttonsHtml += `<a style="cursor: pointer;" title="Download PKG (XML)" class="btn-mini btn-pkg btn-multi" onclick="smartDownload(event, 'xml', '${game.url}', '${escapedName}', '${game.version}', this, ${game.sizeBytes || 0}, '${game.id}', '${currentCat}', '${game.contentId || ''}')"><i class="fas fa-layer-group"></i> PKG</a>`;
 			} else if (game.url.includes('|')) {
 				const partsCount = game.url.split('|').length;
@@ -17755,8 +17815,8 @@ window.showUniversalDownloadModal = function(type, url, safeName, version, sizeB
 					<div>
 						<h3 class="game-title" title="${game.cleanName}${displayVersion ? ` v${displayVersion}` : ''}">${game.cleanName}${versionTagHtml}</h3>
 						<div class="game-meta-info">
-							<span class="game-id">${game.id}</span>
-							<span class="game-size">${game.size}</span>
+							<span class="game-id">${game.isJsonGame ? (game.platform || game.cTag.toUpperCase()) : game.id}</span>
+							<span class="game-size">${game.size || ''}</span>
 						</div>
 					</div>
 					<div class="btn-group">
@@ -18646,7 +18706,11 @@ window.showUniversalDownloadModal = function(type, url, safeName, version, sizeB
 							<div class="trailer-label">Trailer</div>`
 			: '';
 		
-		if (game.url.toLowerCase().endsWith('.xml')) {
+		if (game.isJsonGame) {
+			const ext = game.url.match(/\.(iso|bin|zip|7z|rar|chd|cso|gz)$/i);
+			const extLabel = ext ? ext[1].toUpperCase() : 'ISO';
+			actionsHtml += `<a style="cursor: pointer;" title="Download ${extLabel}" class="btn-mini btn-pkg" href="${game.url}" target="_blank" onmouseenter="playUiArrow()" onclick="event.stopPropagation(); playUiClick();"><i class="fas fa-download"></i> ${extLabel}</a>`;
+		} else if (game.url.toLowerCase().endsWith('.xml')) {
 			actionsHtml += `<a style="cursor: pointer;" title="Download PKG (XML)" class="btn-mini btn-pkg btn-multi" onmouseenter="playUiArrow()" onclick="smartDownload(event, 'xml', '${game.url}', '${safeName}', '${game.version}', this, ${game.sizeBytes || 0}, '${game.id}', '${currentCat}', '${game.contentId || ''}')"><i class="fas fa-layer-group"></i> PKG (XML)</a>`;
 		} else if (game.url.includes('|')) {
 			const parts = game.url.split('|').length;
@@ -18687,7 +18751,7 @@ window.showUniversalDownloadModal = function(type, url, safeName, version, sizeB
 							${trailerOverlayHtml}
 						</div>
 						<div class="modal-info-card ${currentCat === 'games' ? 'has-trophies-row' : ''}" style="background: rgba(0,0,0,0.2); border-radius: 6px; border: 1px solid rgba(255,255,255,0.05); padding: 12px; display: flex; flex-direction: column; gap: 8px;">
-							<div class="modal-info-text" style="margin:0; font-size: 11px;">ID: <span style="color: #ffff00; font-weight: bold; float: right;">${game.id}</span><button type="button" class="title-id-copy-btn modal-title-id-copy-btn" data-copy-title-id="${game.id}" aria-label="Copy Title ID" title="Copy Title ID" style="margin-left: 6px; vertical-align: middle;"><i class="far fa-copy"></i></button></div>
+							<div class="modal-info-text" style="margin:0; font-size: 11px;">ID: <span style="color: #ffff00; font-weight: bold; float: right;">${game.isJsonGame ? (game.platform || game.cTag.toUpperCase()) : game.id}</span>${game.isJsonGame ? '' : `<button type="button" class="title-id-copy-btn modal-title-id-copy-btn" data-copy-title-id="${game.id}" aria-label="Copy Title ID" title="Copy Title ID" style="margin-left: 6px; vertical-align: middle;"><i class="far fa-copy"></i></button>`}</div>
 							<div class="modal-info-text" style="margin:0; font-size: 11px;">Type: <span style="color: #66ccff; font-weight: bold; float: right;">${typeText}</span></div>
 							<div class="modal-info-text" style="margin:0; font-size: 11px;">Region: <span style="color: #ff00ff; font-weight: bold; float: right;">${game.region}</span></div>
 							<div class="modal-info-text" style="margin:0; font-size: 11px;">Size: <span style="color: #fff; font-weight: bold; float: right;">${game.size}</span></div>

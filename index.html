@@ -7017,19 +7017,19 @@ body.chat-selection-mode .chat-message-actions .chat-delete-action:hover { trans
 				<li style="margin-top:8px; padding:6px 12px; font-size:10px; color:rgba(255,255,255,0.35); font-weight:700; letter-spacing:1px; text-transform:uppercase; pointer-events:none;">
 					<i class="fas fa-diamond" style="color:#00e5ff;"></i> مكتبة الكلاسيكية
 				</li>
-				<li id="nav-home-dub" onmouseenter="playUiHover()" onclick="playUiClick(); switchView('view-arabic'); loadArabicGames('dub'); toggleSidebar(true)">
+				<li id="nav-home-dub" onmouseenter="playUiHover()" onclick="toggleSidebar(true); requestAnimationFrame(()=>{ switchView('view-arabic'); loadArabicGames('dub'); })">
 					<i class="fas fa-microphone-alt" style="color: #ffd700;"></i> ألعاب مدبلجة
 				</li>
-				<li id="nav-home-sub" onmouseenter="playUiHover()" onclick="playUiClick(); switchView('view-arabic'); loadArabicGames('sub'); toggleSidebar(true)">
+				<li id="nav-home-sub" onmouseenter="playUiHover()" onclick="toggleSidebar(true); requestAnimationFrame(()=>{ switchView('view-arabic'); loadArabicGames('sub'); })">
 					<i class="fas fa-closed-captioning" style="color: #00ff88;"></i> ألعاب مترجمة
 				</li>
-				<li id="nav-home-ps1" onmouseenter="playUiHover()" onclick="playUiClick(); switchView('view-arabic'); loadArabicGames('ps1'); toggleSidebar(true)">
+				<li id="nav-home-ps1" onmouseenter="playUiHover()" onclick="toggleSidebar(true); requestAnimationFrame(()=>{ switchView('view-arabic'); loadArabicGames('ps1'); })">
 					<i class="fas fa-compact-disc" style="color: #00aaff;"></i> PlayStation 1
 				</li>
-				<li id="nav-home-ps2" onmouseenter="playUiHover()" onclick="playUiClick(); switchView('view-arabic'); loadArabicGames('ps2'); toggleSidebar(true)">
+				<li id="nav-home-ps2" onmouseenter="playUiHover()" onclick="toggleSidebar(true); requestAnimationFrame(()=>{ switchView('view-arabic'); loadArabicGames('ps2'); })">
 					<i class="fas fa-gamepad" style="color: #cc66ff;"></i> PlayStation 2
 				</li>
-				<li id="nav-home-ps3" onmouseenter="playUiHover()" onclick="playUiClick(); switchView('view-arabic'); loadArabicGames('ps3'); toggleSidebar(true)">
+				<li id="nav-home-ps3" onmouseenter="playUiHover()" onclick="toggleSidebar(true); requestAnimationFrame(()=>{ switchView('view-arabic'); loadArabicGames('ps3'); })">
 					<i class="fas fa-tv" style="color: #ff3366;"></i> PlayStation 3
 				</li>
 			</ul>
@@ -7096,22 +7096,22 @@ body.chat-selection-mode .chat-message-actions .chat-delete-action:hover { trans
 			</ul>
 
 			<ul class="sidebar-menu menu-group-arabic" style="display: none;">
-				<li class="active" id="nav-arabic-explore" onmouseenter="playUiHover()" onclick="playUiClick(); switchView('view-arabic'); loadArabicGames(''); toggleSidebar(true)">
+				<li class="active" id="nav-arabic-explore" onmouseenter="playUiHover()" onclick="toggleSidebar(true); requestAnimationFrame(()=>{ switchView('view-arabic'); loadArabicGames(''); })">
 					<i class="fas fa-diamond"></i> الرئيسية
 				</li>
-				<li id="nav-arabic-dub" onmouseenter="playUiHover()" onclick="playUiClick(); switchView('view-arabic'); loadArabicGames('dub'); toggleSidebar(true)">
+				<li id="nav-arabic-dub" onmouseenter="playUiHover()" onclick="toggleSidebar(true); requestAnimationFrame(()=>{ switchView('view-arabic'); loadArabicGames('dub'); })">
 					<i class="fas fa-microphone-alt" style="color: #ffd700;"></i> ألعاب مدبلجة 🎙️
 				</li>
-				<li id="nav-arabic-sub" onmouseenter="playUiHover()" onclick="playUiClick(); switchView('view-arabic'); loadArabicGames('sub'); toggleSidebar(true)">
+				<li id="nav-arabic-sub" onmouseenter="playUiHover()" onclick="toggleSidebar(true); requestAnimationFrame(()=>{ switchView('view-arabic'); loadArabicGames('sub'); })">
 					<i class="fas fa-closed-captioning" style="color: #00ff88;"></i> ألعاب مترجمة 📝
 				</li>
-				<li id="nav-arabic-ps1" onmouseenter="playUiHover()" onclick="playUiClick(); switchView('view-arabic'); loadArabicGames('ps1'); toggleSidebar(true)">
+				<li id="nav-arabic-ps1" onmouseenter="playUiHover()" onclick="toggleSidebar(true); requestAnimationFrame(()=>{ switchView('view-arabic'); loadArabicGames('ps1'); })">
 					<i class="fas fa-compact-disc" style="color: #00aaff;"></i> PlayStation 1
 				</li>
-				<li id="nav-arabic-ps2" onmouseenter="playUiHover()" onclick="playUiClick(); switchView('view-arabic'); loadArabicGames('ps2'); toggleSidebar(true)">
+				<li id="nav-arabic-ps2" onmouseenter="playUiHover()" onclick="toggleSidebar(true); requestAnimationFrame(()=>{ switchView('view-arabic'); loadArabicGames('ps2'); })">
 					<i class="fas fa-gamepad" style="color: #cc66ff;"></i> PlayStation 2
 				</li>
-				<li id="nav-arabic-ps3" onmouseenter="playUiHover()" onclick="playUiClick(); switchView('view-arabic'); loadArabicGames('ps3'); toggleSidebar(true)">
+				<li id="nav-arabic-ps3" onmouseenter="playUiHover()" onclick="toggleSidebar(true); requestAnimationFrame(()=>{ switchView('view-arabic'); loadArabicGames('ps3'); })">
 					<i class="fas fa-tv" style="color: #ff3366;"></i> PlayStation 3
 				</li>
 			</ul>
@@ -47836,6 +47836,28 @@ if (typeof window.switchTab === 'function' && !window.__arabicSwitchTabHooked) {
 
 document.addEventListener('DOMContentLoaded', function() {
     loadArabicCovers();
+    setTimeout(function() {
+        var platforms = ['dub', 'sub', 'ps1', 'ps2', 'ps3'];
+        platforms.forEach(function(plat) {
+            if (!window.__ARABIC_LOADED[plat]) {
+                var cfg = ARABIC_PLATFORMS[plat];
+                if (cfg && cfg.file) {
+                    fetch(cfg.file).then(function(r) { return r.ok ? r.json() : []; }).then(function(data) {
+                        data.forEach(function(g) { g.__source = plat; });
+                        window.__ARABIC_DB[plat] = data;
+                        window.__ARABIC_LOADED[plat] = true;
+                        window.__ARABIC_ALL = [].concat(
+                            window.__ARABIC_DB.dub || [],
+                            window.__ARABIC_DB.sub || [],
+                            window.__ARABIC_DB.ps1 || [],
+                            window.__ARABIC_DB.ps2 || [],
+                            window.__ARABIC_DB.ps3 || []
+                        );
+                    }).catch(function() {});
+                }
+            }
+        });
+    }, 2000);
 });
 </script>
 

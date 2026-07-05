@@ -10247,6 +10247,7 @@ P
     ========================================================================== */
 	window.toggleUxSounds = function() {
 		let toggle = document.getElementById('ux-sounds-toggle');
+		if (!toggle) return;
 		let isChecked = toggle.checked;
 		saveState(STORAGE_KEY_UX, isChecked ? "1" : "0");
 		if (typeof markProfileSettingsChanged === 'function') markProfileSettingsChanged();
@@ -10265,7 +10266,8 @@ P
 	}
 	
 	window.toggleAudio = function() {
-		let isChecked = document.getElementById('audio-toggle').checked;
+		let isChecked = document.getElementById('audio-toggle')?.checked;
+		if (isChecked === null || isChecked === undefined) return;
 		saveState(STORAGE_KEY_AUDIO, isChecked ? "1" : "0");
 		if (typeof markProfileSettingsChanged === 'function') markProfileSettingsChanged();
 		
@@ -10288,7 +10290,8 @@ P
 	}
 	
 	window.toggleChatSound = function() {
-		let isChecked = document.getElementById('chat-sound-toggle').checked;
+		let isChecked = document.getElementById('chat-sound-toggle')?.checked;
+		if (isChecked === null || isChecked === undefined) return;
 		saveState(STORAGE_KEY_CHAT_SOUND, isChecked ? "1" : "0");
 		if (typeof markProfileSettingsChanged === 'function') markProfileSettingsChanged();
 		
@@ -12351,8 +12354,9 @@ P
      async function confirmNewUser() {
 		const inputId = document.getElementById('new-psn-id');
 		const inputPass = document.getElementById('new-psn-pass');
-		const rememberMe = document.getElementById('remember-me-create').checked;
+		const rememberMe = document.getElementById('remember-me-create')?.checked;
 		
+		if (!inputId || !inputPass) return;
 		let name = sanitizePsnOnlineIdInput(inputId.value.trim());
 		let pass = inputPass.value.trim();
 		inputId.value = name;
@@ -12382,6 +12386,7 @@ P
 		}
 	
 		const btnConfirm = document.getElementById('btn-create-profile');
+		if (!btnConfirm) return;
 		const originalText = btnConfirm.innerHTML;
 		btnConfirm.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Please wait...';
 		btnConfirm.style.pointerEvents = 'none';
@@ -12606,8 +12611,9 @@ P
 
 	async function confirmLogin() {
 		const passInput = document.getElementById('login-psn-pass');
+		if (!passInput) return;
 		const pass = passInput.value.trim();
-		const rememberMe = document.getElementById('remember-me-login').checked;
+		const rememberMe = document.getElementById('remember-me-login')?.checked;
 
 		if (!pass) {
 			if (typeof playUiError === 'function') playUiError();
@@ -12617,6 +12623,7 @@ P
 		}
 	
 		const btnConfirm = document.getElementById('btn-login-profile');
+		if (!btnConfirm) return;
 		const originalText = btnConfirm.innerHTML;
 		btnConfirm.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Please wait...';
 		btnConfirm.style.pointerEvents = 'none';
@@ -15354,7 +15361,7 @@ window.showUniversalDownloadModal = function(type, url, safeName, version, sizeB
 			}
 			if (typeof playUiSuccess === 'function') playUiSuccess();
 	
-			if (type !== 'rap' && type !== 'promo') window.addToDownloadManager(safeName + " (PS3™)", sizeBytes, id, category, contentId);
+			if (type !== 'rap' && type !== 'promo' && typeof window.addToDownloadManager === 'function') window.addToDownloadManager(safeName + " (PS3™)", sizeBytes, id, category, contentId);
 	
 			if (btnElement) {
 				const originalText = btnElement.innerHTML;
@@ -15365,9 +15372,9 @@ window.showUniversalDownloadModal = function(type, url, safeName, version, sizeB
 		else {
 			if (type === 'xml') {
 				handleXmlDownload(url, safeName, version, btnElement, sizeBytes, id, category, contentId);
-			} 
-			else if (type === 'multi' || type === 'single' || type === 'rap') {
-				window.addToDownloadManager(safeName, sizeBytes, id, category, contentId);
+		} 
+		else if (type === 'multi' || type === 'single' || type === 'rap') {
+			if (typeof window.addToDownloadManager === 'function') window.addToDownloadManager(safeName, sizeBytes, id, category, contentId);
 				if (typeof window.showUniversalDownloadModal === 'function') {
 					window.showUniversalDownloadModal(type, url, safeName, version, sizeBytes, id, category, contentId);
 					return;
@@ -15470,8 +15477,8 @@ window.showUniversalDownloadModal = function(type, url, safeName, version, sizeB
 				return;
 			}
 	
-			if (pkgUrls.length === 1) {
-				window.addToDownloadManager(safeName, sizeBytes || 0, titleId, category, contentId);
+		if (pkgUrls.length === 1) {
+			if (typeof window.addToDownloadManager === 'function') window.addToDownloadManager(safeName, sizeBytes || 0, titleId, category, contentId);
 				if (typeof window.showUniversalDownloadModal === 'function') {
 					window.showUniversalDownloadModal('single', pkgUrls[0], safeName, version, sizeBytes, titleId, category, contentId);
 					return;
@@ -15490,8 +15497,8 @@ window.showUniversalDownloadModal = function(type, url, safeName, version, sizeB
 				window.showUniversalDownloadModal('multi', pkgUrls.join('|'), safeName, version, sizeBytes, titleId, category, contentId);
 				return;
 			}
-				if (downloadAllParts(pkgUrls.join('|'), safeName, version, true)) {
-					window.addToDownloadManager(safeName, sizeBytes || 0, titleId, category, contentId);
+			if (downloadAllParts(pkgUrls.join('|'), safeName, version, true)) {
+				if (typeof window.addToDownloadManager === 'function') window.addToDownloadManager(safeName, sizeBytes || 0, titleId, category, contentId);
 				}
 			}
 		} catch (err) {
@@ -16944,9 +16951,11 @@ window.showUniversalDownloadModal = function(type, url, safeName, version, sizeB
     async function fetchDatabase() {
 		window.g_animCutoffFound = false;
 	
-		const cat = document.getElementById('cat-select').value;
+		const cat = document.getElementById('cat-select')?.value;
+		if (!cat) return;
 		const selectEl = document.getElementById('cat-select');
-		document.getElementById('display-title').innerText = selectEl.options[selectEl.selectedIndex].text;
+		const displayTitle = document.getElementById('display-title');
+		if (displayTitle && selectEl) displayTitle.innerText = selectEl.options[selectEl.selectedIndex].text;
 		
 		if (typeof syncBrowseRegionSelectState === 'function') syncBrowseRegionSelectState(cat);
 		
@@ -16957,7 +16966,7 @@ window.showUniversalDownloadModal = function(type, url, safeName, version, sizeB
 		try {
 			currentData = await loadStoreCategoryData(cat, 'high');
 			
-			if(!window.isRestoringHistory && !navHistory && !document.getElementById('search-input').value) {
+			if(!window.isRestoringHistory && !navHistory && !(document.getElementById('search-input')?.value)) {
 				activeLetter = "ALL";
 			}
 			
@@ -17254,10 +17263,10 @@ window.showUniversalDownloadModal = function(type, url, safeName, version, sizeB
 		const forceBrowseTopOnThisFilter = !!window.__browseForceTopOnNextFilter;
 		window.__browseForceTopOnNextFilter = false;
 
-		const regionFilter = document.getElementById('region-select').value;
+		const regionFilter = document.getElementById('region-select')?.value;
 		const activeConsolesNodes = document.querySelectorAll('#console-filters input:checked');
 		const activeConsoles = activeConsolesNodes ? Array.from(activeConsolesNodes).map(cb => cb.value) : [];
-		const currentCat = document.getElementById('cat-select').value;
+		const currentCat = document.getElementById('cat-select')?.value;
 		const missingRapToggleEl = document.getElementById('show-missing-rap-toggle');
 		const searchHasText = !!term;
 		const missingRapSearchKey = searchHasText ? `${currentCat}|${term}` : '';
@@ -17439,7 +17448,7 @@ window.showUniversalDownloadModal = function(type, url, safeName, version, sizeB
 	
 	window.renderGrid = function(isAppending = false) {
 		const grid = document.getElementById('database-grid');
-		const currentCat = document.getElementById('cat-select').value;
+		const currentCat = document.getElementById('cat-select')?.value;
 		if (typeof updateGroupTitleFilterVisibility === 'function') {
 			updateGroupTitleFilterVisibility(currentCat, document.getElementById('region-select')?.value || 'ALL');
 		}
@@ -17549,10 +17558,10 @@ window.showUniversalDownloadModal = function(type, url, safeName, version, sizeB
 				let emptyIcon = '';
 				let actionBtn = '';
 				
-				const term = document.getElementById('search-input').value.trim();
-				const region = document.getElementById('region-select').value;
-				const isGames = document.getElementById('cat-select').value === 'games';
-				const isApps = document.getElementById('cat-select').value === 'apps';
+				const term = document.getElementById('search-input')?.value?.trim() || '';
+				const region = document.getElementById('region-select')?.value || 'ALL';
+				const isGames = (document.getElementById('cat-select')?.value) === 'games';
+				const isApps = (document.getElementById('cat-select')?.value) === 'apps';
 				
 				const activeConsoles = document.querySelectorAll('#console-filters input:checked').length;
 				const activeApps = document.querySelectorAll('#app-filters input:checked').length;
@@ -18143,10 +18152,10 @@ window.showUniversalDownloadModal = function(type, url, safeName, version, sizeB
 		const scrollArea = document.getElementById('scroll-area');
 	
 		navHistory = {
-			category: document.getElementById('cat-select').value,
-			search: document.getElementById('search-input').value,
+			category: document.getElementById('cat-select')?.value,
+			search: document.getElementById('search-input')?.value || '',
 			letter: activeLetter,
-			region: document.getElementById('region-select').value,
+			region: document.getElementById('region-select')?.value || 'ALL',
 			consoles: Array.from(document.querySelectorAll('#console-filters input:checked')).map(cb => cb.value),
 			appsFilters: Array.from(document.querySelectorAll('#app-filters input:checked')).map(cb => cb.value),
 			showMissingRap: document.getElementById('show-missing-rap-toggle') ? document.getElementById('show-missing-rap-toggle').checked : false,
@@ -18164,7 +18173,8 @@ window.showUniversalDownloadModal = function(type, url, safeName, version, sizeB
 	
 		switchView('view-browse', false, true);
 	
-		document.getElementById('cat-select').value = category;
+		const catSelect = document.getElementById('cat-select');
+		if (catSelect) catSelect.value = category;
 		if (typeof updateBrowseTypeFilterVisibility === 'function') updateBrowseTypeFilterVisibility(category);
 	
 		fetchDatabase();
@@ -24819,7 +24829,7 @@ window.showUniversalDownloadModal = function(type, url, safeName, version, sizeB
 			window.clearCategoryDotPending('wishlist');
 		}
 
-		const term = document.getElementById('search-input').value.toLowerCase().trim();
+		const term = document.getElementById('search-input')?.value?.toLowerCase()?.trim() || '';
 		if (typeof window.updateWishlistTypeFilterAvailability === 'function') window.updateWishlistTypeFilterAvailability();
 		const catFilter = document.getElementById('wish-cat-select')?.value || "ALL";
 
@@ -27936,7 +27946,7 @@ window.showUniversalDownloadModal = function(type, url, safeName, version, sizeB
 	window.applyLibraryFilters = function() {
 		if (!lastScannedGames || lastScannedGames.length === 0) return;
 	
-		const term = document.getElementById('search-input').value.toLowerCase().trim();
+		const term = document.getElementById('search-input')?.value?.toLowerCase()?.trim() || '';
 		const termNormalized = term.replace(/[^a-z0-9]/g, '');
 	
 		const activeConsolesNodes = document.querySelectorAll('#library-console-filters input:checked');
@@ -35348,12 +35358,14 @@ function getVisibleChatStackEl(id) {
 
 		if (msg && msg.type === 'poll') {
 			const modal = document.getElementById('modal-sys-poll');
+			if (!modal) return;
 			modal.querySelector('h2').innerHTML = '<i class="fas fa-edit" style="color:var(--ps-blue);"></i> Edit Poll';
 			
-			document.getElementById('poll-question-input').value = msg.content.question;
+			const pollInput = document.getElementById('poll-question-input');
+			if (pollInput) pollInput.value = msg.content.question;
 			
 			const container = document.getElementById('poll-options-container');
-			container.innerHTML = '';
+			if (container) container.innerHTML = '';
 			
 			msg.content.options.forEach((opt, idx) => {
 				const wrapper = document.createElement('div');
@@ -47363,8 +47375,8 @@ function renderArabicGames() {
 
 function getFilteredGames() {
     const platform = window.__ARABIC_CURRENT;
-    const q = (document.getElementById('arabic-search').value || '').toLowerCase();
-    const sort = document.getElementById('arabic-sort-filter').value;
+    const q = (document.getElementById('arabic-search')?.value || '').toLowerCase();
+    const sort = document.getElementById('arabic-sort-filter')?.value || 'name-asc';
     const filterPlat = document.getElementById('arabic-platform-filter') ? document.getElementById('arabic-platform-filter').value : '';
     
     let games = platform ? (window.__ARABIC_DB[platform] || []) : window.__ARABIC_ALL;
@@ -47716,7 +47728,10 @@ function copyClassicLink() {
 }
 
 document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') closeClassicModal();
+    if (e.key === 'Escape') {
+        const classicModal = document.getElementById('classic-game-modal');
+        if (classicModal && classicModal.style.display !== 'none' && classicModal.style.display !== '') closeClassicModal();
+    }
 });
 
 function filterArabicGames() {

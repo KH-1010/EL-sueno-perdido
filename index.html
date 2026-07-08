@@ -8260,6 +8260,53 @@ body.chat-selection-mode .chat-message-actions .chat-delete-action:hover { trans
 				</select>
 			</div>
 
+			<div id="arabic-genre-pills" style="display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; align-items: center;">
+				<span style="font-size: 12px; color: var(--text-muted); font-weight: bold; margin-left: 5px;"><i class="fas fa-tags"></i> تصنيفات سريعة:</span>
+				<button type="button" class="genre-pill active" onclick="filterByGenre('')" style="padding: 6px 14px; border-radius: 20px; border: 1px solid var(--ps-blue); background: var(--ps-blue); color: #fff; font-size: 12px; cursor: pointer; transition: all 0.2s;">🌟 الكل</button>
+				<button type="button" class="genre-pill" onclick="filterByGenre('action')" style="padding: 6px 14px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.05); color: #fff; font-size: 12px; cursor: pointer; transition: all 0.2s;">⚔️ أكشن ومغامرات</button>
+				<button type="button" class="genre-pill" onclick="filterByGenre('horror')" style="padding: 6px 14px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.05); color: #fff; font-size: 12px; cursor: pointer; transition: all 0.2s;">🧟 رعب وبقاء</button>
+				<button type="button" class="genre-pill" onclick="filterByGenre('sports')" style="padding: 6px 14px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.05); color: #fff; font-size: 12px; cursor: pointer; transition: all 0.2s;">⚽ رياضة ومسابقات</button>
+				<button type="button" class="genre-pill" onclick="filterByGenre('racing')" style="padding: 6px 14px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.05); color: #fff; font-size: 12px; cursor: pointer; transition: all 0.2s;">🏎️ سباق وتفحيط</button>
+				<button type="button" class="genre-pill" onclick="filterByGenre('fighting')" style="padding: 6px 14px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.05); color: #fff; font-size: 12px; cursor: pointer; transition: all 0.2s;">🥊 قتال ومصارعة</button>
+				<button type="button" class="genre-pill" onclick="filterByGenre('rpg')" style="padding: 6px 14px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.05); color: #fff; font-size: 12px; cursor: pointer; transition: all 0.2s;">🔮 تعاقب أدوار (RPG)</button>
+				<div style="flex:1;"></div>
+				<button type="button" onclick="toggleRetroCrtMode()" id="btn-retro-crt" style="padding: 6px 14px; border-radius: 20px; border: 1px solid #ff3366; background: rgba(255,51,102,0.15); color: #ff3366; font-size: 12px; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 6px;"><i class="fas fa-tv"></i> <span>وضع التلفاز القديم (CRT)</span></button>
+				<button type="button" onclick="playAuditionChime('ps1')" style="padding: 6px 14px; border-radius: 20px; border: 1px solid #00e5ff; background: rgba(0,229,255,0.15); color: #00e5ff; font-size: 12px; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 6px;"><i class="fas fa-volume-up"></i> <span>نغمة PS1</span></button>
+				<button type="button" onclick="playAuditionChime('ps2')" style="padding: 6px 14px; border-radius: 20px; border: 1px solid #9933ff; background: rgba(153,51,255,0.15); color: #cc99ff; font-size: 12px; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 6px;"><i class="fas fa-volume-up"></i> <span>نغمة PS2</span></button>
+			</div>
+
+			<div style="background: linear-gradient(135deg, rgba(0,112,204,0.15), rgba(0,20,40,0.6)); border: 1px solid rgba(0,168,255,0.3); border-radius: 14px; padding: 15px 20px; margin-bottom: 20px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 15px;">
+				<div style="display: flex; align-items: center; gap: 12px;">
+					<div style="width: 40px; height: 40px; border-radius: 10px; background: rgba(0,168,255,0.2); display: flex; align-items: center; justify-content: center; color: #00a8ff; font-size: 20px;"><i class="fas fa-microchip"></i></div>
+					<div>
+						<div style="font-size: 14px; font-weight: bold; color: #fff;">مستشار التشغيل والمحاكيات (Emulation Advisor)</div>
+						<div style="font-size: 12px; color: var(--text-muted);">اختر جهازك الحالي لمعرفة الإعدادات والمحاكي الأمثل لتشغيل الألعاب بسلاسة</div>
+					</div>
+				</div>
+				<div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+					<select onchange="updateEmuAdvisor(this.value)" style="padding: 8px 14px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.5); color: #fff; font-size: 13px; outline: none;">
+						<option value="">-- اختر جهازك لعرض النصيحة --</option>
+						<option value="pc_high">🖥️ كمبيوتر قوي (PC High-End)</option>
+						<option value="pc_low">💻 كمبيوتر اقتصادي أو لابتوب (PC Low-End)</option>
+						<option value="android">📱 هاتف أندرويد / تابلت</option>
+						<option value="handheld">🕹️ جهاز محمول (Steam Deck / ROG Ally)</option>
+						<option value="console">📺 بلايستيشن أصلي (PS3 / PS2 Modded)</option>
+					</select>
+				</div>
+				<div id="emu-advisor-result" style="width: 100%; font-size: 13px; color: #00e5ff; background: rgba(0,0,0,0.3); padding: 10px 15px; border-radius: 8px; border-right: 3px solid #00e5ff; display: none;"></div>
+			</div>
+
+			<script>
+				const oldUpdateEmu = window.updateEmuAdvisor;
+				window.updateEmuAdvisor = function(val) {
+					const box = document.getElementById('emu-advisor-result');
+					if (!box) return;
+					if (!val) { box.style.display = 'none'; return; }
+					box.style.display = 'block';
+					if (typeof oldUpdateEmu === 'function') oldUpdateEmu(val);
+				};
+			</script>
+
 			<div id="arabic-stats" style="display: flex; gap: 15px; margin-bottom: 25px; flex-wrap: wrap;">
 				<div class="stat-chip" style="padding: 8px 16px; border-radius: 20px; background: rgba(0,112,204,0.15); border: 1px solid rgba(0,112,204,0.3); font-size: 13px; color: #00aaff;">
 					<i class="fas fa-gamepad" style="margin-left: 5px;"></i> <span id="arabic-total-count">0</span> لعبة
@@ -47250,6 +47297,7 @@ window.__ARABIC_CURRENT = '';
 window.__ARABIC_ALL = [];
 window.__ARABIC_PAGE = 1;
 window.__ARABIC_PER_PAGE = 48;
+window.__ARABIC_GENRE = '';
 
 const ARABIC_COVERS = {};
 const ARABIC_PLATFORMS = {
@@ -47478,6 +47526,87 @@ function renderArabicGames() {
     updateArabicStats();
 }
 
+function filterByGenre(genre) {
+    window.__ARABIC_GENRE = genre;
+    window.__ARABIC_PAGE = 1;
+    document.querySelectorAll('.genre-pill').forEach(btn => {
+        const isThis = (genre === '' && btn.textContent.includes('الكل')) || (genre && btn.getAttribute('onclick')?.includes(`'${genre}'`));
+        btn.style.background = isThis ? 'var(--ps-blue)' : 'rgba(255,255,255,0.05)';
+        btn.style.borderColor = isThis ? 'var(--ps-blue)' : 'rgba(255,255,255,0.1)';
+    });
+    renderArabicGames();
+}
+
+function toggleRetroCrtMode() {
+    let crt = document.getElementById('retro-crt-overlay');
+    if (!crt) {
+        crt = document.createElement('div');
+        crt.id = 'retro-crt-overlay';
+        crt.style.cssText = 'position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 9999; background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06)); background-size: 100% 4px, 6px 100%; opacity: 0.8; transition: opacity 0.3s;';
+        document.body.appendChild(crt);
+        const btn = document.getElementById('btn-retro-crt');
+        if (btn) { btn.style.background = '#ff3366'; btn.style.color = '#fff'; }
+        playAuditionChime('ps1');
+    } else {
+        crt.remove();
+        const btn = document.getElementById('btn-retro-crt');
+        if (btn) { btn.style.background = 'rgba(255,51,102,0.15)'; btn.style.color = '#ff3366'; }
+    }
+}
+
+function playAuditionChime(type = 'ps1') {
+    try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        if (type === 'ps1') {
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.type = 'sawtooth';
+            osc.frequency.setValueAtTime(150, ctx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(600, ctx.currentTime + 0.8);
+            osc.frequency.exponentialRampToValueAtTime(300, ctx.currentTime + 2.0);
+            gain.gain.setValueAtTime(0.15, ctx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 2.0);
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.start();
+            osc.stop(ctx.currentTime + 2.0);
+        } else if (type === 'ps2') {
+            const osc1 = ctx.createOscillator();
+            const osc2 = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc1.type = 'sine'; osc2.type = 'triangle';
+            osc1.frequency.setValueAtTime(110, ctx.currentTime);
+            osc2.frequency.setValueAtTime(165, ctx.currentTime);
+            gain.gain.setValueAtTime(0.12, ctx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 2.5);
+            osc1.connect(gain); osc2.connect(gain);
+            gain.connect(ctx.destination);
+            osc1.start(); osc2.start();
+            osc1.stop(ctx.currentTime + 2.5); osc2.stop(ctx.currentTime + 2.5);
+        }
+    } catch(e) {
+        console.warn('Audio context not allowed yet:', e);
+    }
+}
+
+function updateEmuAdvisor(device, platform) {
+    const box = document.getElementById('emu-advisor-result');
+    if (!box) return;
+    let text = '';
+    if (device === 'pc_high') {
+        text = '🚀 <b>PC (High End):</b> دقة 4K / 60FPS. استخدم محرك Vulkan مع تفعيل Anisotropic Filtering 16x.';
+    } else if (device === 'pc_low') {
+        text = '⚡ <b>PC (Low End):</b> دقة الأصلية 1x أو 2x (720p). استخدم محرك DirectX 11 وعطل Shader FX لتسريع الأداء.';
+    } else if (device === 'android') {
+        text = '📱 <b>أندرويد / هواتف:</b> استخدم محاكي AetherSX2 أو DuckStation. اضبط محرك Vulkan ودقة 2x لتجنب سخونة الجهاز.';
+    } else if (device === 'handheld') {
+        text = '🕹️ <b>Steam Deck / ROG Ally:</b> معدل إطارات سلس 60Hz مع استهلاك طاقة منخفض (8W-10W TDP).';
+    } else if (device === 'console') {
+        text = '📺 <b>جهاز PS3 / PS2 أصلي:</b> انقل الملف عبر فلاش USB بصيغة FAT32 وشغله مباشرة باستخدام Multiman أو OPL.';
+    }
+    box.innerHTML = text;
+}
+
 function getFilteredGames() {
     const platform = window.__ARABIC_CURRENT;
     const q = (document.getElementById('arabic-search')?.value || '').toLowerCase();
@@ -47487,6 +47616,22 @@ function getFilteredGames() {
     let games = platform ? (window.__ARABIC_DB[platform] || []) : window.__ARABIC_ALL;
     if (!platform && filterPlat) {
         games = window.__ARABIC_DB[filterPlat] || games.filter(g => g.__source === filterPlat);
+    }
+    
+    if (window.__ARABIC_GENRE) {
+        const genreKeywords = {
+            'action': ['action', 'war', 'god of war', 'gta', 'grand theft', 'assassin', 'tomb raider', 'devil may cry', 'metal gear', 'spider', 'batman', 'resident', 'evil', 'uncharted', 'prince of persia', 'اكشن', 'مغامرات', 'حرب', 'قتال', 'رزيدنت'],
+            'horror': ['horror', 'silent hill', 'resident evil', 'fatal frame', 'siren', 'dead space', 'alone in the dark', 'obscure', 'clock tower', 'biohazard', 'fear', 'رعب', 'سايلنت', 'زومبي'],
+            'sports': ['sports', 'fifa', 'pes', 'wwe', 'smackdown', 'tony hawk', 'nba', 'nfl', 'tennis', 'olympic', 'pro evolution soccer', 'winning eleven', 'كرة', 'رياضة', 'مصارعة'],
+            'racing': ['racing', 'need for speed', 'gran turismo', 'crash team racing', 'ctr', 'midnight club', 'burnout', 'ridge racer', 'driver', 'driver 2', 'rally', 'سباق', 'تفحيط', 'سيارات', 'نيد فور سبيد'],
+            'fighting': ['fighting', 'tekken', 'mortal kombat', 'street fighter', 'dragon ball', 'naruto', 'one piece', 'soulcalibur', 'guilty gear', 'king of fighters', 'kof', 'bloody roar', 'قتال', 'تيكن', 'مورتال', 'مصارعة'],
+            'rpg': ['rpg', 'final fantasy', 'kingdom hearts', 'persona', 'suikoden', 'tales of', 'dragon quest', 'chrono', 'star ocean', 'fallout', 'elder scrolls', 'demon', 'souls', 'أدوار', 'ار بي جي']
+        };
+        const kwList = genreKeywords[window.__ARABIC_GENRE] || [window.__ARABIC_GENRE];
+        games = games.filter(g => {
+            const t = (g.title || g.name || g.cleanTitle || '').toLowerCase();
+            return kwList.some(kw => t.includes(kw));
+        });
     }
     
     if (q) {

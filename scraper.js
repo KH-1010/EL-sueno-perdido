@@ -1,102 +1,205 @@
 #!/usr/bin/env node
 /**
- * ╔══════════════════════════════════════════════════════╗
- * ║  Arabic Games Scraper — مراقب ألعاب archive.org    ║
- * ║  يجلب قائمة الألعاب ويحدث Dub.json و Sub.json      ║
- * ╚══════════════════════════════════════════════════════╝
+ * ╔══════════════════════════════════════════════════════════════════════════╗
+ * ║  Arabic Games Advanced Scraper & Metadata Engine (v2.0 - Zero Lag CI)  ║
+ * ║  مراقب ومحرك الألعاب العربية المتقدم — جلب أوتوماتيكي ذكي وتحديث الأرشيف  ║
+ * ╚══════════════════════════════════════════════════════════════════════════╝
+ * 
+ * Features:
+ * - Dual-Engine Scraper: Archive.org JSON Metadata API + Fallback HTML Parser
+ * - Exponential Backoff & Auto-Retry for resilience against network/CI blips
+ * - Smart Multi-Platform Detection (PS1, PS2, PS3, PSP, PS Vita, PS4, Switch, PC)
+ * - Intelligent Deduplication & URI Merging
+ * - Rich GitHub Actions Dashboard Summary ($GITHUB_STEP_SUMMARY)
  */
 
 const fs   = require('fs');
 const path = require('path');
 const https = require('https');
+const http  = require('http');
 
-// ── CONFIG ─────────────────────────────────────────────
+// ── CONFIGURATION ──────────────────────────────────────────────────────────
 const SOURCES = [
   {
     id:       'dub',
-    label:    'Arabic Dub',
+    label:    'Arabic Dubbed (مدبلج)',
     archiveId: 'ArabicGamesDub515',
     url:      'https://archive.org/download/ArabicGamesDub515',
+    metaUrl:  'https://archive.org/metadata/ArabicGamesDub515',
     jsonFile: path.join(__dirname, 'Dub.json'),
     defaultPlatform: 'ps2',
     type:     'dub',
   },
   {
     id:       'sub',
-    label:    'Arabic Sub',
+    label:    'Arabic Subbed (مترجم)',
     archiveId: 'Arabic_Games_Sub_515',
     url:      'https://archive.org/download/Arabic_Games_Sub_515',
+    metaUrl:  'https://archive.org/metadata/Arabic_Games_Sub_515',
     jsonFile: path.join(__dirname, 'Sub.json'),
     defaultPlatform: 'ps2',
     type:     'sub',
   },
 ];
 
-// Game file extensions to capture
-const GAME_EXTS = /\.(iso|bin|img|pkg|rar|zip|7z|cue|chd|mdf|nsp|xci|cia|wud|wux|gcz|ciso)$/i;
+// Valid game archive & image extensions
+const GAME_EXTS = /\.(iso|bin|img|pkg|rar|zip|7z|cue|chd|mdf|nsp|xci|cia|wud|wux|gcz|ciso|vpk|csao|pbp)$/i;
 
-// ── HELPERS ────────────────────────────────────────────
-function fetchText(url) {
+// ── NETWORK & RETRY ENGINE ────────────────────────────────────────────────
+/**
+ * Fetch URL with automatic exponential backoff and redirect resolution
+ */
+function fetchWithRetry(url, maxRetries = 3, delayMs = 1500) {
   return new Promise((resolve, reject) => {
-    const options = {
-      headers: {
-        'User-Agent': 'Mozilla/5.0 (compatible; ArabicGamesScraper/1.0)',
-        'Accept': 'text/html,application/xhtml+xml,*/*',
-      },
+    const attempt = (retryCount) => {
+      const client = url.startsWith('https') ? https : http;
+      const options = {
+        headers: {
+          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) ArabicGamesScraper/2.0 (+https://github.com/KH-1010/EL-sueno-perdido)',
+          'Accept': 'application/json, text/html, application/xhtml+xml, */*',
+          'Cache-Control': 'no-cache',
+        },
+        timeout: 25000,
+      };
+
+      const req = client.get(url, options, (res) => {
+        // Handle Redirects
+        if (res.statusCode >= 300 && res.statusCode < 400 && res.headers.location) {
+          let nextUrl = res.headers.location;
+          if (!nextUrl.startsWith('http')) {
+            const u = new URL(url);
+            nextUrl = `${u.protocol}//${u.host}${nextUrl}`;
+          }
+          return fetchWithRetry(nextUrl, maxRetries, delayMs).then(resolve).catch(reject);
+        }
+
+        let data = '';
+        res.setEncoding('utf8');
+        res.on('data', chunk => data += chunk);
+        res.on('end', () => {
+          if (res.statusCode === 200) {
+            resolve({ status: res.statusCode, body: data });
+          } else if ((res.statusCode === 429 || res.statusCode >= 500) && retryCount < maxRetries) {
+            console.warn(`   ⚠️ [HTTP ${res.statusCode}] Retrying in ${delayMs / 1000}s (Attempt ${retryCount + 1}/${maxRetries})...`);
+            setTimeout(() => attempt(retryCount + 1), delayMs * Math.pow(1.8, retryCount));
+          } else {
+            resolve({ status: res.statusCode, body: data });
+          }
+        });
+      });
+
+      req.on('timeout', () => {
+        req.destroy();
+        if (retryCount < maxRetries) {
+          console.warn(`   ⚠️ [Timeout] Connection timed out. Retrying in ${delayMs / 1000}s...`);
+          setTimeout(() => attempt(retryCount + 1), delayMs * Math.pow(1.8, retryCount));
+        } else {
+          reject(new Error('Network request timed out after maximum retries.'));
+        }
+      });
+
+      req.on('error', (err) => {
+        if (retryCount < maxRetries) {
+          console.warn(`   ⚠️ [Error: ${err.code || err.message}] Retrying in ${delayMs / 1000}s...`);
+          setTimeout(() => attempt(retryCount + 1), delayMs * Math.pow(1.8, retryCount));
+        } else {
+          reject(err);
+        }
+      });
     };
-    https.get(url, options, res => {
-      if (res.statusCode >= 300 && res.statusCode < 400 && res.headers.location) {
-        return fetchText(res.headers.location).then(resolve).catch(reject);
-      }
-      let data = '';
-      res.setEncoding('utf8');
-      res.on('data', c => data += c);
-      res.on('end', () => resolve({ status: res.statusCode, body: data }));
-    }).on('error', reject);
+
+    attempt(0);
   });
 }
 
+// ── SANITIZATION & METADATA HELPERS ───────────────────────────────────────
 function cleanGameTitle(filename) {
   let t = decodeURIComponent(filename);
-  // Remove extension
+  // Remove file extension
   t = t.replace(GAME_EXTS, '');
-  // Remove common noise
+  // Replace underscores, hyphens, plus signs with space
   t = t.replace(/[\-_\+]+/g, ' ');
-  t = t.replace(/\s*(arabic|arabi|ara|عربي|مدبلج|مترجم|dub|sub|dubbed|subbed)\s*/gi, ' ');
-  t = t.replace(/\s*(ARABIC|DUB|SUB)\s*/g, ' ');
-  t = t.replace(/\(?\s*PS[123]?\s*\)?/gi, '');
+  // Remove common noise tags
+  t = t.replace(/\s*(arabic|arabi|ara|عربي|مدبلج|مترجم|dub|sub|dubbed|subbed|full|ver|version)\s*/gi, ' ');
+  t = t.replace(/\s*(ARABIC|DUB|SUB|USA|EUR|JAP|PAL|NTSC)\s*/g, ' ');
+  t = t.replace(/\(?\s*PS[1234]?|PSP|PSV|Vita|Switch|WiiU?\s*\)?/gi, '');
+  // Clean up brackets and punctuation
+  t = t.replace(/\[.*?\]|\(.*?\/.*?\)/g, ' ');
   t = t.replace(/\s+/g, ' ').trim();
   return t;
 }
 
-function detectPlatform(filename, title) {
-  const f = (filename + ' ' + title).toLowerCase();
+function detectPlatform(filename, title = '') {
+  const f = `${filename} ${title}`.toLowerCase();
+  if (/ps4|\.fpkg/.test(f))           return 'ps4';
   if (/ps3|rpcs3|psn|\.pkg/.test(f))  return 'ps3';
-  if (/ps1|psx|\.bin|\.cue/.test(f))  return 'ps1';
   if (/ps2/.test(f))                   return 'ps2';
-  if (/wii|wiiu|\.wud|\.wux/.test(f)) return 'wiiu';
-  if (/pc|\.exe|\.rar.*pc/.test(f))   return 'pc';
+  if (/ps1|psx|\.bin|\.cue|\.pbp/.test(f)) return 'ps1';
+  if (/psp/.test(f))                   return 'psp';
+  if (/vita|psv|\.vpk/.test(f))        return 'psvita';
   if (/switch|\.nsp|\.xci/.test(f))   return 'switch';
-  return null; // will use default
+  if (/wiiu|\.wud|\.wux/.test(f))     return 'wiiu';
+  if (/wii|\.gcz|\.ciso/.test(f))      return 'wii';
+  if (/pc|\.exe|\.rar.*pc/.test(f))   return 'pc';
+  return null;
+}
+
+function formatBytesToHuman(bytes) {
+  if (!bytes || isNaN(bytes) || bytes <= 0) return '';
+  const units = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+  const idx = Math.floor(Math.log(bytes) / Math.log(1024));
+  return `${(bytes / Math.pow(1024, idx)).toFixed(2)} ${units[idx]}`;
 }
 
 function parseSizeStr(s) {
   if (!s) return '';
-  s = s.trim();
-  // Normalize: "1.5G" → "1.5 GB", "845.0M" → "845 MB"
+  if (typeof s === 'number' || /^\d+$/.test(String(s))) {
+    return formatBytesToHuman(Number(s));
+  }
+  s = String(s).trim();
   return s.replace(/(\d+\.?\d*)\s*G$/i, '$1 GB')
           .replace(/(\d+\.?\d*)\s*M$/i, '$1 MB')
           .replace(/(\d+\.?\d*)\s*K$/i, '$1 KB');
 }
 
+// ── SCRAPING ENGINES ─────────────────────────────────────────────────────
 /**
- * Parse archive.org download page HTML to extract file list
+ * Engine 1: Archive.org Official JSON Metadata API (Fastest & Most Reliable)
  */
-function parseArchivePage(html, sourceUrl) {
+async function scrapeMetadataApi(source) {
+  try {
+    const { status, body } = await fetchWithRetry(source.metaUrl);
+    if (status !== 200) return null;
+    
+    const data = JSON.parse(body);
+    if (!data || !Array.isArray(data.files)) return null;
+
+    const games = [];
+    for (const f of data.files) {
+      const filename = f.name || '';
+      if (!GAME_EXTS.test(filename)) continue;
+
+      const cleanTitle = cleanGameTitle(filename);
+      if (!cleanTitle || cleanTitle.length < 2) continue;
+
+      const downloadUrl = `${source.url}/${encodeURIComponent(filename)}`;
+      const size = f.size ? formatBytesToHuman(f.size) : parseSizeStr(f.size);
+      const date = f.mtime ? new Date(Number(f.mtime) * 1000).toISOString().split('T')[0] : '';
+
+      games.push({ filename, cleanTitle, downloadUrl, date, size });
+    }
+    return games;
+  } catch (err) {
+    console.warn(`   ⚠️ [Metadata API Fallback] Could not parse JSON API: ${err.message}`);
+    return null;
+  }
+}
+
+/**
+ * Engine 2: Archive.org HTML Table & Regex Parser (Robust Fallback)
+ */
+function scrapeHtmlPage(html, sourceUrl) {
   const games = [];
-  
-  // Match table rows in archive.org download page
-  // Pattern: <tr><td><a href="filename">filename</a></td><td>date</td><td>size</td>...
   const rowRegex = /<tr[^>]*>\s*<td[^>]*>\s*<a\s+href="([^"]+)"[^>]*>([^<]+)<\/a>\s*<\/td>\s*<td[^>]*>([^<]*)<\/td>\s*<td[^>]*>([^<]*)<\/td>/gi;
   
   let match;
@@ -107,24 +210,15 @@ function parseArchivePage(html, sourceUrl) {
     const size     = match[4].trim();
     
     if (!GAME_EXTS.test(filename)) continue;
-    
     const cleanTitle = cleanGameTitle(filename);
     if (!cleanTitle || cleanTitle.length < 2) continue;
     
     const downloadUrl = href.startsWith('http') ? href : `${sourceUrl}/${encodeURIComponent(filename)}`;
-    
-    games.push({
-      filename,
-      cleanTitle,
-      downloadUrl,
-      date: date || '',
-      size: parseSizeStr(size),
-    });
+    games.push({ filename, cleanTitle, downloadUrl, date, size: parseSizeStr(size) });
   }
 
-  // Fallback: simpler regex for different page layouts
   if (games.length === 0) {
-    const linkRegex = /href="(\/download\/[^"]+\/([^"?#]+\.(iso|bin|pkg|rar|zip|7z|chd|mdf)))"[^>]*>([^<]*)<\/a>.*?<\/td>\s*<td[^>]*>([^<]*)<\/td>\s*<td[^>]*>([^<]*)<\/td>/gi;
+    const linkRegex = /href="(\/download\/[^"]+\/([^"?#]+\.(iso|bin|pkg|rar|zip|7z|chd|mdf|nsp|xci)))"[^>]*>([^<]*)<\/a>.*?<\/td>\s*<td[^>]*>([^<]*)<\/td>\s*<td[^>]*>([^<]*)<\/td>/gi;
     while ((match = linkRegex.exec(html)) !== null) {
       const href     = `https://archive.org${match[1]}`;
       const filename = decodeURIComponent(match[2]);
@@ -137,124 +231,163 @@ function parseArchivePage(html, sourceUrl) {
       games.push({ filename, cleanTitle, downloadUrl: href, date, size: parseSizeStr(size) });
     }
   }
-
   return games;
 }
 
-/**
- * Load existing JSON, merge with scraped data, save back
- */
+// ── MERGE & SYNC ENGINE ──────────────────────────────────────────────────
 function mergeAndSave(existingGames, scrapedGames, source) {
-  // Build index of existing entries by download URL
   const existingByUrl = {};
   const existingByTitle = {};
+  
   existingGames.forEach(g => {
     (g.uris || []).forEach(u => { existingByUrl[u] = g; });
-    existingByTitle[g.title?.toLowerCase()] = g;
+    if (g.title) existingByTitle[g.title.toLowerCase()] = g;
   });
 
-  let added   = 0;
+  let added = 0;
   let updated = 0;
 
   scrapedGames.forEach(sg => {
     const url = sg.downloadUrl;
+    if (existingByUrl[url]) {
+      // Check if size or date needs refinement
+      const entry = existingByUrl[url];
+      if (!entry.fileSize && sg.size) { entry.fileSize = sg.size; updated++; }
+      return;
+    }
     
-    // Already exists by URL → skip (preserve user edits)
-    if (existingByUrl[url]) return;
-    
-    // Check if same title exists → update URL if missing
     const titleKey = sg.cleanTitle.toLowerCase();
     const existing = existingByTitle[titleKey];
     if (existing) {
-      // Only add URL if uris array is empty
-      if (!existing.uris || existing.uris.length === 0) {
+      if (!existing.uris || !Array.isArray(existing.uris) || existing.uris.length === 0) {
         existing.uris = [url];
+        updated++;
+      } else if (!existing.uris.includes(url)) {
+        existing.uris.push(url);
         updated++;
       }
       return;
     }
 
-    // New game — add it
     const platform = detectPlatform(sg.filename, sg.cleanTitle) || source.defaultPlatform;
-    existingGames.push({
+    const newEntry = {
       title:       sg.cleanTitle,
       uris:        [url],
-      uploadDate:  sg.date,
-      fileSize:    sg.size,
-      platform,
+      uploadDate:  sg.date || new Date().toISOString().split('T')[0],
+      fileSize:    sg.size || 'N/A',
+      platform:    platform,
       cover_url:   '',
-    });
-    existingByTitle[titleKey] = existingGames[existingGames.length - 1];
+      __source:    source.type
+    };
+
+    existingGames.push(newEntry);
+    existingByTitle[titleKey] = newEntry;
+    existingByUrl[url] = newEntry;
     added++;
   });
 
-  // Sort by title
+  // Sort alphabetically by Arabic/English title
   existingGames.sort((a, b) => (a.title || '').localeCompare(b.title || '', 'ar'));
 
   fs.writeFileSync(source.jsonFile, JSON.stringify(existingGames, null, 2), 'utf8');
   return { added, updated, total: existingGames.length };
 }
 
-// ── MAIN ───────────────────────────────────────────────
+// ── GITHUB ACTIONS DASHBOARD REPORTER ─────────────────────────────────────
+function writeGitHubSummary(summaryRows) {
+  const summaryFile = process.env.GITHUB_STEP_SUMMARY;
+  if (!summaryFile) return;
+
+  let md = `### 🤖 Arabic Games Scraper Execution Summary\n\n`;
+  md += `| Source Database | New Games 🆕 | Updated Records 🔄 | Total Games 📦 | Status |\n`;
+  md += `| :--- | :---: | :---: | :---: | :---: |\n`;
+  
+  for (const r of summaryRows) {
+    const icon = r.error ? '❌ Error' : (r.added > 0 || r.updated > 0 ? '✨ Updated' : '✓ Clean');
+    md += `| **${r.label}** | \`+${r.added}\` | \`~${r.updated}\` | **${r.total}** | ${icon} |\n`;
+  }
+
+  md += `\n*Last automated sync: ${new Date().toUTCString()}*\n`;
+  
+  try {
+    fs.appendFileSync(summaryFile, md, 'utf8');
+  } catch(e) {
+    console.warn('Could not write to GitHub Step Summary:', e.message);
+  }
+}
+
+// ── MAIN EXECUTION ────────────────────────────────────────────────────────
 async function main() {
-  console.log('\n🎮 Arabic Games Scraper — بدء المراقبة\n');
-  console.log('━'.repeat(50));
+  console.log('\n╔══════════════════════════════════════════════════════════════╗');
+  console.log('║  🎮 Arabic Games Advanced Scraper & Metadata Engine v2.0     ║');
+  console.log('╚══════════════════════════════════════════════════════════════╝\n');
 
   let anyChanges = false;
+  const summaryRows = [];
 
   for (const source of SOURCES) {
-    console.log(`\n📦 [${source.label}] جارٍ جلب: ${source.url}`);
+    console.log(`📦 [${source.label}] Inspecting Source: ${source.id}`);
     
-    // Load existing JSON
     let existing = [];
     if (fs.existsSync(source.jsonFile)) {
       try {
         existing = JSON.parse(fs.readFileSync(source.jsonFile, 'utf8'));
-        console.log(`   ✓ ملف موجود: ${existing.length} لعبة`);
+        console.log(`   ✓ Loaded existing database: ${existing.length} records`);
       } catch (e) {
-        console.warn(`   ⚠ خطأ في قراءة الملف: ${e.message}`);
+        console.warn(`   ⚠️ Error reading existing file, starting fresh: ${e.message}`);
       }
     }
 
-    // Fetch archive.org page
-    let scraped = [];
-    try {
-      const { status, body } = await fetchText(source.url);
-      console.log(`   ↳ HTTP ${status}, الحجم: ${(body.length / 1024).toFixed(1)} KB`);
-      
-      if (status === 200) {
-        scraped = parseArchivePage(body, source.url);
-        console.log(`   ↳ تم استخراج: ${scraped.length} لعبة من الصفحة`);
-      } else if (status === 403 || status === 404) {
-        console.log(`   ⚠ الأرشيف مخفي (is_dark) — لا يمكن الوصول تلقائياً`);
-        console.log(`   ℹ سيتم الاحتفاظ بالملف الحالي دون تغيير`);
+    let scraped = null;
+    // Attempt 1: Fast JSON Metadata API
+    console.log(`   🔍 Querying Archive.org JSON Metadata API...`);
+    scraped = await scrapeMetadataApi(source);
+
+    if (scraped && scraped.length > 0) {
+      console.log(`   ⚡ [API Success] Extracted ${scraped.length} games via structured metadata!`);
+    } else {
+      // Attempt 2: HTML Page Parsing Fallback
+      console.log(`   🌐 [Fallback] Fetching HTML archive page: ${source.url}`);
+      try {
+        const { status, body } = await fetchWithRetry(source.url);
+        console.log(`   ↳ HTTP Status: ${status} (${(body.length / 1024).toFixed(1)} KB)`);
+        if (status === 200) {
+          scraped = scrapeHtmlPage(body, source.url);
+          console.log(`   ↳ [HTML Parser] Extracted ${scraped.length} games from page structure.`);
+        } else if (status === 403 || status === 404) {
+          console.log(`   ⚠️ Archive is restricted or hidden (HTTP ${status}). Retaining existing records.`);
+          scraped = [];
+        }
+      } catch (err) {
+        console.warn(`   ❌ [Network Error] Could not access source: ${err.message}`);
+        scraped = [];
       }
-    } catch (err) {
-      console.warn(`   ✗ فشل الاتصال: ${err.message}`);
     }
 
-    // Merge & save
-    const { added, updated, total } = mergeAndSave(existing, scraped, source);
+    const { added, updated, total } = mergeAndSave(existing, scraped || [], source);
     if (added > 0 || updated > 0) anyChanges = true;
-    
-    console.log(`   ✅ النتيجة: +${added} جديدة | ~${updated} محدَّثة | المجموع: ${total}`);
+
+    console.log(`   ✅ Result: +${added} New | ~${updated} Updated | Total Database: ${total}\n`);
+    summaryRows.push({ label: source.label, added, updated, total });
   }
 
-  console.log('\n' + '━'.repeat(50));
-  console.log(anyChanges ? '\n✅ تم حفظ التغييرات!' : '\n✓ لا يوجد جديد — الملفات محدَّثة');
+  console.log('━'.repeat(64));
+  console.log(anyChanges ? '✨ Changes detected and saved successfully!' : '✓ Databases are fully up-to-date. No new entries.');
   
-  // Write last-run timestamp
+  // Write timestamp
   fs.writeFileSync(
     path.join(__dirname, '.scraper-last-run'),
     new Date().toISOString(),
     'utf8'
   );
 
-  // Exit with code 1 if changes (GitHub Actions can use this to decide commit)
+  writeGitHubSummary(summaryRows);
+
+  // Return exit code 1 if changes were made so CI/CD knows to commit
   process.exit(anyChanges ? 1 : 0);
 }
 
 main().catch(err => {
-  console.error('\n❌ خطأ غير متوقع:', err);
+  console.error('\n❌ Fatal execution error:', err);
   process.exit(2);
 });

@@ -7348,6 +7348,65 @@ body.chat-selection-mode .chat-message-actions .chat-delete-action:hover { trans
 					</div>
 				</div>
 	
+				<div id="arabic-featured-vault" style="margin: 20px 0 30px 0; padding: 20px; background: linear-gradient(135deg, rgba(0, 20, 40, 0.7), rgba(0, 5, 15, 0.9)); border: 1px solid rgba(0, 168, 255, 0.35); border-radius: 16px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); backdrop-filter: blur(12px);">
+					<div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; margin-bottom: 20px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); padding-bottom: 15px;">
+						<div style="display: flex; align-items: center; gap: 12px;">
+							<div style="width: 42px; height: 42px; border-radius: 12px; background: linear-gradient(45deg, #0070cc, #00e5ff); display: flex; align-items: center; justify-content: center; font-size: 22px; color: #fff; box-shadow: 0 0 15px rgba(0, 229, 255, 0.5);"><i class="fas fa-gamepad"></i></div>
+							<div>
+								<h2 style="margin: 0; font-size: 20px; font-weight: bold; color: #fff; letter-spacing: 0.5px;">🌟 مركز الألعاب الكلاسيكية والعربية (Featured Arabic & Retro Vault)</h2>
+								<div style="font-size: 13px; color: rgba(255, 255, 255, 0.6); margin-top: 3px;">تصفح حصريات البلايستيشن والألعاب المدبلجة والمترجمة للتحميل المباشر بضغطة زر</div>
+							</div>
+						</div>
+						<div style="display: flex; gap: 10px; flex-wrap: wrap;">
+							<button type="button" onclick="toggleRetroCrtMode()" style="padding: 8px 16px; border-radius: 20px; border: 1px solid #ff3366; background: rgba(255, 51, 102, 0.15); color: #ff3366; font-size: 13px; font-weight: bold; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 6px;" onmouseover="this.style.background='#ff3366'; this.style.color='#fff';" onmouseout="this.style.background='rgba(255, 51, 102, 0.15)'; this.style.color='#ff3366';"><i class="fas fa-tv"></i> <span>وضع الـ CRT</span></button>
+							<button type="button" onclick="playAuditionChime('ps1')" style="padding: 8px 16px; border-radius: 20px; border: 1px solid #00e5ff; background: rgba(0, 229, 255, 0.15); color: #00e5ff; font-size: 13px; font-weight: bold; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 6px;" onmouseover="this.style.background='#00e5ff'; this.style.color='#000';" onmouseout="this.style.background='rgba(0, 229, 255, 0.15)'; this.style.color='#00e5ff';"><i class="fas fa-volume-up"></i> <span>نغمة PS1</span></button>
+							<button type="button" onclick="playAuditionChime('ps2')" style="padding: 8px 16px; border-radius: 20px; border: 1px solid #9933ff; background: rgba(153, 51, 255, 0.15); color: #cc99ff; font-size: 13px; font-weight: bold; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 6px;" onmouseover="this.style.background='#9933ff'; this.style.color='#fff';" onmouseout="this.style.background='rgba(153, 51, 255, 0.15)'; this.style.color='#cc99ff';"><i class="fas fa-volume-up"></i> <span>نغمة PS2</span></button>
+						</div>
+					</div>
+
+					<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 16px;">
+						<div onclick="switchView('view-dub'); loadCustomGames('dub'); playUiClick();" style="cursor: pointer; padding: 18px; border-radius: 14px; background: linear-gradient(135deg, rgba(255, 200, 0, 0.15), rgba(40, 30, 0, 0.6)); border: 1px solid rgba(255, 200, 0, 0.4); transition: transform 0.25s, box-shadow 0.25s; position: relative; overflow: hidden;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 10px 25px rgba(255, 200, 0, 0.35)';" onmouseout="this.style.transform='none'; this.style.boxShadow='none';">
+							<div style="font-size: 28px; margin-bottom: 10px; color: #ffcc00;"><i class="fas fa-microphone-alt"></i></div>
+							<div style="font-size: 16px; font-weight: bold; color: #fff;">الألعاب المدبلجة عربياً</div>
+							<div style="font-size: 12px; color: #ffcc00; margin-top: 4px; font-weight: bold;">🎙️ DUBBED COLLECTION</div>
+							<div style="font-size: 11px; color: rgba(255,255,255,0.6); margin-top: 8px;">أصوات عربية كاملة وحصرية</div>
+							<div style="position: absolute; top: 12px; left: 12px; background: rgba(255, 200, 0, 0.2); border: 1px solid #ffcc00; color: #ffcc00; font-size: 10px; font-weight: bold; padding: 3px 8px; border-radius: 10px;">مميز</div>
+						</div>
+
+						<div onclick="switchView('view-sub'); loadCustomGames('sub'); playUiClick();" style="cursor: pointer; padding: 18px; border-radius: 14px; background: linear-gradient(135deg, rgba(0, 255, 136, 0.15), rgba(0, 40, 20, 0.6)); border: 1px solid rgba(0, 255, 136, 0.4); transition: transform 0.25s, box-shadow 0.25s; position: relative; overflow: hidden;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 10px 25px rgba(0, 255, 136, 0.35)';" onmouseout="this.style.transform='none'; this.style.boxShadow='none';">
+							<div style="font-size: 28px; margin-bottom: 10px; color: #00ff88;"><i class="fas fa-file-alt"></i></div>
+							<div style="font-size: 16px; font-weight: bold; color: #fff;">الألعاب المترجمة عربياً</div>
+							<div style="font-size: 12px; color: #00ff88; margin-top: 4px; font-weight: bold;">📝 SUBBED COLLECTION</div>
+							<div style="font-size: 11px; color: rgba(255,255,255,0.6); margin-top: 8px;">نصوص وقوائم معربة بالكامل</div>
+							<div style="position: absolute; top: 12px; left: 12px; background: rgba(0, 255, 136, 0.2); border: 1px solid #00ff88; color: #00ff88; font-size: 10px; font-weight: bold; padding: 3px 8px; border-radius: 10px;">شائع</div>
+						</div>
+
+						<div onclick="switchView('view-ps1'); loadCustomGames('ps1'); playUiClick();" style="cursor: pointer; padding: 18px; border-radius: 14px; background: linear-gradient(135deg, rgba(0, 229, 255, 0.15), rgba(0, 30, 50, 0.6)); border: 1px solid rgba(0, 229, 255, 0.4); transition: transform 0.25s, box-shadow 0.25s; position: relative; overflow: hidden;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 10px 25px rgba(0, 229, 255, 0.35)';" onmouseout="this.style.transform='none'; this.style.boxShadow='none';">
+							<div style="font-size: 28px; margin-bottom: 10px; color: #00e5ff;"><i class="fas fa-compact-disc"></i></div>
+							<div style="font-size: 16px; font-weight: bold; color: #fff;">PlayStation 1 Vault</div>
+							<div style="font-size: 12px; color: #00e5ff; margin-top: 4px; font-weight: bold;">💿 PS1 CLASSICS</div>
+							<div style="font-size: 11px; color: rgba(255,255,255,0.6); margin-top: 8px;">العصر الذهبي وألعاب التسعينيات</div>
+							<div style="position: absolute; top: 12px; left: 12px; background: rgba(0, 229, 255, 0.2); border: 1px solid #00e5ff; color: #00e5ff; font-size: 10px; font-weight: bold; padding: 3px 8px; border-radius: 10px;">كلاسيك</div>
+						</div>
+
+						<div onclick="switchView('view-ps2'); loadCustomGames('ps2'); playUiClick();" style="cursor: pointer; padding: 18px; border-radius: 14px; background: linear-gradient(135deg, rgba(153, 51, 255, 0.15), rgba(30, 0, 60, 0.6)); border: 1px solid rgba(153, 51, 255, 0.4); transition: transform 0.25s, box-shadow 0.25s; position: relative; overflow: hidden;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 10px 25px rgba(153, 51, 255, 0.35)';" onmouseout="this.style.transform='none'; this.style.boxShadow='none';">
+							<div style="font-size: 28px; margin-bottom: 10px; color: #cc99ff;"><i class="fas fa-hdd"></i></div>
+							<div style="font-size: 16px; font-weight: bold; color: #fff;">PlayStation 2 Legends</div>
+							<div style="font-size: 12px; color: #cc99ff; margin-top: 4px; font-weight: bold;">🎮 PS2 VAULT</div>
+							<div style="font-size: 11px; color: rgba(255,255,255,0.6); margin-top: 8px;">أكبر مكتبة ألعاب في التاريخ</div>
+							<div style="position: absolute; top: 12px; left: 12px; background: rgba(153, 51, 255, 0.2); border: 1px solid #cc99ff; color: #cc99ff; font-size: 10px; font-weight: bold; padding: 3px 8px; border-radius: 10px;">الأسطورة</div>
+						</div>
+
+						<div onclick="switchView('view-ps3'); loadCustomGames('ps3'); playUiClick();" style="cursor: pointer; padding: 18px; border-radius: 14px; background: linear-gradient(135deg, rgba(255, 51, 102, 0.15), rgba(50, 0, 20, 0.6)); border: 1px solid rgba(255, 51, 102, 0.4); transition: transform 0.25s, box-shadow 0.25s; position: relative; overflow: hidden;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 10px 25px rgba(255, 51, 102, 0.35)';" onmouseout="this.style.transform='none'; this.style.boxShadow='none';">
+							<div style="font-size: 28px; margin-bottom: 10px; color: #ff3366;"><i class="fas fa-desktop"></i></div>
+							<div style="font-size: 16px; font-weight: bold; color: #fff;">PlayStation 3 High-Def</div>
+							<div style="font-size: 12px; color: #ff3366; margin-top: 4px; font-weight: bold;">🚀 PS3 LIBRARY</div>
+							<div style="font-size: 11px; color: rgba(255,255,255,0.6); margin-top: 8px;">الجيل المتقدم ودقة عالية HD</div>
+							<div style="position: absolute; top: 12px; left: 12px; background: rgba(255, 51, 102, 0.2); border: 1px solid #ff3366; color: #ff3366; font-size: 10px; font-weight: bold; padding: 3px 8px; border-radius: 10px;">HD</div>
+						</div>
+					</div>
+				</div>
+
 				<div class="explore-split-layout">
 					<div class="explore-left-col">
 						<div class="explore-section">
